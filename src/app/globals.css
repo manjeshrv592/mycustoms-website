@@ -4,15 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-
-    /* Custom breakpoints */
+  /* Custom breakpoints */
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1400px;
 
-   /* Custom fonts */
+  /* Custom fonts */
   --font-orbitron: "Orbitron", sans-serif;
   --font-aptos: "Aptos", sans-serif;
 
@@ -131,4 +130,27 @@
   body {
     @apply bg-background text-foreground font-aptos;
   }
+}
+
+/* Custom Scrollbar */
+/* width */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #4e4e4e;
+  border-radius: 100px;
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #a9081c;
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #800614;
 }

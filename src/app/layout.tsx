@@ -15,10 +15,14 @@ const orbitron = Orbitron({
 const aptos = localFont({
   src: [
     {
-      path: '../../public/fonts/Aptos.ttf',
-      weight: '400',
-      style: 'normal',
-
+      path: "../../public/fonts/Aptos.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Aptos-Bold.ttf",
+      weight: "700",
+      style: "normal",
     },
   ],
   variable: "--font-aptos",
@@ -36,9 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${aptos.variable} ${orbitron.variable} antialiased`}
-      >
+      <body className={`${aptos.variable} ${orbitron.variable} antialiased`}>
         <Logo />
         <LanguageSelector />
         <PrimaryNav />
