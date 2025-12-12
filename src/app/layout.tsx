@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Orbitron } from "next/font/google";
+import localFont from "next/font/local";
+import PrimaryNav from "../components/layouts/PrimaryNav";
 import "./globals.css";
+import LanguageSelector from "@/components/custom-ui/LanguageSelector";
+import Logo from "@/components/custom-ui/Logo";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const orbitron = Orbitron({
   subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-orbitron",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const aptos = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Aptos.ttf',
+      weight: '400',
+      style: 'normal',
+
+    },
+  ],
+  variable: "--font-aptos",
 });
 
 export const metadata: Metadata = {
@@ -25,8 +37,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${aptos.variable} ${orbitron.variable} antialiased`}
       >
+        <Logo />
+        <LanguageSelector />
+        <PrimaryNav />
         {children}
       </body>
     </html>
