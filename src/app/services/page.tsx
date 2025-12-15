@@ -28,6 +28,11 @@ const services = [
     title: "Warehousing",
     image: "/images/services/warehousing.jpg",
   },
+  {
+    id: 6,
+    title: "Consulting",
+    image: "/images/services/consulting.jpg",
+  },
 ];
 export default function Services() {
   return (
@@ -38,7 +43,7 @@ export default function Services() {
         fill
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0.5)_100%)]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.7)_100%)]"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full flex flex-col gap-4">
           <div>
@@ -46,11 +51,11 @@ export default function Services() {
               <span className="inline-block h-px w-[50px] bg-[#A9081C]">
                 &nbsp;
               </span>
-              <span className="text-[#A9081C] uppercase text-xs tracking-[5px]">
+              <span className="text-[#ec2a41] uppercase text-xs tracking-[5px]">
                 services
               </span>
             </div>
-            <h1 className="text-3xl text-[#A9081C] uppercase">
+            <h1 className="text-3xl text-[#ec2a41] uppercase">
               important declarations
             </h1>
             <h3 className="text-white text-xl">
@@ -59,7 +64,7 @@ export default function Services() {
           </div>
           <div className="flex-1 min-h-0">
             <div className="grid grid-cols-2 gap-4 h-full min-h-0">
-              <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white">
+              <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-2">
                 <p className="mb-4">
                   Import declarations are a core requirement for bringing goods
                   into the European Union. Whenever products arrive from a
@@ -97,7 +102,7 @@ export default function Services() {
                 </p>
               </div>
               <div className="flex items-center justify-center flex-col text-center px-12">
-                <h3 className="text-[#A9081C] text-3xl mb-4">
+                <h3 className="text-[#ec2a41] text-3xl mb-4">
                   We follow a clear process to help you out
                 </h3>
                 <p className="text-white text-sm relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-[100px] after:h-px after:bg-white rounded-full mb-6">
@@ -110,14 +115,14 @@ export default function Services() {
               </div>
             </div>
           </div>
-          <div className="grid grid-flow-col auto-cols-[200px] gap-4">
+          <div className="grid grid-flow-col auto-cols-[180px] gap-4">
             {services.map((service) => (
               <article
                 key={service.id}
                 className="border border-[#363636] bg-black/20 flex flex-col justify-between"
               >
                 <div className="p-1 pb-2">
-                  <h4 className="text-[#A9081C] font-bold w-[70%] leading-[1.2]">
+                  <h4 className="text-white w-[70%] leading-[1.2]">
                     {service.title}
                   </h4>
                 </div>

@@ -24,6 +24,11 @@ const aptos = localFont({
       weight: "700",
       style: "normal",
     },
+    {
+      path: "../../public/fonts/Aptos-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
   ],
   variable: "--font-aptos",
 });
