@@ -8,7 +8,7 @@ import Logo from "@/components/custom-ui/Logo";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
   variable: "--font-orbitron",
 });
 
