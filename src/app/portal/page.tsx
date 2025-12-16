@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Portal() {
   return (
-    <section className="h-screen py-[10vh]">
+    <section className="h-screen py-[12vh]">
       <Image
         src="/images/portal-bg.jpg"
         alt="Services background"
@@ -14,21 +14,23 @@ export default function Portal() {
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.9)_0%,rgba(0,0,0,0.9)_100%)]"></div>
       <div className="relative z-20 h-full ">
-        <Container className="h-full grid grid-cols-[1.3fr_1fr]">
+        <Container className="h-full grid grid-cols-[1.3fr_1fr] gap-16">
           <div className="">
             <div>
               <div className="flex items-center gap-4">
                 <span className="inline-block h-px w-[50px] bg-[#A9081C]">
                   &nbsp;
                 </span>
-                <span className="text-[#ec2a41] uppercase text-xs tracking-[5px]">
+                <span className="text-[#da1b31] uppercase text-xs tracking-[5px] font-bold">
                   Our Portal
                 </span>
               </div>
-              <h1 className="text-5xl text-white font-bold mt-6">
+              <h1 className="text-5xl text-white font-bold mt-4">
                 Overview of the Portal
               </h1>
-              <p className="text-[#E5E5E5] text-sm mt-6 [word-spacing:3px] leading-loose">
+            </div>
+            <div className="text-justify mt-4">
+              <p className="text-[#E5E5E5] text-sm leading-loose">
                 The My-Customs Digital Portal is a centralized online platform
                 designed to streamline and simplify the full customs-clearance
                 journey for importers and exporters. It provides real-time
@@ -39,16 +41,14 @@ export default function Portal() {
                 with secure, scalable technology to support both high-volume and
                 standard workflows.
               </p>
-            </div>
-            <div>
-              <p className="text-xs text-[#A9081C] uppercase tracking-[0.2em] ">
+              <p className="text-xs text-[#da1b31] uppercase tracking-[0.2em] my-4">
                 What Customers Can Track
               </p>
-              <p className="text-[#E5E5E5] text-sm [word-spacing:3px] leading-loose">
+              <p className="text-[#E5E5E5] text-sm  leading-loose">
                 Through the portal, customers can track and manage a wide range
                 of customs-related information, including:
               </p>
-              <ul className="text-[#E5E5E5] text-sm [word-spacing:3px] leading-loose list-disc pl-4">
+              <ul className="text-[#E5E5E5] text-sm  leading-loose list-disc pl-4">
                 <li>
                   Application Status – Submission progress, pending items,
                   approvals, and final clearance.
@@ -70,7 +70,7 @@ export default function Portal() {
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex justify-center flex-col text-center py-10 px-30">
-              <h3 className="text-3xl text-[#A9081C]">Access the Portal</h3>
+              <h3 className="text-3xl text-[#da1b31]">Access the Portal</h3>
               <p className="text-xs text-[#E5E5E5] mt-4">
                 A secure online platform that gives customers real-time
                 visibility and control over all customs-clearance activities.

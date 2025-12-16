@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <section className=" h-screen text-black py-20">
+    <section className=" h-screen text-black py-[12vh]">
       <Image
         src="/images/about-us-bg.jpg"
         alt="Services background"
@@ -33,7 +33,7 @@ export default function About() {
                   <h3 className="text-[#A9081C] text-3xl font-semibold tracking-tight text-right font-orbitron">
                     Vision
                   </h3>
-                  <p className="text-[#E5E5E5] text-sm text-right">
+                  <p className="text-[#E5E5E5] text-sm text-justify">
                     Our vision is to lead the digital transformation of EU
                     customs by driving innovation, automation, and data-driven
                     efficiency across the entire customs ecosystem. We aspire to
@@ -46,7 +46,7 @@ export default function About() {
                   <h3 className="text-[#A9081C] text-3xl font-semibold tracking-tight text-left font-orbitron">
                     Misson
                   </h3>
-                  <p className="text-[#E5E5E5] text-sm text-left">
+                  <p className="text-[#E5E5E5] text-sm text-justify">
                     Our mission is to simplify global trade by making customs
                     processes seamless, transparent, and effortless for
                     businesses of all sizes. We aim to remove the complexity
@@ -97,13 +97,13 @@ export default function About() {
               <div className=" w-full flex gap-2 items-center justify-center">
                 <Button
                   size="icon"
-                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
+                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
                 >
                   <ArrowLeft />
                 </Button>
                 <Button
                   size="icon"
-                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
+                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
                 >
                   <ArrowRight />
                 </Button>

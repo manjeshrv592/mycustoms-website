@@ -1,12 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useIsCurrentPath } from "@/hooks/useIsCurrentPath";
 
 export default function Logo() {
+  const isHomePage = useIsCurrentPath("/");
+
   return (
-    <Link href="/" className="fixed z-50 top-1 left-2">
+    <Link href="/">
       <Image
         className="w-[80px] h-auto"
-        src="/images/mycustoms-logo-new.svg"
+        src={
+          isHomePage
+            ? "/images/mycustoms-logo-new.svg"
+            : "/images/mycustoms-logo.svg"
+        }
         alt="Logo"
         width={100}
         height={100}

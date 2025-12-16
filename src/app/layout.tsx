@@ -5,6 +5,7 @@ import PrimaryNav from "../components/layouts/PrimaryNav";
 import "./globals.css";
 import LanguageSelector from "@/components/custom-ui/LanguageSelector";
 import Logo from "@/components/custom-ui/Logo";
+import Header from "@/components/layouts/Header";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -46,8 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${aptos.variable} ${orbitron.variable} antialiased`}>
-        <Logo />
-        <LanguageSelector />
+        <Header />
         <PrimaryNav />
         {children}
       </body>

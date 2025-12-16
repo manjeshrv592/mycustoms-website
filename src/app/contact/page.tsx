@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function Contact() {
   return (
-    <section className="h-screen relative pt-[10vh] pb-5">
+    <section className="h-screen relative pt-[12vh] pb-5">
       <Image
         src="/images/contact-bg.jpg"
         alt="Contact background"
@@ -21,16 +21,18 @@ export default function Contact() {
         <Container className="h-full text-white flex flex-col gap-2">
           <div className="max-w-[60%]">
             <h1 className="font-semibold text-white text-2xl">Contact us</h1>
-            <p className="">
+            <p className="text-xs">
               My Customs B.V. is a trusted Dutch customs broker simplifying
               trade compliance through technology and expertise.
             </p>
-            <p>we'd like to hear from you</p>
+            <p className="text-xs">we'd like to hear from you</p>
           </div>
           <div className="grid grid-cols-2 flex-1 gap-12">
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between max-w-[400px]">
               <div>
-                <Label htmlFor="name">Name</Label>
+                <Label className="text-xs" htmlFor="name">
+                  Name
+                </Label>
                 <PrimaryInput
                   type="text"
                   id="name"
@@ -38,7 +40,9 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label className="text-xs" htmlFor="email">
+                  Email
+                </Label>
                 <PrimaryInput
                   type="email"
                   id="email"
@@ -46,7 +50,9 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label className="text-xs" htmlFor="phone">
+                  Phone Number
+                </Label>
                 <PrimaryInput
                   type="text"
                   id="phone"
@@ -54,7 +60,9 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <Label htmlFor="company">Company Name</Label>
+                <Label className="text-xs" htmlFor="company">
+                  Company Name
+                </Label>
                 <PrimaryInput
                   type="text"
                   id="company"
@@ -62,7 +70,9 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <Label htmlFor="service">Select Service</Label>
+                <Label className="text-xs" htmlFor="service">
+                  Select Service
+                </Label>
                 <PrimaryInput
                   type="text"
                   id="service"
@@ -70,7 +80,9 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <Label htmlFor="service">Message</Label>
+                <Label className="text-xs" htmlFor="service">
+                  Message
+                </Label>
                 <PrimaryTextarea
                   id="message"
                   placeholder="Tell us more about your requirements..."
@@ -78,16 +90,16 @@ export default function Contact() {
               </div>
               <PrimaryButton className="w-full">Submit</PrimaryButton>
             </div>
-            <div className=" flex flex-col gap-4">
+            <div className=" flex flex-col gap-4 max-w-[400px] ml-auto">
               <div className="flex-1 flex items-end">
-                <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px]">
+                <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px] ">
                   <Image
                     src="/images/contact-us.jpg"
                     alt="Contact image"
                     fill
                     className="object-cover absolute"
                   />
-                  <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1">
+                  <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs">
                     <div>Based at</div>
                     <div className="font-semibold">
                       Amsterdam Central Office, Netherlands
@@ -96,27 +108,27 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between pt-4 border-t border-white">
-                <div className="flex gap-4">
+              <div className="flex justify-between pt-4 border-t border-white text-xs gap-8">
+                <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full bg-transparent"
+                    className="rounded-full bg-transparent size-8"
                   >
-                    <Phone />
+                    <Phone className="size-3" />
                   </Button>
                   <div className="flex flex-col">
                     <span>Phone</span>
                     <span>Office : +91 6232 1151 22</span>
                   </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full bg-transparent"
+                    className="rounded-full bg-transparent size-8"
                   >
-                    <Mail />
+                    <Mail className="size-3" />
                   </Button>
                   <div className="flex flex-col">
                     <span>Email</span>
