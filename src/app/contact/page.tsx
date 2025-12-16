@@ -79,15 +79,15 @@ export default function Contact() {
               <PrimaryButton className="w-full">Submit</PrimaryButton>
             </div>
             <div className=" flex flex-col gap-4">
-              <div className="flex-1">
-                <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end">
+              <div className="flex-1 flex items-end">
+                <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px]">
                   <Image
                     src="/images/contact-us.jpg"
                     alt="Contact image"
                     fill
                     className="object-cover absolute"
                   />
-                  <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[10px] flex-1">
+                  <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1">
                     <div>Based at</div>
                     <div className="font-semibold">
                       Amsterdam Central Office, Netherlands

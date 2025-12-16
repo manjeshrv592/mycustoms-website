@@ -36,7 +36,7 @@ const services = [
 ];
 export default function Services() {
   return (
-    <section className="h-screen relative pt-[10vh] pb-[5vh]">
+    <section className="h-screen relative py-[10vh]">
       <Image
         src="/images/services-bg.jpg"
         alt="Services background"
@@ -55,7 +55,7 @@ export default function Services() {
                 services
               </span>
             </div>
-            <h1 className="text-3xl text-[#ec2a41] uppercase">
+            <h1 className="text-3xl text-[#A9081C] uppercase">
               important declarations
             </h1>
             <h3 className="text-white text-xl">
@@ -101,40 +101,30 @@ export default function Services() {
                   checks.
                 </p>
               </div>
-              <div className="flex items-center justify-center flex-col text-center px-12">
-                <h3 className="text-[#ec2a41] text-3xl mb-4">
-                  We follow a clear process to help you out
-                </h3>
-                <p className="text-white text-sm relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-[100px] after:h-px after:bg-white rounded-full mb-6">
-                  With a specialized focus on global trade compliance, we
-                  combine deep industry knowledge with a client-first approach
-                  to deliver seamless. With a specialized focus on global trade
-                  compliance.
-                </p>
-                <PrimaryButton>Contact Us</PrimaryButton>
+              <div className="flex items-center justify-center">
+                <div className="grid grid-cols-3 gap-4">
+                  {services.map((service) => (
+                    <article
+                      key={service.id}
+                      className="border border-[#363636] bg-black/20 flex flex-col justify-between"
+                    >
+                      <div className="p-1 pb-2">
+                        <h4 className="text-white w-[70%] leading-[1.2]">
+                          {service.title}
+                        </h4>
+                      </div>
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        width={160}
+                        height={80}
+                        className="object-cover w-full h-[100px]"
+                      />
+                    </article>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="grid grid-flow-col auto-cols-[180px] gap-4">
-            {services.map((service) => (
-              <article
-                key={service.id}
-                className="border border-[#363636] bg-black/20 flex flex-col justify-between"
-              >
-                <div className="p-1 pb-2">
-                  <h4 className="text-white w-[70%] leading-[1.2]">
-                    {service.title}
-                  </h4>
-                </div>
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  width={160}
-                  height={80}
-                  className="object-cover w-full h-[80px]"
-                />
-              </article>
-            ))}
           </div>
         </Container>
       </div>
