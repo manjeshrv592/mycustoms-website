@@ -23,11 +23,11 @@ const services = [
     title: "Transit",
     image: "/images/services/transit.jpg",
   },
-  {
-    id: 5,
-    title: "Warehousing",
-    image: "/images/services/warehousing.jpg",
-  },
+  // {
+  //   id: 5,
+  //   title: "Warehousing",
+  //   image: "/images/services/warehousing.jpg",
+  // },
   {
     id: 6,
     title: "Consulting",
@@ -36,7 +36,7 @@ const services = [
 ];
 export default function Services() {
   return (
-    <section className="h-screen relative py-[10vh]">
+    <section className="h-screen relative py-[12vh]">
       <Image
         src="/images/services-bg.jpg"
         alt="Services background"
@@ -51,12 +51,12 @@ export default function Services() {
               <span className="inline-block h-px w-[50px] bg-[#A9081C]">
                 &nbsp;
               </span>
-              <span className="text-[#ec2a41] uppercase text-xs tracking-[5px]">
+              <span className="text-[#da1b31] uppercase text-xs tracking-[5px] font-bold">
                 services
               </span>
             </div>
-            <h1 className="text-3xl text-[#A9081C] uppercase">
-              important declarations
+            <h1 className="text-5xl text-[#da1b31] font-semibold">
+              Important declarations
             </h1>
             <h3 className="text-white text-xl">
               Full import documentation and clearance under EU customs.
@@ -64,7 +64,7 @@ export default function Services() {
           </div>
           <div className="flex-1 min-h-0">
             <div className="grid grid-cols-2 gap-4 h-full min-h-0">
-              <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-2">
+              <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <p className="mb-4">
                   Import declarations are a core requirement for bringing goods
                   into the European Union. Whenever products arrive from a
@@ -101,28 +101,28 @@ export default function Services() {
                   checks.
                 </p>
               </div>
-              <div className="flex items-center justify-center">
-                <div className="grid grid-cols-3 gap-4">
-                  {services.map((service) => (
-                    <article
-                      key={service.id}
-                      className="border border-[#363636] bg-black/20 flex flex-col justify-between"
-                    >
-                      <div className="p-1 pb-2">
-                        <h4 className="text-white w-[70%] leading-[1.2]">
-                          {service.title}
-                        </h4>
-                      </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                {services.map((service) => (
+                  <article
+                    key={service.id}
+                    className="border border-[#363636] flex flex-col justify-between hover:scale-[1.04] transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="p-2 py-4">
+                      <h4 className="text-white w-[70%] leading-[1.2] font-semibold">
+                        {service.title}
+                      </h4>
+                    </div>
+                    <div className="flex-1 relative">
                       <Image
                         src={service.image}
                         alt={service.title}
-                        width={160}
-                        height={80}
-                        className="object-cover w-full h-[100px]"
+                        fill
+                        className="object-cover"
                       />
-                    </article>
-                  ))}
-                </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
