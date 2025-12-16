@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Portal() {
   return (
-    <section className="h-screen py-20">
+    <section className="h-screen py-[10vh]">
       <Image
         src="/images/portal-bg.jpg"
         alt="Services background"
@@ -15,12 +15,15 @@ export default function Portal() {
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.9)_0%,rgba(0,0,0,0.9)_100%)]"></div>
       <div className="relative z-20 h-full ">
         <Container className="h-full grid grid-cols-[1.3fr_1fr]">
-          <div className="p-6">
-            <div className="mb-6">
-              <div className="relative after:content-[''] after:absolute  after:w-[8%] after:h-px after:bg-[#A9081C] rounded-full after:top-1/2">
-                <p className="text-xs text-[#A9081C] uppercase pl-18 tracking-[0.2em] ">
+          <div className="">
+            <div>
+              <div className="flex items-center gap-4">
+                <span className="inline-block h-px w-[50px] bg-[#A9081C]">
+                  &nbsp;
+                </span>
+                <span className="text-[#ec2a41] uppercase text-xs tracking-[5px]">
                   Our Portal
-                </p>
+                </span>
               </div>
               <h1 className="text-5xl text-white font-bold mt-6">
                 Overview of the Portal
@@ -76,7 +79,7 @@ export default function Portal() {
                 Portal
               </PrimaryButton>
             </div>
-            <div className="flex-1 size-full relative">
+            <div className="flex-1 relative">
               <Image
                 src="/images/team/portal-image.jpg"
                 fill
