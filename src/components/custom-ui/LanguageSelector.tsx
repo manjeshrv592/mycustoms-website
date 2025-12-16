@@ -69,7 +69,7 @@ export default function LanguageSelector() {
       </SelectTrigger>
       <SelectContent
         align="end"
-        className="bg-black/25 border-0 text-white min-w-28 border-white/20 border"
+        className="bg-black/25 text-white min-w-28 border-white/20 border"
       >
         <SelectGroup>
           <SelectLabel className="text-white uppercase tracking-[1px]">
