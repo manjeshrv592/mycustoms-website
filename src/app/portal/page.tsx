@@ -83,7 +83,7 @@ export default function Portal() {
               <Image
                 src="/images/team/portal-image.jpg"
                 fill
-                alt="General Manager"
+                alt="Container Image"
                 className="absolute object-cover"
               />
             </div>

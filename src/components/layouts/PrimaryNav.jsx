@@ -16,7 +16,7 @@ export default function PrimaryNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2">
+    <nav className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block">
       <ul className="flex gap-5 flex-col justify-center items-center">
         {navLinks.map((link) => {
           const isActive =

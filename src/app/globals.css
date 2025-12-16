@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --height-screen: 100dvh;
   /* Custom breakpoints */
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
