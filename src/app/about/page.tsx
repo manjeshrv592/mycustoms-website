@@ -107,6 +107,7 @@ export default function About() {
           </div>
         </Container>
       </div>
+      {/* </div> */}
     </section>
   );
 }
