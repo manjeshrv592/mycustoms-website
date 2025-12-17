@@ -51,7 +51,7 @@ export default function LanguageSelector() {
 
   return (
     <Select value={selectedLang} onValueChange={setSelectedLang}>
-      <SelectTrigger className="bg-black/25 rounded-full p-1 data-[size=default]:h-auto [&_svg]:text-white! [&_svg]:opacity-100! cursor-pointer border border-white/20">
+      <SelectTrigger className="md:bg-black/25 rounded-full p-1 data-[size=default]:h-auto [&_svg]:text-white! [&_svg]:opacity-100! cursor-pointer border border-white/20">
         <SelectValue>
           <div className="flex items-center gap-2 text-white">
             <span className="inline-block size-5 rounded-full overflow-hidden">
@@ -69,7 +69,7 @@ export default function LanguageSelector() {
       </SelectTrigger>
       <SelectContent
         align="end"
-        className="bg-black/25 text-white min-w-28 border-white/20 border"
+        className="bg-black/80 md:bg-black/25 text-white min-w-28 border-white/20 border"
       >
         <SelectGroup>
           <SelectLabel className="text-white uppercase tracking-[1px]">

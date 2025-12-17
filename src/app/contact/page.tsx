@@ -16,18 +16,27 @@ export default function Contact() {
         fill
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,0)_100%)]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.1)_0%,rgba(0,0,0,0)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,0)_100%)]"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full text-white flex flex-col gap-2">
-          <div className="max-w-[60%]">
-            <h1 className="font-semibold text-white text-2xl">Contact us</h1>
+          <div className="w-full md:max-w-[60%]">
+            <h1 className="mb-4 md:mb-0 font-semibold text-white text-2xl">
+              Contact us
+            </h1>
             <p className="text-xs">
               My Customs B.V. is a trusted Dutch customs broker simplifying
               trade compliance through technology and expertise.
             </p>
-            <p className="text-xs">we'd like to hear from you</p>
+            <div className="mt-6 md:mt-0 text-center">
+              <h3 className="md:hidden text-2xl text-center text-[#A9081C] font-semibold">
+                Contact information
+              </h3>
+              <p className="text-xs text-center md:text-left">
+                we'd like to hear from you
+              </p>
+            </div>
           </div>
-          <div className="grid grid-cols-2 flex-1 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 flex-1 gap-12">
             <div className="flex flex-col justify-between max-w-[400px]">
               <div>
                 <Label className="text-xs" htmlFor="name">
@@ -90,7 +99,7 @@ export default function Contact() {
               </div>
               <PrimaryButton className="w-full">Submit</PrimaryButton>
             </div>
-            <div className=" flex flex-col gap-4 max-w-[400px] ml-auto">
+            <div className="hidden md:flex flex-col gap-4 max-w-[400px] ml-auto ">
               <div className="flex-1 flex items-end">
                 <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px] ">
                   <Image

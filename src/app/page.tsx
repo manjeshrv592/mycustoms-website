@@ -13,7 +13,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.4)_100%)]"></div>
       <div className="text-center relative z-20">
         <h1 className="font-orbitron uppercase mb-4 md:mb-2">
-          <span className="text-[#111A21] text-2xl md:text-7xl">More Than</span>{" "}
+          <span className="text-[#111A21] text-2xl md:text-7xl">More Than</span>
           <span className="text-[#A9081C] text-5xl md:text-7xl mt-4 md:mt-0 inline-block">
             Customs
           </span>

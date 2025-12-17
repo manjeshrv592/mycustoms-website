@@ -14,13 +14,13 @@ export default function Header() {
       <Logo />
       <div className="flex items-center gap-4">
         {!isHomePage && (
-          <>
+          <div className="hidden md:flex items-center gap-4">
             <Image
               src="/images/featured-logos/fenex.png"
               alt="Fenex logo"
               width={178}
               height={48}
-              className="w-[96px] h-auto"
+              className=" w-[96px] h-auto"
             />
             <Image
               src="/images/featured-logos/aeo.png"
@@ -30,7 +30,7 @@ export default function Header() {
               className="w-[48px] h-auto"
             />
             <PrimaryButton>Contact Us</PrimaryButton>
-          </>
+          </div>
         )}
         <LanguageSelector />
       </div>
