@@ -6,7 +6,6 @@ import Image from "next/image";
 export default function About() {
   return (
     <section className=" h-screen text-black py-[12vh]">
-    <section className="h-screen text-black py-[10vh]">
       <Image
         src="/images/about-us-bg.jpg"
         alt="Services background"
@@ -71,15 +70,15 @@ export default function About() {
                     />
                     <div className="z-100 w-full p-4">
                       <div>
-                        <h2 className="text-3xl md:text-5xl text-[#A9081C] font-orbitron font-bold tracking-tight md:pb-2">
+                        <h2 className="text-3xl md:text-4xl text-[#A9081C] font-orbitron font-bold tracking-tight md:pb-2">
                           Robert
                         </h2>
                       </div>
                       <div className="text-right">
-                        <h3 className="text-xl md:text-3xl text-[#E5E5E5] font-orbitron font-semibold">
+                        <h3 className="text-xl md:text-xl text-[#E5E5E5] font-orbitron font-semibold">
                           van den Tol
                         </h3>
-                        <p className="text-[#E5E5E5] text-sm md:text-2xl">
+                        <p className="text-[#E5E5E5] text-sm md:text-lg">
                           Ill ensure My Customs B.V. delivers efficient,
                           compliant, and technology-driven customs solutions.
                         </p>
@@ -89,32 +88,19 @@ export default function About() {
                 </div>
               </div>
               <div className=" w-full flex gap-2 items-center justify-center">
-                <Button
-                  size="icon"
-                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
-                >
-                  <ArrowLeft />
-                </Button>
-                <Button
-                  size="icon"
-                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
-                >
-                  <ArrowRight />
-                </Button>
-                  <div className=" w-full flex gap-6 items-center justify-center mt-2">
-                    <Button
-                      size="icon"
-                      className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
-                    >
-                      <ArrowLeft />
-                    </Button>
-                    <Button
-                      size="icon"
-                      className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
-                    >
-                      <ArrowRight />
-                    </Button>
-                  </div>
+                <div className=" w-full flex gap-6 items-center justify-center mt-2">
+                  <Button
+                    size="icon"
+                    className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
+                  >
+                    <ArrowLeft />
+                  </Button>
+                  <Button
+                    size="icon"
+                    className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white"
+                  >
+                    <ArrowRight />
+                  </Button>
                 </div>
               </div>
             </div>
