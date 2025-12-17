@@ -6,7 +6,6 @@ import Image from "next/image";
 export default function About() {
   return (
     <section className=" h-screen text-black py-[12vh]">
-      {/* <section className="h-screen text-black py-[10vh]"> */}
       <Image
         src="/images/about-us-bg.jpg"
         alt="Services background"
@@ -76,7 +75,7 @@ export default function About() {
                         </h2>
                       </div>
                       <div className="text-right">
-                        <h3 className="text-xl md:text-2xl text-[#E5E5E5] font-orbitron font-semibold">
+                        <h3 className="text-xl md:text-xl text-[#E5E5E5] font-orbitron font-semibold">
                           van den Tol
                         </h3>
                         <p className="text-[#E5E5E5] text-sm md:text-lg">
