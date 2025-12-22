@@ -1,12 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useIsCurrentPath } from "@/hooks/useIsCurrentPath";
+import { useIsCurrentPath, useCurrentLocale } from "@/hooks/useIsCurrentPath";
 
 export default function Logo() {
   const isHomePage = useIsCurrentPath("/");
+  const currentLocale = useCurrentLocale();
 
   return (
-    <Link href="/">
+    <Link href={`/${currentLocale}`}>
       <Image
         className="w-[80px] h-auto"
         src={

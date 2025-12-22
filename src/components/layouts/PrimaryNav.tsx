@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { locales, defaultLocale, type Locale } from "@/i18n";
 
-const navLinks = [
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+const navLinks: NavLink[] = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/portal", label: "Portal" },
@@ -12,21 +18,49 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function PrimaryNav() {
+export default function PrimaryNav(): React.ReactElement {
   const pathname = usePathname();
+
+  // Extract current locale from URL path
+  const getCurrentLocale = (): Locale => {
+    const segments = pathname.split("/").filter(Boolean);
+    const firstSegment = segments[0];
+    if (firstSegment && locales.includes(firstSegment as Locale)) {
+      return firstSegment as Locale;
+    }
+    return defaultLocale;
+  };
+
+  const currentLocale = getCurrentLocale();
+
+  // Get the path without locale prefix for comparison
+  const pathWithoutLocale = pathname
+    .split("/")
+    .filter(Boolean)
+    .slice(locales.includes(pathname.split("/")[1] as Locale) ? 1 : 0)
+    .join("/");
 
   return (
     <nav className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block">
       <ul className="flex gap-5 flex-col justify-center items-center">
         {navLinks.map((link) => {
+          // Prepend locale to href
+          const localizedHref =
+            link.href === "/"
+              ? `/${currentLocale}`
+              : `/${currentLocale}${link.href}`;
+
+          // Check if current path matches this link
+          const linkPath = link.href === "/" ? "" : link.href.slice(1);
           const isActive =
             link.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(link.href);
+              ? pathWithoutLocale === "" || pathWithoutLocale === currentLocale
+              : pathWithoutLocale.startsWith(linkPath);
+
           return (
             <li key={link.href}>
               <Link
-                href={link.href}
+                href={localizedHref}
                 className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${
                   isActive
                     ? "bg-[#A9081C]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
