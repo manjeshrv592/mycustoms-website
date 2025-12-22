@@ -1,13 +1,13 @@
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
+import { locales } from "@/i18n";
 
 // Webhook secret from environment variable
 const secret = process.env.SANITY_WEBHOOK_SECRET;
 
 /**
  * Map of Sanity document types to their cache tags
- * Add new document types here as you create more queries
  */
 const documentTagMap: Record<string, string[]> = {
   homePage: ["homePage"],
@@ -20,6 +20,22 @@ const documentTagMap: Record<string, string[]> = {
   teamMember: ["teamMembers", "teamMember"],
   resourceCategory: ["resourceCategories"],
   article: ["articles", "article"],
+};
+
+/**
+ * Map of Sanity document types to their page paths
+ * These are paths relative to the locale (e.g., "/" for home, "/about" for about)
+ */
+const documentPathMap: Record<string, string[]> = {
+  homePage: ["/"],
+  aboutPage: ["/about"],
+  portalPage: ["/portal"],
+  contactPage: ["/contact"],
+  servicesPage: ["/services"],
+  resourcesPage: ["/resources"],
+  service: ["/services"],
+  teamMember: ["/about"],
+  article: ["/resources"],
 };
 
 export async function POST(req: NextRequest) {
@@ -53,34 +69,36 @@ export async function POST(req: NextRequest) {
     }
 
     const { _type, _id } = body;
+    const revalidatedTags: string[] = [];
+    const revalidatedPaths: string[] = [];
 
-    // Get the tags to revalidate for this document type
+    // Revalidate cache tags
     const tagsToRevalidate = documentTagMap[_type] || [];
-
-    if (tagsToRevalidate.length === 0) {
-      // If no specific tags, revalidate all content
-      console.log(
-        `No specific tags for type "${_type}", skipping revalidation`
-      );
-      return NextResponse.json({
-        success: true,
-        message: `No tags configured for type "${_type}"`,
-        revalidated: false,
-      });
+    for (const tag of tagsToRevalidate) {
+      revalidateTag(tag, { expire: 0 });
+      revalidatedTags.push(tag);
+      console.log(`Revalidated tag: ${tag}`);
     }
 
-    // Revalidate all relevant tags
-    for (const tag of tagsToRevalidate) {
-      revalidateTag(tag, { expire: 0 }); // Immediate expiration for webhook updates
-      console.log(`Revalidated tag: ${tag}`);
+    // Revalidate page paths for all locales (instant update)
+    const pathsToRevalidate = documentPathMap[_type] || [];
+    for (const path of pathsToRevalidate) {
+      for (const locale of locales) {
+        const fullPath = path === "/" ? `/${locale}` : `/${locale}${path}`;
+        revalidatePath(fullPath);
+        revalidatedPaths.push(fullPath);
+        console.log(`Revalidated path: ${fullPath}`);
+      }
     }
 
     return NextResponse.json({
       success: true,
-      message: `Revalidated tags: ${tagsToRevalidate.join(", ")}`,
+      message: `Revalidated ${revalidatedTags.length} tags and ${revalidatedPaths.length} paths`,
       revalidated: true,
       documentId: _id,
       documentType: _type,
+      tags: revalidatedTags,
+      paths: revalidatedPaths,
     });
   } catch (error) {
     console.error("Webhook error:", error);
