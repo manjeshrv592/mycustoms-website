@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
 
     // Revalidate all relevant tags
     for (const tag of tagsToRevalidate) {
-      revalidateTag(tag);
+      revalidateTag(tag, { expire: 0 }); // Immediate expiration for webhook updates
       console.log(`Revalidated tag: ${tag}`);
     }
 
