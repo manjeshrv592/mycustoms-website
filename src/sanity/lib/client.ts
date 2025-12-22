@@ -1,10 +1,12 @@
-import { createClient } from 'next-sanity'
+import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, projectId } from '../env'
+import { apiVersion, dataset, projectId } from "../env";
 
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
-})
+  // Set to false for ISR and tag-based revalidation to work correctly
+  // When using on-demand revalidation, we need to fetch fresh data from Sanity
+  useCdn: false,
+});
