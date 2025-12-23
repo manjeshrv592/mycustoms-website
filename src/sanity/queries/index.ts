@@ -9,3 +9,6 @@ export {
   getFirstServiceSlug,
   getAllServiceSlugs,
 } from "./services";
+
+// Portal queries
+export { getPortalPage } from "./portal";

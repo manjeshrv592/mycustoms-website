@@ -8,6 +8,7 @@ import {
   getServicesPage,
   getAllServiceSlugs,
 } from "@/sanity/queries";
+import type { ServiceData } from "@/sanity/types";
 import {
   getLocalizedValue,
   getLocalizedBlockContent,
@@ -96,23 +97,23 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 {pageLabel}
               </span>
             </div>
-            <h1 className="text-5xl text-white font-semibold">
+            <h1 className="text-4xl text-white font-bold font-grift">
               {serviceTitle}
             </h1>
-            <h3 className="text-white text-xl">{serviceSummary}</h3>
+            <h3 className="text-white text-lg">{serviceSummary}</h3>
           </div>
 
           {/* Content Grid */}
           <div className="flex-1 min-h-0">
             <div className="grid grid-cols-2 gap-4 h-full min-h-0">
               {/* Rich Text Content */}
-              <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
+              <div className="text-xs h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <PortableTextContent value={serviceContent} />
               </div>
 
               {/* Services Grid */}
               <div className="grid grid-cols-3 gap-4 grid-rows-2">
-                {allServices.map((item) => {
+                {allServices.map((item: ServiceData) => {
                   const itemTitle = getLocalizedValue(item.title, currentLang);
                   const isActive = item.slug.current === slug;
 
