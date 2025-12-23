@@ -10,22 +10,22 @@ export default function Portal() {
         src="/images/portal-bg.jpg"
         alt="Services background"
         fill
-        className="object-cover"
+        className="object-cover filter brightness-30"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.9)_0%,rgba(0,0,0,0.9)_100%)]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full ">
         <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">
           <div className="">
             <div>
               <div className="flex items-center gap-4">
-                <span className="inline-block h-px w-[50px] bg-[#A9081C]">
+                <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                   &nbsp;
                 </span>
-                <span className="text-[#da1b31] uppercase text-sm md:text-xs tracking-[7px] md:tracking-[5px] md:font-bold">
+                <span className="text-[#7ED957] uppercase text-sm md:text-xs tracking-[7px] md:tracking-[5px] md:font-bold">
                   Our Portal
                 </span>
               </div>
-              <h1 className="text-2xl md:text-5xl uppercase md:normal-case text-[#da1b31] md:text-white md:font-bold mt-2 md:mt-4">
+              <h1 className="text-2xl md:text-5xl uppercase md:normal-case text-[#38B6FF]  md:font-bold mt-2 md:mt-4">
                 Overview of the Portal
               </h1>
             </div>
@@ -57,7 +57,7 @@ export default function Portal() {
                 inspections.
               </p>
               <div className="hidden md:block">
-                <p className="text-xs text-[#da1b31] uppercase tracking-[0.2em] my-4">
+                <p className="text-xs text-[#7ED957] uppercase tracking-[0.2em] my-4">
                   What Customers Can Track
                 </p>
                 <p className="text-[#E5E5E5] text-sm  leading-loose">
@@ -87,10 +87,10 @@ export default function Portal() {
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex justify-center flex-col text-center py-4 md:py-10 px-10 md:px-30">
-              <h3 className="text-2xl md:text-3xl text-[#da1b31]">
+              <h3 className="text-2xl md:text-3xl text-[#3871C1]">
                 Access the Portal
               </h3>
-              <p className="text-xs text-[#E5E5E5] mt-4 leading-[20px] md:leading-0">
+              <p className="text-xs text-[#E5E5E5] mt-4 leading-[20px]">
                 A secure online platform that gives customers real-time
                 visibility and control over all customs-clearance activities.
               </p>

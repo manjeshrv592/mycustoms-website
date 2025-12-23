@@ -1,7 +1,8 @@
 import PrimaryNav from "@/components/layouts/PrimaryNav";
 import Header from "@/components/layouts/Header";
-import { locales, isValidLocale, defaultLocale, type Locale } from "@/i18n";
+import { locales, isValidLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
+import { getFirstServiceSlug } from "@/sanity/queries";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -31,10 +32,13 @@ export default async function LangLayout({
     notFound();
   }
 
+  // Fetch first service slug for direct navigation (SSG-compatible)
+  const firstServiceSlug = await getFirstServiceSlug();
+
   return (
     <>
       <Header />
-      <PrimaryNav />
+      <PrimaryNav firstServiceSlug={firstServiceSlug} />
       {children}
     </>
   );

@@ -9,3 +9,4 @@ export type {
 
 // Page types
 export type { HomePageData } from "./home";
+export type { ServiceData, ServicesPageData } from "./services";

@@ -55,6 +55,13 @@ export const service = defineType({
       ],
     }),
     defineField({
+      name: "isActive",
+      title: "Active",
+      type: "boolean",
+      description: "Only active services will be displayed on the website",
+      initialValue: true,
+    }),
+    defineField({
       name: "order",
       title: "Display Order",
       type: "number",

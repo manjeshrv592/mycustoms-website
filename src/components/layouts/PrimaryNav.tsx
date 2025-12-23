@@ -7,19 +7,30 @@ import { locales, defaultLocale, type Locale } from "@/i18n";
 interface NavLink {
   href: string;
   label: string;
+  isDynamic?: boolean; // If true, href is a full path, not relative
 }
 
-const navLinks: NavLink[] = [
+interface PrimaryNavProps {
+  firstServiceSlug?: string | null;
+}
+
+const getNavLinks = (firstServiceSlug?: string | null): NavLink[] => [
   { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
+  {
+    href: firstServiceSlug ? `/services/${firstServiceSlug}` : "/services",
+    label: "Services",
+  },
   { href: "/portal", label: "Portal" },
   { href: "/resources", label: "Resources" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
-export default function PrimaryNav(): React.ReactElement {
+export default function PrimaryNav({
+  firstServiceSlug,
+}: PrimaryNavProps): React.ReactElement {
   const pathname = usePathname();
+  const navLinks = getNavLinks(firstServiceSlug);
 
   // Extract current locale from URL path
   const getCurrentLocale = (): Locale => {
@@ -51,14 +62,18 @@ export default function PrimaryNav(): React.ReactElement {
               : `/${currentLocale}${link.href}`;
 
           // Check if current path matches this link
-          const linkPath = link.href === "/" ? "" : link.href.slice(1);
+          // For services, check if path starts with /services
+          const basePath = link.href.startsWith("/services")
+            ? "/services"
+            : link.href;
+          const linkPath = basePath === "/" ? "" : basePath.slice(1);
           const isActive =
-            link.href === "/"
+            basePath === "/"
               ? pathWithoutLocale === "" || pathWithoutLocale === currentLocale
               : pathWithoutLocale.startsWith(linkPath);
 
           return (
-            <li key={link.href}>
+            <li key={link.label}>
               <Link
                 href={localizedHref}
                 className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${
