@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const teamMember = defineType({
   name: "teamMember",
@@ -26,13 +27,14 @@ export const teamMember = defineType({
       title: "Designation / Role",
       type: "internationalizedArrayString",
       description: 'Job title or role (e.g., "General Manager")',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
       description: "Short description about what they do",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "image",

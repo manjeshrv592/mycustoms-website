@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const resourceCategory = defineType({
   name: "resourceCategory",
@@ -9,7 +10,7 @@ export const resourceCategory = defineType({
       name: "title",
       title: "Category Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "slug",

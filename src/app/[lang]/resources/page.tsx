@@ -1,6 +1,7 @@
 import Container from "@/components/layouts/Container";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, ArrowRight, Search } from "lucide-react";
 import Image from "next/image";
 
 const services = [
@@ -155,18 +156,32 @@ export default function Resources() {
                         <ArrowRight />
                       </Button>
                     </div>
-                    <span className="text-white text-sm">02 / 10</span>
+                    <div className="bg-[#3871C1] p-1 rounded-full">
+                      <div className="flex items-center">
+                        <Input
+                          className="bg-white rounded-full text-neutral-800"
+                          type="text"
+                          placeholder="Search..."
+                        />
+                        <Button
+                          size="icon"
+                          className="rounded-full bg-transparent hover:bg-transparent cursor-pointer"
+                        >
+                          <Search className="size-5" />
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-right text-[#3871C1] text-xs my-auto">
-                    Updated on - 28/11/2025
+                  <div className="text-right text-[#3871C1] text-xs mt-auto">
+                    <div className="text-white text-sm mb-1">02 / 10</div>
+                    <div>Updated on - 28/11/2025</div>
                   </div>
-                  <h3 className="text-[#3871C1] text-xl mb-2">
+                  <h3 className="text-[#3871C1] text-lg mb-2">
                     Navigating the Global Lifelines
                   </h3>
-                  <p className="text-sm mb-2">
+                  <p className="text-xs mb-2">
                     The world's oceans are an intricate and dynamic network of
-                    trade, silently connecting continents and economies with an
-                    efficiency that underpins modern life. Every single day...
+                    trade, silently connecting continents and economies...
                   </p>
                   <Image
                     src="/images/resources-bg.jpg"

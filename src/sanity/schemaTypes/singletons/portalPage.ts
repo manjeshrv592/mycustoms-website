@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const portalPage = defineType({
   name: "portalPage",
@@ -19,18 +20,20 @@ export const portalPage = defineType({
       title: "Section Label",
       type: "internationalizedArrayString",
       description: 'Small label above the title (e.g., "Our Portal")',
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "title",
       title: "Page Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "content",
       title: "Main Content",
       type: "internationalizedArrayBlockContent",
       description: "Rich text content about the portal",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     // Right column / Side Panel
     defineField({
@@ -46,11 +49,13 @@ export const portalPage = defineType({
       title: "Side Panel - Title",
       type: "internationalizedArrayString",
       description: 'Title in the side panel (e.g., "Access the Portal")',
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "sidePanelDescription",
       title: "Side Panel - Description",
       type: "internationalizedArrayString",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "ctaButton",

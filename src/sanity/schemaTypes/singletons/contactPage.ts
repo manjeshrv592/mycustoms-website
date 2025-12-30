@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const contactPage = defineType({
   name: "contactPage",
@@ -18,11 +19,13 @@ export const contactPage = defineType({
       name: "title",
       title: "Page Title",
       type: "internationalizedArrayString",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     // Right column / Contact Info
     defineField({

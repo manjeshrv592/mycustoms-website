@@ -149,11 +149,11 @@
 
 /* Handle */
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #a9081c;
+  background: #3871c1;
   border-radius: 100px;
 }
 
 /* Handle on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #800614;
+  background: #2d5a9a;
 }

@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const servicesPage = defineType({
   name: "servicesPage",
@@ -19,17 +20,19 @@ export const servicesPage = defineType({
       title: "Section Label",
       type: "internationalizedArrayString",
       description: 'Small label (e.g., "services")',
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "title",
       title: "Page Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "subtitle",
       title: "Subtitle",
       type: "internationalizedArrayString",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
   ],
   preview: {

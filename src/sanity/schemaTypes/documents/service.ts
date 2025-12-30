@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const service = defineType({
   name: "service",
@@ -9,7 +10,7 @@ export const service = defineType({
       name: "title",
       title: "Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "slug",
@@ -32,12 +33,14 @@ export const service = defineType({
       title: "Summary",
       type: "internationalizedArrayString",
       description: "Short summary displayed on cards",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "content",
       title: "Content",
       type: "internationalizedArrayBlockContent",
       description: "Full service description (rich text)",
+      validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "image",

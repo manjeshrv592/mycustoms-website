@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { requireEnglishValue } from "../../lib/validation";
 
 export const homePage = defineType({
   name: "homePage",
@@ -19,21 +20,21 @@ export const homePage = defineType({
       title: "Main Title - Line 1",
       type: "internationalizedArrayString",
       description: 'First part of the title (e.g., "More Than")',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "mainTitleLine2",
       title: "Main Title - Line 2 (Highlighted)",
       type: "internationalizedArrayString",
       description: 'Second part of the title in red (e.g., "Customs")',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
       description: "Subtitle text below the main title",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => requireEnglishValue(Rule.required()),
     }),
     defineField({
       name: "featuredLogos",
