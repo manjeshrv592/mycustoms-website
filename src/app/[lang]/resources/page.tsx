@@ -44,24 +44,24 @@ export default function Resources() {
         <Container className="h-full flex flex-col gap-4">
           <div className="flex justify-center">
             <div className="border-white/50 border rounded-full flex gap-8 p-1">
-              <Button className="bg-[#A9081C] cursor-pointer hover:bg-[#990819] rounded-full w-[150px] h-8">
+              <Button className="bg-[#A9081C] cursor-pointer hover:bg-[#990819] rounded-full w-[180px] h-8">
                 Blogs
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[150px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8 border-white/50"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8 border-white/50"
               >
                 Guide to Customs
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[150px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
               >
                 Fiscal Representation
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[150px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
               >
                 EU VAT Compliance
               </Button>

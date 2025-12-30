@@ -127,7 +127,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     >
                       <div className="p-2 py-4">
                         <h4
-                          className={`w-[70%] leading-[1.2] font-semibold ${
+                          className={`w-[70%] leading-[1.2] text-sm font-semibold ${
                             isActive ? "text-[#38B6FF]" : "text-white"
                           }`}
                         >
