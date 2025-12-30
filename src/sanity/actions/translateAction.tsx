@@ -262,6 +262,9 @@ export function TranslateAction(props: {
     }
   };
 
+  // Check if document exists (has been saved at least once)
+  const isNewUnsavedDocument = !document;
+
   return {
     label: "Translate",
     icon: TranslateIcon,
@@ -269,7 +272,23 @@ export function TranslateAction(props: {
     dialog: dialogOpen && {
       type: "dialog" as const,
       header: "Auto-Translate Content",
-      content: (
+      content: isNewUnsavedDocument ? (
+        <Box padding={4}>
+          <Card padding={4} radius={2} tone="caution">
+            <Stack space={3}>
+              <Text weight="bold">Document Not Saved Yet</Text>
+              <Text size={1} muted>
+                Please save this document first (it auto-saves after a few
+                seconds), then click Translate again.
+              </Text>
+              <Text size={1} muted>
+                Translation needs the document to be saved at least once to
+                access its content.
+              </Text>
+            </Stack>
+          </Card>
+        </Box>
+      ) : (
         <Box padding={4}>
           <Stack space={4}>
             {/* Source Language */}

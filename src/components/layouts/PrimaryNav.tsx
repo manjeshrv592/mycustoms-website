@@ -78,13 +78,13 @@ export default function PrimaryNav({
                 href={localizedHref}
                 className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${
                   isActive
-                    ? "bg-[#A9081C]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
+                    ? "bg-[#3871C1]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
                     : "bg-white/0"
                 }`}
               >
                 <span
                   className={`inline-block size-1.5 rounded-full ${
-                    isActive ? "bg-[#A9081C]" : "bg-white"
+                    isActive ? "bg-[#3871C1]" : "bg-white"
                   }`}
                 >
                   &nbsp;

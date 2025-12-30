@@ -40,28 +40,29 @@ export default function Resources() {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full flex flex-col gap-4">
           <div className="flex justify-center">
             <div className="border-white/50 border rounded-full flex gap-8 p-1">
-              <Button className="bg-[#A9081C] cursor-pointer hover:bg-[#990819] rounded-full w-[180px] h-8">
+              <Button className="bg-[#3871C1] cursor-pointer hover:bg-[#2d5a9a] rounded-full w-[180px] h-8">
                 Blogs
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8 border-white/50"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#3871C1] hover:border-[#3871C1] hover:text-white h-8 border-white/50"
               >
                 Guide to Customs
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#3871C1] hover:border-[#3871C1] hover:text-white h-8"
               >
                 Fiscal Representation
               </Button>
               <Button
                 variant={"outline"}
-                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#A9081C] hover:border-[#A9081C] hover:text-white h-8"
+                className=" cursor-pointer rounded-full w-[180px] bg-transparent text-white hover:bg-[#3871C1] hover:border-[#3871C1] hover:text-white h-8"
               >
                 EU VAT Compliance
               </Button>
@@ -69,10 +70,10 @@ export default function Resources() {
           </div>
           <div className="flex items-center justify-between max-w-[60%] pr-10">
             <div className="flex items-center gap-4">
-              <span className="inline-block h-px w-[50px] bg-[#A9081C]">
+              <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;
               </span>
-              <span className="text-[#da1b31] uppercase text-xs tracking-[5px] font-bold">
+              <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
                 blogs
               </span>
             </div>
@@ -83,7 +84,7 @@ export default function Resources() {
           <div className="flex-1 min-h-0">
             <div className="grid grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
               <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose text-justify">
-                <h3 className="text-[#da1b31] text-2xl font-bold mb-4">
+                <h3 className="text-[#3871C1] text-2xl font-bold mb-4">
                   How Tariffs Impact Global Trade: What It Means for Logistics &
                   Shipping
                 </h3>
@@ -143,23 +144,23 @@ export default function Resources() {
                     <div className="flex gap-4">
                       <Button
                         size="icon"
-                        className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
+                        className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer"
                       >
                         <ArrowLeft />
                       </Button>
                       <Button
                         size="icon"
-                        className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#A9081C] hover:text-white cursor-pointer"
+                        className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer"
                       >
                         <ArrowRight />
                       </Button>
                     </div>
                     <span className="text-white text-sm">02 / 10</span>
                   </div>
-                  <div className="text-right text-[#da1b31] text-xs my-auto">
+                  <div className="text-right text-[#3871C1] text-xs my-auto">
                     Updated on - 28/11/2025
                   </div>
-                  <h3 className="text-[#da1b31] text-xl mb-2">
+                  <h3 className="text-[#3871C1] text-xl mb-2">
                     Navigating the Global Lifelines
                   </h3>
                   <p className="text-sm mb-2">
@@ -177,10 +178,10 @@ export default function Resources() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="cursor-pointer self-start text-[#da1b31]"
+                    className="cursor-pointer self-start text-[#3871C1]"
                   >
                     <ArrowLeft />{" "}
-                    <span className="text-[#da1b31]">Show more</span>
+                    <span className="text-[#3871C1]">Show more</span>
                   </Button>
                 </article>
               </div>
