@@ -17,6 +17,7 @@ export default function Contact() {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.1)_0%,rgba(0,0,0,0)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,0)_100%)]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full text-white flex flex-col gap-2">
           <div className="w-full md:max-w-[60%]">
