@@ -6,12 +6,64 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getContactPage } from "@/sanity/queries";
+import { getLocalizedValue } from "@/sanity/lib/localization";
+import { urlFor } from "@/sanity/lib/image";
+import { locales, isValidLocale, type Locale } from "@/i18n";
 
-export default function Contact() {
+interface ContactPageProps {
+  params: Promise<{ lang: string }>;
+}
+
+// Generate static params for all locales
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function Contact({ params }: ContactPageProps) {
+  const { lang } = await params;
+
+  // Validate locale
+  if (!isValidLocale(lang)) {
+    notFound();
+  }
+
+  const currentLang = lang as Locale;
+
+  // Fetch contact page data
+  const contactData = await getContactPage();
+
+  if (!contactData) {
+    notFound();
+  }
+
+  // Get localized values
+  const title =
+    getLocalizedValue(contactData.title, currentLang) || "Contact us";
+  const description =
+    getLocalizedValue(contactData.description, currentLang) || "";
+
+  // Get background image URL
+  const backgroundImageUrl = contactData.backgroundImage
+    ? urlFor(contactData.backgroundImage).width(1920).quality(85).url()
+    : "/images/contact-bg.jpg";
+
+  // Get contact section image URL
+  const contactImageUrl = contactData.contactImage
+    ? urlFor(contactData.contactImage).width(800).quality(85).url()
+    : "/images/contact-us.jpg";
+
+  // Get contact info
+  const address = contactData.address || "";
+  const phone = contactData.phone || "";
+  const email = contactData.email || "";
+
   return (
     <section className="h-screen relative pt-[12vh] pb-5">
+      {/* Background image */}
       <Image
-        src="/images/contact-bg.jpg"
+        src={backgroundImageUrl}
         alt="Contact background"
         fill
         className="object-cover"
@@ -21,21 +73,12 @@ export default function Contact() {
       <div className="relative z-20 h-full">
         <Container className="h-full text-white flex flex-col gap-2">
           <div className="w-full md:max-w-[60%]">
+            {/* Page Title */}
             <h1 className="mb-4 md:mb-0 font-semibold text-white text-2xl">
-              Contact us
+              {title}
             </h1>
-            <p className="text-xs">
-              My Customs B.V. is a trusted Dutch customs broker simplifying
-              trade compliance through technology and expertise.
-            </p>
-            <div className="mt-6 md:mt-0 text-center">
-              <h3 className="md:hidden text-2xl text-center text-[#A9081C] font-semibold">
-                Contact information
-              </h3>
-              <p className="text-xs text-center md:text-left">
-                we'd like to hear from you
-              </p>
-            </div>
+            {/* Description */}
+            {description && <p className="text-xs">{description}</p>}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 flex-1 gap-12">
             <div className="flex flex-col justify-between max-w-[400px]">
@@ -103,18 +146,17 @@ export default function Contact() {
             <div className="hidden md:flex flex-col gap-4 max-w-[400px] ml-auto ">
               <div className="flex-1 flex items-end">
                 <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px] ">
+                  {/* Contact Section - Image */}
                   <Image
-                    src="/images/contact-us.jpg"
+                    src={contactImageUrl}
                     alt="Contact image"
                     fill
                     className="object-cover absolute"
                   />
                   <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs">
                     <div>Based at</div>
-                    <div className="font-semibold">
-                      Amsterdam Central Office, Netherlands
-                    </div>
-                    <div>Herengrachi 123, Suite 200, Amsterdam, 1015 BG</div>
+                    {/* Address */}
+                    {address && <div className="">{address}</div>}
                   </div>
                 </div>
               </div>
@@ -129,7 +171,8 @@ export default function Contact() {
                   </Button>
                   <div className="flex flex-col">
                     <span>Phone</span>
-                    <span>Office : +91 6232 1151 22</span>
+                    {/* Phone Number */}
+                    {phone && <span>Office : {phone}</span>}
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -142,7 +185,8 @@ export default function Contact() {
                   </Button>
                   <div className="flex flex-col">
                     <span>Email</span>
-                    <span>Office : hello@mycustoms.nl</span>
+                    {/* Email Address */}
+                    {email && <span>Office : {email}</span>}
                   </div>
                 </div>
               </div>

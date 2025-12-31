@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Orbitron, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import "swiper/css";
 
 const orbitron = Orbitron({
   subsets: ["latin"],

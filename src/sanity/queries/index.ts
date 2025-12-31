@@ -12,3 +12,12 @@ export {
 
 // Portal queries
 export { getPortalPage } from "./portal";
+
+// Contact queries
+export { getContactPage } from "./contact";
+
+// About queries
+export { getAboutPage } from "./about";
+
+// Team queries
+export { getAllTeamMembers } from "./team";

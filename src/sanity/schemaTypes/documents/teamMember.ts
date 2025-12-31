@@ -7,8 +7,14 @@ export const teamMember = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
+      name: "firstName",
+      title: "First Name",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "lastName",
+      title: "Last Name",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -17,7 +23,7 @@ export const teamMember = defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "name",
+        source: (doc) => `${doc.firstName || ""}-${doc.lastName || ""}`,
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
@@ -62,14 +68,16 @@ export const teamMember = defineType({
   ],
   preview: {
     select: {
-      title: "name",
+      firstName: "firstName",
+      lastName: "lastName",
       subtitle: "designation",
       media: "image",
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ firstName, lastName, subtitle, media }) {
+      const fullName = `${firstName || ""} ${lastName || ""}`.trim();
       const role = subtitle?.[0]?.value || "";
       return {
-        title,
+        title: fullName || "Untitled",
         subtitle: role,
         media,
       };

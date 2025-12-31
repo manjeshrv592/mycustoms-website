@@ -1,14 +1,77 @@
 import Container from "@/components/layouts/Container";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getAboutPage, getAllTeamMembers } from "@/sanity/queries";
+import { getLocalizedValue } from "@/sanity/lib/localization";
+import { urlFor } from "@/sanity/lib/image";
+import { locales, isValidLocale, type Locale } from "@/i18n";
+import TeamCarousel from "@/components/about/TeamCarousel";
 
-export default function About() {
+interface AboutPageProps {
+  params: Promise<{ lang: string }>;
+}
+
+// Generate static params for all locales
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function About({ params }: AboutPageProps) {
+  const { lang } = await params;
+
+  // Validate locale
+  if (!isValidLocale(lang)) {
+    notFound();
+  }
+
+  const currentLang = lang as Locale;
+
+  // Fetch about page data and team members
+  const [aboutData, teamMembers] = await Promise.all([
+    getAboutPage(),
+    getAllTeamMembers(),
+  ]);
+
+  if (!aboutData) {
+    notFound();
+  }
+
+  // Get localized values
+  const title = getLocalizedValue(aboutData.title, currentLang) || "About us";
+  const description =
+    getLocalizedValue(aboutData.description, currentLang) || "";
+  const visionTitle =
+    getLocalizedValue(aboutData.visionTitle, currentLang) || "Vision";
+  const visionDescription =
+    getLocalizedValue(aboutData.visionDescription, currentLang) || "";
+  const missionTitle =
+    getLocalizedValue(aboutData.missionTitle, currentLang) || "Mission";
+  const missionDescription =
+    getLocalizedValue(aboutData.missionDescription, currentLang) || "";
+
+  // Get background image URL
+  const backgroundImageUrl = aboutData.backgroundImage
+    ? urlFor(aboutData.backgroundImage).width(1920).quality(85).url()
+    : "/images/about-us-bg.jpg";
+
+  // Transform team members for the carousel
+  const teamMembersForCarousel = teamMembers.map((member) => ({
+    id: member._id,
+    firstName: member.firstName,
+    lastName: member.lastName,
+    designation: getLocalizedValue(member.designation, currentLang) || "",
+    description: getLocalizedValue(member.description, currentLang) || "",
+    imageUrl: member.image
+      ? urlFor(member.image).width(600).height(800).quality(85).url()
+      : "/images/team/placeholder.jpg",
+  }));
+
   return (
     <section className=" h-screen text-black py-[12vh]">
+      {/* Background Image */}
       <Image
-        src="/images/about-us-bg.jpg"
-        alt="Services background"
+        src={backgroundImageUrl}
+        alt="About background"
         fill
         className="object-cover"
       />
@@ -19,96 +82,51 @@ export default function About() {
           <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-4 h-full ">
             <div className="flex flex-col">
               <div className="md:flex-1 md:pl-20 ">
+                {/* Page Title */}
                 <h1 className="text-[#3871C1] text-2xl md:text-5xl font-semibold md:mb-5">
-                  About us
+                  {title}
                 </h1>
-                <p className="text-[#E5E5E5] text-xs md:text-sm md:mb-5">
-                  My Customs B.V. is a trusted customs broker focused on making
-                  trade compliance effortless through digital solutions,
-                  expert-driven processes, and consistent, high-quality customer
-                  service.
-                </p>
+                {/* About Description */}
+                {description && (
+                  <p className="text-[#E5E5E5] text-xs md:text-sm md:mb-5">
+                    {description}
+                  </p>
+                )}
               </div>
               <div className="md:flex-1 flex flex-col pl-10 md:flex-row gap-4 md:gap-10 relative after:content-[''] after:absolute after:-bottom-2 after:rotate-90 after:-translate-y-[45%] md:after:rotate-0 after:left-1/2 after:translate-x-[20px] after:h-[50%] md:after:h-[45%] after:w-px after:bg-white rounded-full after:top-1/2 md:after:-translate-y-1/6">
                 <div className="md:flex-1 items-start">
+                  {/* Vision Title */}
                   <h3 className="text-[#3871C1] text-2xl md:text-3xl font-semibold tracking-tight text-right font-orbitron">
-                    Vision
+                    {visionTitle}
                   </h3>
-                  <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
-                    Our vision is to lead the digital transformation of EU
-                    customs by driving innovation, automation, and data-driven
-                    efficiency across the entire customs ecosystem.
-                  </p>
+                  {/* Vision Description */}
+                  {visionDescription && (
+                    <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
+                      {visionDescription}
+                    </p>
+                  )}
                 </div>
                 <div className="md:flex-1 flex flex-col justify-end">
+                  {/* Mission Title */}
                   <h3 className="text-[#3871C1] text-2xl md:text-3xl font-semibold tracking-tight text-left font-orbitron">
-                    Misson
+                    {missionTitle}
                   </h3>
-                  <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
-                    Our mission is to simplify global trade by making customs
-                    processes seamless, transparent, and effortless for
-                    businesses of all sizes.
-                  </p>
+                  {/* Mission Description */}
+                  {missionDescription && (
+                    <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
+                      {missionDescription}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-4 flex-1">
-              <div className=" w-full h-full flex md:flex-1 gap-2 ">
-                <div className="">
-                  <h3 className="text-2xl md:text-4xl writing-mode-vertical-lr font-semibold font-orbitron rotate-180 [writing-mode:vertical-rl]">
-                    <span className="text-[#716B6D]">General </span>
-                    <span className=" text-[#3871C1]">Mananger</span>
-                  </h3>
-                </div>
-                <div className="md:flex-1 pr-8 md:pr-0">
-                  <div className="size-full relative flex items-end ">
-                    <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.9)_100%)]"></div>
-                    <Image
-                      src="/images/team/Robert-van-den-tol.jpg"
-                      fill
-                      alt="General Manager"
-                      className="absolute object-cover"
-                    />
-                    <div className="z-100 w-full p-4">
-                      <div>
-                        <h2 className="text-3xl md:text-4xl text-[#3871C1] font-orbitron font-bold tracking-tight md:pb-2">
-                          Robert
-                        </h2>
-                      </div>
-                      <div className="text-right">
-                        <h3 className=" text-[#E5E5E5] font-orbitron font-semibold">
-                          van den Tol
-                        </h3>
-                        <p className="text-[#E5E5E5] text-xs">
-                          Ill ensure My Customs B.V. delivers efficient,
-                          compliant, and technology-driven customs solutions.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className=" w-full flex gap-2 items-center justify-center">
-                <div className=" w-full flex gap-6 items-center justify-center mt-2">
-                  <Button
-                    size="icon"
-                    className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer"
-                  >
-                    <ArrowLeft />
-                  </Button>
-                  <Button
-                    size="icon"
-                    className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer"
-                  >
-                    <ArrowRight />
-                  </Button>
-                </div>
-              </div>
+            {/* Team members carousel */}
+            <div className="flex flex-col flex-1 overflow-hidden min-w-0">
+              <TeamCarousel members={teamMembersForCarousel} />
             </div>
           </div>
         </Container>
       </div>
-      {/* </div> */}
     </section>
   );
 }
