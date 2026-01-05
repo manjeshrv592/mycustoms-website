@@ -1,9 +1,5 @@
-import PrimaryButton from "@/components/custom-ui/PrimaryButton";
-import PrimaryInput from "@/components/custom-ui/PrimaryInput";
-import PrimaryTextarea from "@/components/custom-ui/PrimaryTextarea";
 import Container from "@/components/layouts/Container";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -11,6 +7,7 @@ import { getContactPage } from "@/sanity/queries";
 import { getLocalizedValue } from "@/sanity/lib/localization";
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
+import ContactForm from "@/components/contact/ContactForm";
 
 interface ContactPageProps {
   params: Promise<{ lang: string }>;
@@ -81,68 +78,9 @@ export default async function Contact({ params }: ContactPageProps) {
             {description && <p className="text-xs">{description}</p>}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 flex-1 gap-12">
-            <div className="flex flex-col justify-between max-w-[400px]">
-              <div>
-                <Label className="text-xs" htmlFor="name">
-                  Name
-                </Label>
-                <PrimaryInput
-                  type="text"
-                  id="name"
-                  placeholder="Enter your full name"
-                />
-              </div>
-              <div>
-                <Label className="text-xs" htmlFor="email">
-                  Email
-                </Label>
-                <PrimaryInput
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email address"
-                />
-              </div>
-              <div>
-                <Label className="text-xs" htmlFor="phone">
-                  Phone Number
-                </Label>
-                <PrimaryInput
-                  type="text"
-                  id="phone"
-                  placeholder="Phone Number"
-                />
-              </div>
-              <div>
-                <Label className="text-xs" htmlFor="company">
-                  Company Name
-                </Label>
-                <PrimaryInput
-                  type="text"
-                  id="company"
-                  placeholder="Enter your company name"
-                />
-              </div>
-              <div>
-                <Label className="text-xs" htmlFor="service">
-                  Select Service
-                </Label>
-                <PrimaryInput
-                  type="text"
-                  id="service"
-                  placeholder="Choose a service"
-                />
-              </div>
-              <div>
-                <Label className="text-xs" htmlFor="service">
-                  Message
-                </Label>
-                <PrimaryTextarea
-                  id="message"
-                  placeholder="Tell us more about your requirements..."
-                />
-              </div>
-              <PrimaryButton className="w-full">Submit</PrimaryButton>
-            </div>
+            {/* Contact Form Component */}
+            <ContactForm />
+
             <div className="hidden md:flex flex-col gap-4 max-w-[400px] ml-auto ">
               <div className="flex-1 flex items-end">
                 <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px] ">

@@ -21,3 +21,14 @@ export { getAboutPage } from "./about";
 
 // Team queries
 export { getAllTeamMembers } from "./team";
+
+// Resources queries
+export {
+  getAllResourceCategories,
+  getFirstCategorySlug,
+  getArticlesByCategory,
+  getFirstArticleSlugByCategory,
+  getArticleBySlug,
+  getAllArticleSlugsWithCategories,
+  getAllCategorySlugs,
+} from "./resources";

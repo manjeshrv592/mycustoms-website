@@ -121,11 +121,7 @@ export function TranslateAction(props: {
   const [isTranslating, setIsTranslating] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sourceLanguage, setSourceLanguage] = useState("en");
-  const [targetLanguages, setTargetLanguages] = useState<string[]>([
-    "nl",
-    "de",
-    "cn",
-  ]);
+  const [targetLanguages, setTargetLanguages] = useState<string[]>([]);
   const [status, setStatus] = useState("");
   const [statusType, setStatusType] = useState<"success" | "error" | "info">(
     "info"

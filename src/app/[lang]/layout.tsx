@@ -3,6 +3,7 @@ import Header from "@/components/layouts/Header";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
 import { getFirstServiceSlug } from "@/sanity/queries";
+import { Toaster } from "@/components/ui/sonner";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ export default async function LangLayout({
       <Header />
       <PrimaryNav firstServiceSlug={firstServiceSlug} />
       {children}
+      <Toaster position="bottom-right" richColors />
     </>
   );
 }
