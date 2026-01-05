@@ -1,7 +1,6 @@
 import Container from "@/components/layouts/Container";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, ArrowRight, Search } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,6 +15,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import ResourcesSecondaryNav from "@/components/resources/ResourcesSecondaryNav";
+import ResourcesSearch from "@/components/resources/ResourcesSearch";
 
 interface ArticlePageProps {
   params: Promise<{ lang: string; category: string; slug: string }>;
@@ -204,21 +204,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </Button>
                   )}
                 </div>
-                <div className="bg-[#3871C1] p-1 rounded-full">
-                  <div className="flex items-center">
-                    <Input
-                      className="bg-white rounded-full text-neutral-800"
-                      type="text"
-                      placeholder="Search..."
-                    />
-                    <Button
-                      size="icon"
-                      className="rounded-full bg-transparent hover:bg-transparent cursor-pointer"
-                    >
-                      <Search className="size-5" />
-                    </Button>
-                  </div>
-                </div>
+                <ResourcesSearch lang={lang} />
               </div>
 
               <div className="text-right text-[#3871C1] text-xs mt-auto">
@@ -239,7 +225,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {nextArticle ? (
                 <>
                   <h3 className="text-[#3871C1] text-lg mb-2">
-                    {nextArticleTitle}
+                    {nextArticleTitle.length > 40
+                      ? `${nextArticleTitle.substring(0, 40)}...`
+                      : nextArticleTitle}
                   </h3>
                   <p className="text-xs mb-2">
                     {nextArticleSummary.length > 120
