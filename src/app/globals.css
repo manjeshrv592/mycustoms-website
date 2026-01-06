@@ -157,3 +157,69 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #2d5a9a;
 }
+
+/* ============================================
+   VIEW TRANSITIONS - Page Slide Animations
+   ============================================ */
+
+/* Disable default crossfade */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Forward navigation (going deeper): current slides UP, new slides UP from bottom */
+[data-nav-direction="forward"]::view-transition-old(root) {
+  animation: slide-out-up 500ms ease-out forwards;
+}
+
+[data-nav-direction="forward"]::view-transition-new(root) {
+  animation: slide-in-from-bottom 500ms ease-out forwards;
+}
+
+/* Backward navigation (going back): current slides DOWN, new slides DOWN from top */
+[data-nav-direction="backward"]::view-transition-old(root) {
+  animation: slide-out-down 500ms ease-out forwards;
+}
+
+[data-nav-direction="backward"]::view-transition-new(root) {
+  animation: slide-in-from-top 500ms ease-out forwards;
+}
+
+/* Animations */
+@keyframes slide-out-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-out-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

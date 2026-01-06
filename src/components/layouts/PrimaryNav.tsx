@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { locales, defaultLocale, type Locale } from "@/i18n";
+import TransitionLink from "@/components/animation/TransitionLink";
 
 interface NavLink {
   href: string;
   label: string;
-  isDynamic?: boolean; // If true, href is a full path, not relative
+  isDynamic?: boolean;
 }
 
 interface PrimaryNavProps {
@@ -70,7 +70,6 @@ export default function PrimaryNav({
               : `/${currentLocale}${link.href}`;
 
           // Check if current path matches this link
-          // For services and resources, check if path starts with base
           let basePath = link.href;
           if (link.href.startsWith("/services")) {
             basePath = "/services";
@@ -86,7 +85,7 @@ export default function PrimaryNav({
 
           return (
             <li key={link.label}>
-              <Link
+              <TransitionLink
                 href={localizedHref}
                 className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${
                   isActive
@@ -101,7 +100,7 @@ export default function PrimaryNav({
                 >
                   &nbsp;
                 </span>
-              </Link>
+              </TransitionLink>
             </li>
           );
         })}
