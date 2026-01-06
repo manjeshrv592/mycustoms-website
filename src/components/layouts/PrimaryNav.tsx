@@ -60,7 +60,10 @@ export default function PrimaryNav({
     .join("/");
 
   return (
-    <nav className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block">
+    <nav
+      className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block"
+      style={{ viewTransitionName: "primary-nav" }}
+    >
       <ul className="flex gap-5 flex-col justify-center items-center">
         {navLinks.map((link) => {
           // Prepend locale to href

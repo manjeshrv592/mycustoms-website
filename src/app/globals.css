@@ -169,6 +169,14 @@
   mix-blend-mode: normal;
 }
 
+/* Keep header and nav static during transitions */
+::view-transition-old(header),
+::view-transition-new(header),
+::view-transition-old(primary-nav),
+::view-transition-new(primary-nav) {
+  animation: none;
+}
+
 /* Forward navigation (going deeper): current slides UP, new slides UP from bottom */
 [data-nav-direction="forward"]::view-transition-old(root) {
   animation: slide-out-up 500ms ease-out forwards;

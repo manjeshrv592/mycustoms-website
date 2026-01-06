@@ -6,7 +6,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  useRef,
 } from "react";
 import { usePathname } from "next/navigation";
 
@@ -29,9 +28,6 @@ interface NavigationContextType {
   direction: NavigationDirection;
   setNavigationDirection: (targetPath: string) => void;
   currentPageIndex: number;
-  isScrollLocked: boolean;
-  lockScroll: () => void;
-  unlockScroll: () => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | null>(null);
@@ -68,8 +64,6 @@ export function NavigationProvider({
   const [currentPageIndex, setCurrentPageIndex] = useState(() =>
     getPageIndex(pathname)
   );
-  const [isScrollLocked, setIsScrollLocked] = useState(false);
-  const unlockTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Update current page index when pathname changes
   useEffect(() => {
@@ -83,30 +77,6 @@ export function NavigationProvider({
 
     return () => clearTimeout(timer);
   }, [pathname]);
-
-  const lockScroll = useCallback(() => {
-    console.log("[NavContext] Locking scroll");
-    setIsScrollLocked(true);
-
-    // Clear any existing unlock timer
-    if (unlockTimerRef.current) {
-      clearTimeout(unlockTimerRef.current);
-    }
-
-    // Auto-unlock after 1 second (500ms animation + 500ms buffer)
-    unlockTimerRef.current = setTimeout(() => {
-      console.log("[NavContext] Auto-unlocking scroll");
-      setIsScrollLocked(false);
-    }, 1000);
-  }, []);
-
-  const unlockScroll = useCallback(() => {
-    console.log("[NavContext] Manually unlocking scroll");
-    setIsScrollLocked(false);
-    if (unlockTimerRef.current) {
-      clearTimeout(unlockTimerRef.current);
-    }
-  }, []);
 
   const setNavigationDirection = useCallback(
     (targetPath: string) => {
@@ -136,9 +106,6 @@ export function NavigationProvider({
         direction,
         setNavigationDirection,
         currentPageIndex,
-        isScrollLocked,
-        lockScroll,
-        unlockScroll,
       }}
     >
       {children}

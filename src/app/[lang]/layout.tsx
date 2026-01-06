@@ -9,7 +9,6 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { ViewTransitions } from "next-view-transitions";
 import { NavigationProvider } from "@/context/NavigationContext";
-import ScrollNavigation from "@/components/animation/ScrollNavigation";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -48,10 +47,6 @@ export default async function LangLayout({
   return (
     <ViewTransitions>
       <NavigationProvider>
-        <ScrollNavigation
-          firstServiceSlug={firstServiceSlug}
-          firstBlogSlug={firstBlogSlug}
-        />
         <Header />
         <PrimaryNav
           firstServiceSlug={firstServiceSlug}

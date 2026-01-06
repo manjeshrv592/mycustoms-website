@@ -10,7 +10,10 @@ export default function Header() {
   const isHomePage = useIsCurrentPath("/");
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4">
+    <header
+      className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4"
+      style={{ viewTransitionName: "header" }}
+    >
       <Logo />
       <div className="flex items-center gap-4">
         {!isHomePage && (
@@ -20,7 +23,7 @@ export default function Header() {
               alt="Fenex logo"
               width={178}
               height={48}
-              className=" w-[96px] h-auto"
+              className="w-[96px] h-auto"
             />
             <Image
               src="/images/featured-logos/aeo.png"
