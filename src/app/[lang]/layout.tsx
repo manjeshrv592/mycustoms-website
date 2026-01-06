@@ -2,7 +2,10 @@ import PrimaryNav from "@/components/layouts/PrimaryNav";
 import Header from "@/components/layouts/Header";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
-import { getFirstServiceSlug } from "@/sanity/queries";
+import {
+  getFirstServiceSlug,
+  getFirstArticleSlugByCategory,
+} from "@/sanity/queries";
 import { Toaster } from "@/components/ui/sonner";
 
 interface LangLayoutProps {
@@ -33,13 +36,19 @@ export default async function LangLayout({
     notFound();
   }
 
-  // Fetch first service slug for direct navigation (SSG-compatible)
-  const firstServiceSlug = await getFirstServiceSlug();
+  // Fetch first slugs for direct navigation (SSG-compatible)
+  const [firstServiceSlug, firstBlogSlug] = await Promise.all([
+    getFirstServiceSlug(),
+    getFirstArticleSlugByCategory("blogs"),
+  ]);
 
   return (
     <>
       <Header />
-      <PrimaryNav firstServiceSlug={firstServiceSlug} />
+      <PrimaryNav
+        firstServiceSlug={firstServiceSlug}
+        firstBlogSlug={firstBlogSlug}
+      />
       {children}
       <Toaster position="bottom-right" richColors />
     </>

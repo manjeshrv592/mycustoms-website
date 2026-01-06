@@ -12,25 +12,33 @@ interface NavLink {
 
 interface PrimaryNavProps {
   firstServiceSlug?: string | null;
+  firstBlogSlug?: string | null;
 }
 
-const getNavLinks = (firstServiceSlug?: string | null): NavLink[] => [
+const getNavLinks = (
+  firstServiceSlug?: string | null,
+  firstBlogSlug?: string | null
+): NavLink[] => [
   { href: "/", label: "Home" },
   {
     href: firstServiceSlug ? `/services/${firstServiceSlug}` : "/services",
     label: "Services",
   },
   { href: "/portal", label: "Portal" },
-  { href: "/resources", label: "Resources" },
+  {
+    href: firstBlogSlug ? `/resources/blogs/${firstBlogSlug}` : "/resources",
+    label: "Resources",
+  },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
 export default function PrimaryNav({
   firstServiceSlug,
+  firstBlogSlug,
 }: PrimaryNavProps): React.ReactElement {
   const pathname = usePathname();
-  const navLinks = getNavLinks(firstServiceSlug);
+  const navLinks = getNavLinks(firstServiceSlug, firstBlogSlug);
 
   // Extract current locale from URL path
   const getCurrentLocale = (): Locale => {
@@ -62,10 +70,14 @@ export default function PrimaryNav({
               : `/${currentLocale}${link.href}`;
 
           // Check if current path matches this link
-          // For services, check if path starts with /services
-          const basePath = link.href.startsWith("/services")
-            ? "/services"
-            : link.href;
+          // For services and resources, check if path starts with base
+          let basePath = link.href;
+          if (link.href.startsWith("/services")) {
+            basePath = "/services";
+          } else if (link.href.startsWith("/resources")) {
+            basePath = "/resources";
+          }
+
           const linkPath = basePath === "/" ? "" : basePath.slice(1);
           const isActive =
             basePath === "/"
