@@ -16,6 +16,7 @@ import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import ResourcesSecondaryNav from "@/components/resources/ResourcesSecondaryNav";
 import ResourcesSearch from "@/components/resources/ResourcesSearch";
+import { formatTitle } from "@/lib/utils";
 
 interface ArticlePageProps {
   params: Promise<{ lang: string; category: string; slug: string }>;
@@ -76,6 +77,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   // Get localized values
   const articleTitle =
     getLocalizedValue(article.title, currentLang) || "Untitled";
+  const { regularPart: articleRegularPart, boldPart: articleBoldPart } =
+    formatTitle(articleTitle);
   const articleContent = article.content?.find(
     (c) => c._key === currentLang
   )?.value;
@@ -139,8 +142,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {/* Article Content */}
           <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose text-justify">
             {/* Article title */}
-            <h3 className="text-[#3871C1] text-2xl font-bold mb-4">
-              {articleTitle}
+            <h3 className="text-white text-2xl mb-4 font-grift">
+              {articleRegularPart && (
+                <span className="font-normal">{articleRegularPart} </span>
+              )}
+              <span className="font-bold">{articleBoldPart}</span>
             </h3>
             {/* We shall display active article featured image here */}
             {articleImageUrl && (

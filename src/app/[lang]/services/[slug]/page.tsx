@@ -16,6 +16,7 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
+import { formatTitle } from "@/lib/utils";
 
 interface ServicePageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -69,6 +70,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const serviceSummary = getLocalizedValue(service.summary, currentLang);
   const serviceContent = getLocalizedBlockContent(service.content, currentLang);
 
+  // Get formatted title parts
+  const { regularPart, boldPart } = formatTitle(serviceTitle);
+
   // Background image URL
   const backgroundImageUrl = servicesPage?.backgroundImage
     ? urlFor(servicesPage.backgroundImage).url()
@@ -97,8 +101,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 {pageLabel}
               </span>
             </div>
-            <h1 className="text-4xl text-white font-bold font-grift">
-              {serviceTitle}
+            <h1 className="text-4xl text-white font-grift">
+              {regularPart && (
+                <span className="font-normal">{regularPart} </span>
+              )}
+              <span className="font-bold">{boldPart}</span>
             </h1>
             <h3 className="text-white text-lg">{serviceSummary}</h3>
           </div>

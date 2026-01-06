@@ -11,6 +11,7 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
+import { formatTitle } from "@/lib/utils";
 
 interface PortalPageProps {
   params: Promise<{ lang: string }>;
@@ -44,6 +45,7 @@ export default async function Portal({ params }: PortalPageProps) {
   const label =
     getLocalizedValue(portalData.label, currentLang) || "Our Portal";
   const title = getLocalizedValue(portalData.title, currentLang);
+  const { regularPart, boldPart } = formatTitle(title);
   const content = getLocalizedBlockContent(portalData.content, currentLang);
   const sidePanelTitle = getLocalizedValue(
     portalData.sidePanelTitle,
@@ -87,8 +89,11 @@ export default async function Portal({ params }: PortalPageProps) {
                   {label}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-5xl uppercase md:normal-case text-[#38B6FF] md:font-bold mt-2 md:mt-4">
-                {title}
+              <h1 className="text-2xl md:text-5xl uppercase md:normal-case font-grift text-white mt-2 md:mt-4">
+                {regularPart && (
+                  <span className="md:font-normal">{regularPart} </span>
+                )}
+                <span className="md:font-bold">{boldPart}</span>
               </h1>
             </div>
             {/* Main content rich text - scrollable */}
