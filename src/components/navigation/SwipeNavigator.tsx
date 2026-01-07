@@ -15,10 +15,56 @@ const SWIPE_DISTANCE_THRESHOLD = 30;
 const SWIPE_VELOCITY_THRESHOLD = 0.3;
 
 /**
+ * Check if an element is scrollable vertically
+ */
+function isScrollableElement(element: Element): boolean {
+  const style = window.getComputedStyle(element);
+  const overflowY = style.overflowY;
+  const isScrollable = overflowY === "auto" || overflowY === "scroll";
+  const hasScrollableContent = element.scrollHeight > element.clientHeight;
+  return isScrollable && hasScrollableContent;
+}
+
+/**
+ * Find the nearest scrollable ancestor of an element
+ */
+function findScrollableAncestor(element: Element | null): Element | null {
+  while (element && element !== document.body) {
+    if (isScrollableElement(element)) {
+      return element;
+    }
+    element = element.parentElement;
+  }
+  return null;
+}
+
+/**
+ * Check if a scrollable element is at its scroll boundary
+ * Returns true if we should allow page navigation
+ */
+function canNavigateFromScrollable(
+  element: Element,
+  direction: "up" | "down"
+): boolean {
+  const scrollTop = element.scrollTop;
+  const scrollHeight = element.scrollHeight;
+  const clientHeight = element.clientHeight;
+
+  if (direction === "up") {
+    // Can navigate up if at the top of the scrollable content
+    return scrollTop <= 0;
+  } else {
+    // Can navigate down if at the bottom of the scrollable content
+    return scrollTop + clientHeight >= scrollHeight - 1; // -1 for rounding tolerance
+  }
+}
+
+/**
  * SwipeNavigator - Handles swipe/scroll gesture navigation between pages
  *
  * Uses @use-gesture/react for reliable wheel/swipe detection
  * Navigates to next/prev page based on scroll direction
+ * Respects scrollable containers - only navigates at scroll boundaries
  */
 export default function SwipeNavigator() {
   const router = useRouter();
@@ -32,6 +78,9 @@ export default function SwipeNavigator() {
   // Track if we've already triggered navigation for current gesture
   const hasTriggeredRef = useRef(false);
   const hasDragTriggeredRef = useRef(false);
+
+  // Track the scrollable element for the current gesture
+  const currentScrollableRef = useRef<Element | null>(null);
 
   // Extract current locale from pathname
   const getCurrentLocale = useCallback((): Locale => {
@@ -94,10 +143,26 @@ export default function SwipeNavigator() {
 
   // Bind wheel gesture to window (for mouse wheel and trackpad)
   useWheel(
-    ({ delta: [, deltaY], first, active }) => {
+    ({ delta: [, deltaY], first, active, event }) => {
       // Reset trigger flag on new gesture
       if (first) {
         hasTriggeredRef.current = false;
+        // Find scrollable ancestor on first event
+        const target = event?.target as Element | null;
+        currentScrollableRef.current = target
+          ? findScrollableAncestor(target)
+          : null;
+      }
+
+      // If inside a scrollable container, check if at boundary
+      if (currentScrollableRef.current) {
+        const direction = deltaY > 0 ? "down" : "up";
+        if (
+          !canNavigateFromScrollable(currentScrollableRef.current, direction)
+        ) {
+          // Container can still scroll, don't navigate
+          return;
+        }
       }
 
       // Trigger navigation on first event that exceeds threshold
@@ -124,6 +189,9 @@ export default function SwipeNavigator() {
     }
   );
 
+  // Track scrollable element for drag gesture
+  const dragScrollableRef = useRef<Element | null>(null);
+
   // Bind drag gesture to window (for mobile touch swipes)
   useDrag(
     ({
@@ -131,15 +199,30 @@ export default function SwipeNavigator() {
       velocity: [, vy],
       direction: [, dy],
       first,
-      last,
       active,
+      event,
     }) => {
       // Reset trigger flag on new gesture
       if (first) {
         hasDragTriggeredRef.current = false;
+        // Find scrollable ancestor on first event
+        const target = event?.target as Element | null;
+        dragScrollableRef.current = target
+          ? findScrollableAncestor(target)
+          : null;
       }
 
-      // Check for swipe at the end of drag or when velocity is high enough
+      // If inside a scrollable container, check if at boundary
+      if (dragScrollableRef.current) {
+        // dy > 0 means dragging down, which is scrolling up direction
+        const direction = dy > 0 ? "up" : "down";
+        if (!canNavigateFromScrollable(dragScrollableRef.current, direction)) {
+          // Container can still scroll, don't navigate
+          return;
+        }
+      }
+
+      // Check for swipe when velocity is high enough
       if (
         active &&
         !hasDragTriggeredRef.current &&
