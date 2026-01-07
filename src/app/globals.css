@@ -132,12 +132,19 @@
   }
   html,
   body {
-    @apply bg-background text-foreground font-poppins;
+    @apply text-foreground font-poppins;
     overflow: hidden;
     overflow-y: hidden;
     height: 100%;
     overscroll-behavior: none;
     touch-action: none;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.8) 100%
+      ),
+      linear-gradient(to right, #3871c1 0%, #000000 33%);
   }
 }
 
