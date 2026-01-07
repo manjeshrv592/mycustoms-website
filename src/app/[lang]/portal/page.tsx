@@ -76,6 +76,7 @@ export default async function Portal({ params }: PortalPageProps) {
         fill
         className="object-cover filter brightness-30"
       />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">

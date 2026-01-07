@@ -119,7 +119,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         lang={currentLang}
       />
 
-      <div className="flex items-center justify-between max-w-[60%] pr-10">
+      <div className="flex items-center md:max-w-[60%] md:pr-10 gap-2">
         <div className="flex items-center gap-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
@@ -129,16 +129,60 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {categoryTitle}
           </span>
         </div>
-        <div>
+        <div className="ml-auto">
           <span className="text-white text-sm">
             {String(currentPosition).padStart(2, "0")} /{" "}
             {String(totalArticles).padStart(2, "0")}
           </span>
         </div>
+        <div className="flex gap-4">
+          {/* Previous article */}
+          {prevArticle ? (
+            <Link
+              href={`/${lang}/resources/${category}/${prevArticle.slug.current}`}
+            >
+              <Button
+                size="icon"
+                className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+              >
+                <ArrowLeft />
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              size="icon"
+              className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+              disabled
+            >
+              <ArrowLeft />
+            </Button>
+          )}
+          {/* Next article */}
+          {nextArticle ? (
+            <Link
+              href={`/${lang}/resources/${category}/${nextArticle.slug.current}`}
+            >
+              <Button
+                size="icon"
+                className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+              >
+                <ArrowRight />
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              size="icon"
+              className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+              disabled
+            >
+              <ArrowRight />
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div className="flex-1 min-h-0">
-        <div className="grid grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
+      <div className="flex-1 min-h-0 ">
+        <div className="grid md:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
           {/* Article Content */}
           <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose text-justify">
             {/* Article title */}
@@ -163,7 +207,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
 
           {/* Sidebar */}
-          <div className="text-white">
+          <div className="text-white hidden md:block">
             <article className="bg-black/5 backdrop-blur-[20px] h-full w-full rounded-xl px-2 py-4 flex flex-col">
               <div className="flex items-center justify-between">
                 <div className="flex gap-4">
