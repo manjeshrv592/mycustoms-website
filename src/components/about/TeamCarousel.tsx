@@ -104,7 +104,7 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
       {/* Navigation buttons - only show if more than 1 member */}
       {members.length > 1 && (
         <div className="w-full flex gap-2 items-center justify-center shrink-0">
-          <div className="w-full flex gap-6 items-center justify-center mt-6">
+          <div className="w-full flex gap-6 items-center justify-center md:mt-6 mt-2">
             <Button
               size="icon"
               className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer"

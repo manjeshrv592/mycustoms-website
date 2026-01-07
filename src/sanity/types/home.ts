@@ -12,6 +12,7 @@ export interface HomePageData {
   _id: string;
   _type: "homePage";
   backgroundImage: SanityImageField;
+  mobileBackgroundImage?: SanityImageField;
   mainTitleLine1: LocalizedString[];
   mainTitleLine2: LocalizedString[];
   description: LocalizedString[];

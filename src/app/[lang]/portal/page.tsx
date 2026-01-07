@@ -68,7 +68,7 @@ export default async function Portal({ params }: PortalPageProps) {
     : "/images/team/portal-image.jpg";
 
   return (
-    <section className="h-screen py-[12vh]">
+    <section className="h-screen pt-[10vh] pb-2 md:py-[12vh]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
@@ -98,7 +98,7 @@ export default async function Portal({ params }: PortalPageProps) {
             </div>
             {/* Main content rich text - scrollable */}
             <div className="flex-1 min-h-0 mt-2 md:mt-4 overflow-y-auto custom-scrollbar pr-4">
-              <div className="text-[#E5E5E5] text-sm md:leading-loose leading-[15px] text-justify">
+              <div className="text-[#E5E5E5] text-sm leading-loose text-justify">
                 <PortableTextContent value={content} />
               </div>
             </div>

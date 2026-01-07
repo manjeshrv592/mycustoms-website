@@ -49,17 +49,30 @@ export default async function Home({ params }: HomePageProps) {
     ? urlFor(homeData.backgroundImage).url()
     : "/images/hero-bg-new.png";
 
+  // Mobile background image URL (falls back to main background if not set)
+  const mobileBackgroundImageUrl = homeData?.mobileBackgroundImage
+    ? urlFor(homeData.mobileBackgroundImage).url()
+    : backgroundImageUrl;
+
   return (
-    <section className="min-h-screen bg-neutral-200 flex justify-center relative pt-[20vh]">
+    <section className="min-h-screen bg-neutral-200 flex justify-center relative xl:pt-[20vh] pt-[15vh]">
+      {/* Desktop Background Image */}
       <Image
         src={backgroundImageUrl}
         alt="Hero background"
         fill
-        className="object-cover object-top-right"
+        className="object-cover object-top-right hidden md:block"
+      />
+      {/* Mobile Background Image */}
+      <Image
+        src={mobileBackgroundImageUrl}
+        alt="Hero background mobile"
+        fill
+        className="object-cover md:hidden"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.4)_100%)]"></div>
       <div className="text-center relative z-20">
-        <h1 className="font-grift uppercase mb-4 md:mb-2">
+        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col">
           <span className="text-[#66BD5A] text-2xl md:text-7xl">
             {titleLine1}{" "}
           </span>

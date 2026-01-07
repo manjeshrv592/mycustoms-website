@@ -16,6 +16,16 @@ export const homePage = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "mobileBackgroundImage",
+      title: "Mobile Background Image",
+      type: "image",
+      description:
+        "Background image for mobile screens (up to md breakpoint). If not set, the main background image will be used.",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: "mainTitleLine1",
       title: "Main Title - Line 1",
       type: "internationalizedArrayString",

@@ -10,6 +10,7 @@ export const HOME_PAGE_QUERY = `
     _id,
     _type,
     backgroundImage,
+    mobileBackgroundImage,
     mainTitleLine1,
     mainTitleLine2,
     description,

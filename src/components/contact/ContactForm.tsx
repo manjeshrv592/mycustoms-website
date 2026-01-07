@@ -8,6 +8,9 @@ import PrimaryButton from "@/components/custom-ui/PrimaryButton";
 import PrimaryInput from "@/components/custom-ui/PrimaryInput";
 import PrimaryTextarea from "@/components/custom-ui/PrimaryTextarea";
 import { Label } from "@/components/ui/label";
+import { Button } from "../ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useContactForm } from "@/context/ContactFormContext";
 
 // Zod validation schema
 const contactFormSchema = z.object({
@@ -22,6 +25,8 @@ const contactFormSchema = z.object({
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
 const ContactForm = () => {
+  const { isInfoCollapsed, showClickButton, toggleInfoCollapsed } =
+    useContactForm();
   const {
     register,
     handleSubmit,
@@ -59,7 +64,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col justify-between max-w-[400px] gap-3"
+      className="flex flex-col  max-w-[400px] gap-3"
     >
       <div>
         <Label className="text-xs" htmlFor="name">
@@ -70,86 +75,128 @@ const ContactForm = () => {
           id="name"
           placeholder="Enter your full name"
           {...register("name")}
+          onFocus={() => {
+            if (!isInfoCollapsed) {
+              toggleInfoCollapsed();
+            }
+          }}
         />
         {errors.name && (
           <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
         )}
       </div>
-
-      <div>
-        <Label className="text-xs" htmlFor="email">
-          Email
-        </Label>
-        <PrimaryInput
-          type="email"
-          id="email"
-          placeholder="Enter your email address"
-          {...register("email")}
-        />
-        {errors.email && (
-          <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
-        )}
+      <div
+        className={`text-center md:hidden ${showClickButton ? "" : "hidden"}`}
+      >
+        <Button
+          className="bg-transparent"
+          type="button"
+          variant="default"
+          onClick={toggleInfoCollapsed}
+        >
+          <span className="flex flex-col items-center">
+            <span>Click</span>
+            <ChevronDown />
+          </span>
+        </Button>
       </div>
+      <div
+        className={`flex flex-col gap-3 transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+      >
+        <div>
+          <Label className="text-xs" htmlFor="email">
+            Email
+          </Label>
+          <PrimaryInput
+            type="email"
+            id="email"
+            placeholder="Enter your email address"
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+          )}
+        </div>
 
-      <div>
-        <Label className="text-xs" htmlFor="phone">
-          Phone Number
-        </Label>
-        <PrimaryInput
-          type="text"
-          id="phone"
-          placeholder="Phone Number"
-          {...register("phone")}
-        />
-        {errors.phone && (
-          <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>
-        )}
+        <div>
+          <Label className="text-xs" htmlFor="phone">
+            Phone Number
+          </Label>
+          <PrimaryInput
+            type="text"
+            id="phone"
+            placeholder="Phone Number"
+            {...register("phone")}
+          />
+          {errors.phone && (
+            <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>
+          )}
+        </div>
+
+        <div>
+          <Label className="text-xs" htmlFor="company">
+            Company Name
+          </Label>
+          <PrimaryInput
+            type="text"
+            id="company"
+            placeholder="Enter your company name"
+            {...register("company")}
+          />
+          {errors.company && (
+            <p className="text-red-400 text-xs mt-1">
+              {errors.company.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <Label className="text-xs" htmlFor="service">
+            Select Service
+          </Label>
+          <PrimaryInput
+            type="text"
+            id="service"
+            placeholder="Choose a service"
+            {...register("service")}
+          />
+          {errors.service && (
+            <p className="text-red-400 text-xs mt-1">
+              {errors.service.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <Label className="text-xs" htmlFor="message">
+            Message <span className="text-gray-400">(optional)</span>
+          </Label>
+          <PrimaryTextarea
+            id="message"
+            placeholder="Tell us more about your requirements..."
+            {...register("message")}
+          />
+        </div>
+
+        <PrimaryButton type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </PrimaryButton>
+
+        {/* Hide form button - visible on mobile when form is expanded */}
+        <Button
+          type="button"
+          variant="ghost"
+          className={`w-full md:hidden ${isInfoCollapsed ? "" : "hidden"}`}
+          onClick={toggleInfoCollapsed}
+        >
+          <span className="flex items-center gap-2">
+            <ChevronUp />
+            <span>Hide Form</span>
+          </span>
+        </Button>
       </div>
-
-      <div>
-        <Label className="text-xs" htmlFor="company">
-          Company Name
-        </Label>
-        <PrimaryInput
-          type="text"
-          id="company"
-          placeholder="Enter your company name"
-          {...register("company")}
-        />
-        {errors.company && (
-          <p className="text-red-400 text-xs mt-1">{errors.company.message}</p>
-        )}
-      </div>
-
-      <div>
-        <Label className="text-xs" htmlFor="service">
-          Select Service
-        </Label>
-        <PrimaryInput
-          type="text"
-          id="service"
-          placeholder="Choose a service"
-          {...register("service")}
-        />
-        {errors.service && (
-          <p className="text-red-400 text-xs mt-1">{errors.service.message}</p>
-        )}
-      </div>
-
-      <div>
-        <Label className="text-xs" htmlFor="message">
-          Message <span className="text-gray-400">(optional)</span>
-        </Label>
-        <PrimaryTextarea
-          id="message"
-          placeholder="Tell us more about your requirements..."
-          {...register("message")}
-        />
-      </div>
-
-      <PrimaryButton type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </PrimaryButton>
     </form>
   );
 };

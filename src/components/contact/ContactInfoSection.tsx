@@ -1,0 +1,81 @@
+"use client";
+
+import { useContactForm } from "@/context/ContactFormContext";
+import { Button } from "@/components/ui/button";
+import { Mail, Phone } from "lucide-react";
+import Image from "next/image";
+
+interface ContactInfoSectionProps {
+  contactImageUrl: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+const ContactInfoSection = ({
+  contactImageUrl,
+  address,
+  phone,
+  email,
+}: ContactInfoSectionProps) => {
+  const { isInfoCollapsed } = useContactForm();
+
+  return (
+    <div
+      className={`absolute md:relative md:flex flex-col gap-4 max-w-[400px] ml-auto bottom-0 left-0 md:left-auto p-4 md:p-0 transition-all duration-500 ease-in-out overflow-hidden ${
+        isInfoCollapsed
+          ? "max-h-0 opacity-0 md:max-h-none md:opacity-100"
+          : "max-h-[500px] opacity-100"
+      }`}
+    >
+      <div className="md:flex-1 md:flex md:items-end">
+        <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end md:max-h-[260px] h-80">
+          {/* Contact Section - Image */}
+          <Image
+            src={contactImageUrl}
+            alt="Contact image"
+            fill
+            className="object-cover absolute"
+          />
+          <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs">
+            <div>Based at</div>
+            {/* Address */}
+            {address && <div>{address}</div>}
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-between pt-4 border-t border-white text-xs mt-4 md:mt-0 flex-col md:flex-row">
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-transparent size-8"
+          >
+            <Phone className="size-3" />
+          </Button>
+          <div className="flex flex-col">
+            <span>Phone</span>
+            {/* Phone Number */}
+            {phone && <span>Office : {phone}</span>}
+          </div>
+        </div>
+        <div className="flex gap-2 md:self-end flex-row-reverse md:flex-row">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-transparent size-8"
+          >
+            <Mail className="size-3" />
+          </Button>
+          <div className="flex flex-col text-right md:text-left">
+            <span>Email</span>
+            {/* Email Address */}
+            {email && <span>Office : {email}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactInfoSection;

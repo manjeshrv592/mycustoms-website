@@ -67,7 +67,7 @@ export default async function About({ params }: AboutPageProps) {
   }));
 
   return (
-    <section className=" h-screen text-black py-[12vh]">
+    <section className=" h-screen text-black pt-[10vh] pb-2 md:py-[12vh]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}

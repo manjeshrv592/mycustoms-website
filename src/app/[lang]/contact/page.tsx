@@ -1,6 +1,4 @@
 import Container from "@/components/layouts/Container";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getContactPage } from "@/sanity/queries";
@@ -8,6 +6,8 @@ import { getLocalizedValue } from "@/sanity/lib/localization";
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import ContactForm from "@/components/contact/ContactForm";
+import ContactInfoSection from "@/components/contact/ContactInfoSection";
+import { ContactFormProvider } from "@/context/ContactFormContext";
 
 interface ContactPageProps {
   params: Promise<{ lang: string }>;
@@ -57,7 +57,7 @@ export default async function Contact({ params }: ContactPageProps) {
   const email = contactData.email || "";
 
   return (
-    <section className="h-screen relative pt-[12vh] pb-5">
+    <section className="h-screen pt-[10vh] md:py-[12vh]">
       {/* Background image */}
       <Image
         src={backgroundImageUrl}
@@ -77,59 +77,19 @@ export default async function Contact({ params }: ContactPageProps) {
             {/* Description */}
             {description && <p className="text-xs">{description}</p>}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 flex-1 gap-12">
-            {/* Contact Form Component */}
-            <ContactForm />
+          <ContactFormProvider>
+            <div className="md:grid md:grid-cols-2 flex-1 md:gap-12">
+              {/* Contact Form Component */}
+              <ContactForm />
 
-            <div className="hidden md:flex flex-col gap-4 max-w-[400px] ml-auto ">
-              <div className="flex-1 flex items-end">
-                <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end max-h-[260px] ">
-                  {/* Contact Section - Image */}
-                  <Image
-                    src={contactImageUrl}
-                    alt="Contact image"
-                    fill
-                    className="object-cover absolute"
-                  />
-                  <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs">
-                    <div>Based at</div>
-                    {/* Address */}
-                    {address && <div className="">{address}</div>}
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between pt-4 border-t border-white text-xs gap-8">
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full bg-transparent size-8"
-                  >
-                    <Phone className="size-3" />
-                  </Button>
-                  <div className="flex flex-col">
-                    <span>Phone</span>
-                    {/* Phone Number */}
-                    {phone && <span>Office : {phone}</span>}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full bg-transparent size-8"
-                  >
-                    <Mail className="size-3" />
-                  </Button>
-                  <div className="flex flex-col">
-                    <span>Email</span>
-                    {/* Email Address */}
-                    {email && <span>Office : {email}</span>}
-                  </div>
-                </div>
-              </div>
+              <ContactInfoSection
+                contactImageUrl={contactImageUrl}
+                address={address}
+                phone={phone}
+                email={email}
+              />
             </div>
-          </div>
+          </ContactFormProvider>
         </Container>
       </div>
     </section>
