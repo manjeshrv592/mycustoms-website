@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 import { useWheel, useDrag } from "@use-gesture/react";
 import { useNavigation, PAGE_ORDER } from "@/context/NavigationContext";
 import { locales, type Locale } from "@/i18n";
@@ -67,7 +68,7 @@ function canNavigateFromScrollable(
  * Respects scrollable containers - only navigates at scroll boundaries
  */
 export default function SwipeNavigator() {
-  const router = useRouter();
+  const router = useTransitionRouter();
   const pathname = usePathname();
   const { setNavigationDirection, currentPageIndex } = useNavigation();
 
