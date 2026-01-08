@@ -94,7 +94,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <Container className="h-full flex flex-col gap-4">
           {/* Header */}
           <div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-4 md:mb-0">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;
               </span>
@@ -113,14 +113,15 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
           {/* Content Grid */}
           <div className="flex-1 min-h-0">
-            <div className="grid grid-cols-2 gap-4 h-full min-h-0">
+            <div className="md:grid md:grid-cols-2 gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
+
               <div className="text-xs h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <PortableTextContent value={serviceContent} />
               </div>
 
               {/* Services Grid */}
-              <div className="grid grid-cols-3 gap-4 grid-rows-2">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:grid-rows-2 fixed md:relative md:bottom-auto bottom-0 h-[calc(100dvh-120px)] md:h-auto w-full left-0 md:left-auto p-2 md:p-0 md:w-auto pb-16 md:pb-0 bg-linear-to-b from-neutral-0 to-neutral-900 md:bg-none backdrop-blur-[5px] md:backdrop-blur-none">
                 {allServices.map((item: ServiceData) => {
                   const itemTitle = getLocalizedValue(item.title, currentLang);
                   const isActive = item.slug.current === slug;
@@ -129,7 +130,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     <Link
                       key={item._id}
                       href={`/${currentLang}/services/${item.slug.current}`}
-                      className={`border flex flex-col justify-between hover:scale-[1.04] transition-all bg-black/20 duration-300 cursor-pointer shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.85)] ${
+                      className={`border flex flex-col justify-between hover:scale-[1.04] transition-all bg-neutral-900 md:bg-black/20 duration-300 cursor-pointer shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.85)] ${
                         isActive ? "border-[#3871C1]/50 border" : "border-none"
                       }`}
                     >
