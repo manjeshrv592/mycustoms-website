@@ -17,6 +17,8 @@ import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import { formatTitle } from "@/lib/utils";
 import ServicesGrid from "@/components/services/ServicesGrid";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface ServicePageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -78,8 +80,16 @@ export default async function ServicePage({ params }: ServicePageProps) {
     ? urlFor(servicesPage.backgroundImage).url()
     : "/images/services-bg.jpg";
 
+  // Calculate prev/next services for navigation
+  const currentIndex = allServices.findIndex((s) => s.slug.current === slug);
+  const prevService = currentIndex > 0 ? allServices[currentIndex - 1] : null;
+  const nextService =
+    currentIndex < allServices.length - 1
+      ? allServices[currentIndex + 1]
+      : null;
+
   return (
-    <section className="h-screen relative py-[12vh]">
+    <section className="h-screen relative pt-[10vh] pb-2 md:py-[12vh]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
@@ -94,13 +104,65 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <Container className="h-full flex flex-col gap-4">
           {/* Header */}
           <div>
-            <div className="flex items-center gap-4 mb-4 md:mb-0">
+            <div className="flex items-center gap-4 md:mb-0">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;
               </span>
               <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
                 {pageLabel}
               </span>
+            </div>
+            <div className="my-2 md:hidden flex items-center gap-4 justify-between mb-4">
+              <Link
+                href={`/${currentLang}/services`}
+                className="text-white text-sm border-b-white border-b"
+              >
+                View All Services
+              </Link>
+              <div className="flex gap-2">
+                {/* Previous service */}
+                {prevService ? (
+                  <Link
+                    href={`/${currentLang}/services/${prevService.slug.current}`}
+                  >
+                    <Button
+                      size="icon"
+                      className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                    >
+                      <ArrowLeft />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    size="icon"
+                    className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+                    disabled
+                  >
+                    <ArrowLeft />
+                  </Button>
+                )}
+                {/* Next service */}
+                {nextService ? (
+                  <Link
+                    href={`/${currentLang}/services/${nextService.slug.current}`}
+                  >
+                    <Button
+                      size="icon"
+                      className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                    >
+                      <ArrowRight />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    size="icon"
+                    className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+                    disabled
+                  >
+                    <ArrowRight />
+                  </Button>
+                )}
+              </div>
             </div>
             <h1 className="text-4xl text-white font-grift">
               {regularPart && (
@@ -115,33 +177,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
           <div className="flex-1 min-h-0">
             <div className="md:grid md:grid-cols-2 gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
-              <div className="text-xs h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
+              <div className="text-xs h-full overflow-y-auto min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <PortableTextContent value={serviceContent} />
-
-                {/* View All Services Button - Mobile Only */}
-                <div className="mt-6 md:hidden">
-                  <Link
-                    href={`/${currentLang}/services`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#3871C1] text-white text-sm font-semibold rounded hover:bg-[#3871C1]/80 transition-colors"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M3 6h18" />
-                      <path d="M3 12h18" />
-                      <path d="M3 18h18" />
-                    </svg>
-                    View All Services
-                  </Link>
-                </div>
               </div>
 
               {/* Services Grid - Desktop Only */}

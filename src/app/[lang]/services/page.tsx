@@ -94,13 +94,10 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                   {pageLabel}
                 </span>
               </div>
-              <h1 className="text-4xl text-white font-grift font-bold">
-                Our Services
-              </h1>
             </div>
 
             {/* Services Grid */}
-            <div className="flex-1 min-h-0 pb-16">
+            <div className="flex-1 min-h-0">
               <ServicesGrid
                 services={allServices}
                 currentLang={currentLang}

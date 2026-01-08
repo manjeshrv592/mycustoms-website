@@ -72,9 +72,9 @@ export default async function Home({ params }: HomePageProps) {
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.4)_100%)]"></div>
       <div className="text-center relative z-20">
-        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col">
+        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col md:flex-row gap-3">
           <span className="text-[#66BD5A] text-2xl md:text-7xl">
-            {titleLine1}{" "}
+            {titleLine1}
           </span>
           <span className="text-[#5e98e9] text-5xl md:text-7xl mt-4 md:mt-0 inline-block">
             {titleLine2}

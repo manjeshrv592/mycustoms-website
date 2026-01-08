@@ -135,7 +135,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {String(totalArticles).padStart(2, "0")}
           </span>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 md:hidden">
           {/* Previous article */}
           {prevArticle ? (
             <Link
