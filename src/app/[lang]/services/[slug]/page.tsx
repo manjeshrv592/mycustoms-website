@@ -8,7 +8,6 @@ import {
   getServicesPage,
   getAllServiceSlugs,
 } from "@/sanity/queries";
-import type { ServiceData } from "@/sanity/types";
 import {
   getLocalizedValue,
   getLocalizedBlockContent,
@@ -17,6 +16,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import { formatTitle } from "@/lib/utils";
+import ServicesGrid from "@/components/services/ServicesGrid";
 
 interface ServicePageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -115,48 +115,42 @@ export default async function ServicePage({ params }: ServicePageProps) {
           <div className="flex-1 min-h-0">
             <div className="md:grid md:grid-cols-2 gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
-
               <div className="text-xs h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <PortableTextContent value={serviceContent} />
-              </div>
 
-              {/* Services Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:grid-rows-2 fixed md:relative md:bottom-auto bottom-0 h-[calc(100dvh-120px)] md:h-auto w-full left-0 md:left-auto p-2 md:p-0 md:w-auto pb-16 md:pb-0 bg-linear-to-b from-neutral-0 to-neutral-900 md:bg-none backdrop-blur-[5px] md:backdrop-blur-none">
-                {allServices.map((item: ServiceData) => {
-                  const itemTitle = getLocalizedValue(item.title, currentLang);
-                  const isActive = item.slug.current === slug;
-
-                  return (
-                    <Link
-                      key={item._id}
-                      href={`/${currentLang}/services/${item.slug.current}`}
-                      className={`border flex flex-col justify-between hover:scale-[1.04] transition-all bg-neutral-900 md:bg-black/20 duration-300 cursor-pointer shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.85)] ${
-                        isActive ? "border-[#3871C1]/50 border" : "border-none"
-                      }`}
+                {/* View All Services Button - Mobile Only */}
+                <div className="mt-6 md:hidden">
+                  <Link
+                    href={`/${currentLang}/services`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#3871C1] text-white text-sm font-semibold rounded hover:bg-[#3871C1]/80 transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <div className="p-2 py-4">
-                        <h4
-                          className={`w-[70%] leading-[1.2] text-sm font-semibold ${
-                            isActive ? "text-[#38B6FF]" : "text-white"
-                          }`}
-                        >
-                          {itemTitle}
-                        </h4>
-                      </div>
-                      <div className="flex-1 relative">
-                        {item.image && (
-                          <Image
-                            src={urlFor(item.image).url()}
-                            alt={item.image.alt || itemTitle}
-                            fill
-                            className="object-cover"
-                          />
-                        )}
-                      </div>
-                    </Link>
-                  );
-                })}
+                      <path d="M3 6h18" />
+                      <path d="M3 12h18" />
+                      <path d="M3 18h18" />
+                    </svg>
+                    View All Services
+                  </Link>
+                </div>
               </div>
+
+              {/* Services Grid - Desktop Only */}
+              <ServicesGrid
+                services={allServices}
+                currentLang={currentLang}
+                currentSlug={slug}
+                className="hidden md:grid"
+              />
             </div>
           </div>
         </Container>

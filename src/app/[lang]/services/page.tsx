@@ -1,6 +1,16 @@
-import { redirect, notFound } from "next/navigation";
-import { getFirstServiceSlug } from "@/sanity/queries";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import {
+  getAllServices,
+  getServicesPage,
+  getFirstServiceSlug,
+} from "@/sanity/queries";
+import { getLocalizedValue } from "@/sanity/lib/localization";
+import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
+import Container from "@/components/layouts/Container";
+import ServicesGrid from "@/components/services/ServicesGrid";
+import DesktopRedirect from "@/components/services/DesktopRedirect";
 
 interface ServicesPageProps {
   params: Promise<{ lang: string }>;
@@ -14,8 +24,9 @@ export async function generateStaticParams() {
 }
 
 /**
- * Services index page - redirects to the first service
- * This is SSG-compatible as the redirect happens at request time
+ * Services index page
+ * - Mobile: Shows services grid (stays on this page)
+ * - Desktop: Redirects to first service via client-side redirect
  */
 export default async function ServicesPage({ params }: ServicesPageProps) {
   const { lang } = await params;
@@ -25,14 +36,97 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
     notFound();
   }
 
-  // Get the first service slug
-  const firstSlug = await getFirstServiceSlug();
+  const currentLang: Locale = lang;
 
-  if (!firstSlug) {
-    // No services found - could show empty state or 404
+  // Fetch data in parallel
+  const [allServices, servicesPage, firstSlug] = await Promise.all([
+    getAllServices(),
+    getServicesPage(),
+    getFirstServiceSlug(),
+  ]);
+
+  // If no services found, show 404
+  if (!allServices || allServices.length === 0) {
     notFound();
   }
 
-  // Redirect to the first service
-  redirect(`/${lang}/services/${firstSlug}`);
+  // Get localized page label
+  const pageLabel = servicesPage
+    ? getLocalizedValue(servicesPage.label, currentLang)
+    : "services";
+
+  // Background image URL
+  const backgroundImageUrl = servicesPage?.backgroundImage
+    ? urlFor(servicesPage.backgroundImage).url()
+    : "/images/services-bg.jpg";
+
+  // Target URL for desktop redirect
+  const desktopRedirectUrl = firstSlug
+    ? `/${currentLang}/services/${firstSlug}`
+    : null;
+
+  return (
+    <>
+      {/* Desktop redirect - only triggers on md+ screens */}
+      {desktopRedirectUrl && <DesktopRedirect targetUrl={desktopRedirectUrl} />}
+
+      {/* Mobile View - Services Grid Page */}
+      <section className="h-screen relative py-[12vh] md:hidden">
+        {/* Background Image */}
+        <Image
+          src={backgroundImageUrl}
+          alt="Services background"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
+
+        <div className="relative z-20 h-full">
+          <Container className="h-full flex flex-col gap-4">
+            {/* Header */}
+            <div>
+              <div className="flex items-center gap-4 mb-4">
+                <span className="inline-block h-px w-[50px] bg-[#7ED957]">
+                  &nbsp;
+                </span>
+                <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
+                  {pageLabel}
+                </span>
+              </div>
+              <h1 className="text-4xl text-white font-grift font-bold">
+                Our Services
+              </h1>
+            </div>
+
+            {/* Services Grid */}
+            <div className="flex-1 min-h-0 pb-16">
+              <ServicesGrid
+                services={allServices}
+                currentLang={currentLang}
+                className="h-full"
+              />
+            </div>
+          </Container>
+        </div>
+      </section>
+
+      {/* Desktop View - Loading skeleton while redirect happens */}
+      <section className="h-screen relative py-[12vh] hidden md:block">
+        {/* Background Image */}
+        <Image
+          src={backgroundImageUrl}
+          alt="Services background"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
+
+        <div className="relative z-20 h-full flex items-center justify-center">
+          <div className="text-white text-lg animate-pulse">Loading...</div>
+        </div>
+      </section>
+    </>
+  );
 }
