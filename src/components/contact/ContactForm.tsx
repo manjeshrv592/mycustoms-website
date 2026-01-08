@@ -64,7 +64,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col  max-w-[400px] gap-3"
+      className="flex flex-col max-w-[400px] gap-3 max-h-[70dvh] md:max-h-none overflow-y-auto md:overflow-visible"
     >
       <div>
         <Label className="text-xs" htmlFor="name">
@@ -175,6 +175,7 @@ const ContactForm = () => {
           </Label>
           <PrimaryTextarea
             id="message"
+            rows={1}
             placeholder="Tell us more about your requirements..."
             {...register("message")}
           />

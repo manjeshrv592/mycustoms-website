@@ -83,7 +83,7 @@ export default async function About({ params }: AboutPageProps) {
             <div className="flex flex-col">
               <div className="md:flex-1 md:pl-20 ">
                 {/* Page Title */}
-                <h1 className="text-[#3871C1] text-2xl md:text-5xl font-semibold md:mb-5">
+                <h1 className="text-[#3871C1] text-2xl md:text-3xl xl:text-4xl font-bold md:mb-5 font-grift">
                   {title}
                 </h1>
                 {/* About Description */}
@@ -96,7 +96,7 @@ export default async function About({ params }: AboutPageProps) {
               <div className="md:flex-1 flex flex-col pl-10 md:flex-row gap-4 md:gap-10 relative after:content-[''] after:absolute after:-bottom-2 after:rotate-90 after:-translate-y-[45%] md:after:rotate-0 after:left-1/2 after:translate-x-[20px] after:h-[50%] md:after:h-[45%] after:w-px after:bg-white rounded-full after:top-1/2 md:after:-translate-y-1/6">
                 <div className="md:flex-1 items-start">
                   {/* Vision Title */}
-                  <h3 className="text-[#3871C1] text-2xl md:text-3xl font-semibold tracking-tight text-right font-orbitron">
+                  <h3 className="text-[#3871C1] text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-right font-grift">
                     {visionTitle}
                   </h3>
                   {/* Vision Description */}
@@ -108,7 +108,7 @@ export default async function About({ params }: AboutPageProps) {
                 </div>
                 <div className="md:flex-1 flex flex-col justify-end">
                   {/* Mission Title */}
-                  <h3 className="text-[#3871C1] text-2xl md:text-3xl font-semibold tracking-tight text-left font-orbitron">
+                  <h3 className="text-[#3871C1] text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-left font-grift">
                     {missionTitle}
                   </h3>
                   {/* Mission Description */}

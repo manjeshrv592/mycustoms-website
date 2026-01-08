@@ -71,7 +71,8 @@ export default async function Contact({ params }: ContactPageProps) {
         <Container className="h-full text-white flex flex-col gap-2">
           <div className="w-full md:max-w-[60%]">
             {/* Page Title */}
-            <h1 className="mb-4 md:mb-0 font-semibold text-white text-2xl">
+
+            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift font-bold">
               {title}
             </h1>
             {/* Description */}

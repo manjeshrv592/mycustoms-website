@@ -40,9 +40,9 @@ export default function ServicesGrid({
               isActive ? "border-[#3871C1]/50 border" : "border-none"
             }`}
           >
-            <div className="p-2 py-4">
+            <div className="p-1 py-5">
               <h4
-                className={`w-[70%] leading-[1.2] text-sm font-semibold ${
+                className={`w-[70%] leading-[1.2] text-xs font-semibold ${
                   isActive ? "text-[#38B6FF]" : "text-white"
                 }`}
               >

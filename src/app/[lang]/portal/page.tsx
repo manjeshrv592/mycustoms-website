@@ -82,31 +82,30 @@ export default async function Portal({ params }: PortalPageProps) {
         <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">
           <div className="flex flex-col min-h-0">
             <div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mb-4">
                 <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                   &nbsp;
                 </span>
-                <span className="text-[#7ED957] uppercase text-sm md:text-xs tracking-[7px] md:tracking-[5px] md:font-bold">
+                <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
                   {label}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-5xl uppercase md:normal-case font-grift text-white mt-2 md:mt-4">
-                {regularPart && (
-                  <span className="md:font-normal">{regularPart} </span>
-                )}
-                <span className="md:font-bold">{boldPart}</span>
+
+              <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift mt-2 md:mt-4">
+                {regularPart && <span className="">{regularPart} </span>}
+                <span className="font-bold">{boldPart}</span>
               </h1>
             </div>
             {/* Main content rich text - scrollable */}
             <div className="flex-1 min-h-0 mt-2 md:mt-4 overflow-y-auto custom-scrollbar pr-4">
-              <div className="text-[#E5E5E5] text-sm leading-loose text-justify">
+              <div className="text-[#E5E5E5] text-xs leading-loose text-justify">
                 <PortableTextContent value={content} />
               </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex justify-center flex-col text-center py-4 md:py-10 px-10 md:px-30">
-              <h3 className="text-2xl md:text-3xl text-[#3871C1]">
+            <div className="flex justify-center flex-col text-center py-4 md:py-10 px-10 md:px-20">
+              <h3 className="text-xl md:text-2xl lg:text-3xl text-[#3871C1]">
                 {sidePanelTitle}
               </h3>
               <p className="text-xs text-[#E5E5E5] mt-4 leading-[20px]">

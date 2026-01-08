@@ -120,15 +120,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
 
       <div className="flex items-center md:max-w-[60%] md:pr-10 gap-2">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mb-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
           </span>
-          {/* Category title */}
           <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
             {categoryTitle}
           </span>
         </div>
+
         <div className="ml-auto">
           <span className="text-white text-sm">
             {String(currentPosition).padStart(2, "0")} /{" "}
@@ -182,16 +182,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </div>
 
       <div className="flex-1 min-h-0 ">
-        <div className="grid md:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
+        <div className="grid md:grid-cols-[2fr_1fr] gap-4 h-full min-h-0">
           {/* Article Content */}
-          <div className="text-sm h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose text-justify">
+          <div className=" h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose  text-xs">
             {/* Article title */}
-            <h3 className="text-white text-2xl mb-4 font-grift">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift mb-2 md:mb-4">
               {articleRegularPart && (
                 <span className="font-normal">{articleRegularPart} </span>
               )}
               <span className="font-bold">{articleBoldPart}</span>
-            </h3>
+            </h1>
             {/* We shall display active article featured image here */}
             {articleImageUrl && (
               <Image
@@ -203,7 +203,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               />
             )}
             {/* Rich content */}
-            {articleContent && <PortableTextContent value={articleContent} />}
+            <div className="text-justify">
+              {articleContent && <PortableTextContent value={articleContent} />}
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -259,7 +261,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
               <div className="text-right text-[#3871C1] text-xs mt-auto">
                 {/* Position */}
-                <div className="text-white text-sm mb-1">
+                <div className="text-white text-sm mb-1 mt-2">
                   {String(
                     currentPosition + 1 <= totalArticles
                       ? currentPosition + 1
@@ -274,9 +276,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {/* Next article preview */}
               {nextArticle ? (
                 <>
-                  <h3 className="text-[#3871C1] text-lg mb-2">
+                  <h3 className="text-[#3871C1] mb-2">
                     {nextArticleTitle.length > 40
-                      ? `${nextArticleTitle.substring(0, 40)}...`
+                      ? `${nextArticleTitle.substring(0, 35)}...`
                       : nextArticleTitle}
                   </h3>
                   <p className="text-xs mb-2">

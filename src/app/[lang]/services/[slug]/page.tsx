@@ -104,7 +104,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <Container className="h-full flex flex-col gap-4">
           {/* Header */}
           <div>
-            <div className="flex items-center gap-4 md:mb-0">
+            <div className="flex items-center gap-4 mb-4">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;
               </span>
@@ -164,18 +164,20 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 )}
               </div>
             </div>
-            <h1 className="text-4xl text-white font-grift">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift">
               {regularPart && (
                 <span className="font-normal">{regularPart} </span>
               )}
               <span className="font-bold">{boldPart}</span>
             </h1>
-            <h3 className="text-white text-lg">{serviceSummary}</h3>
+            <h3 className="text-white text-sm md:text-base xl:text-lg">
+              {serviceSummary}
+            </h3>
           </div>
 
           {/* Content Grid */}
           <div className="flex-1 min-h-0">
-            <div className="md:grid md:grid-cols-2 gap-4 h-full min-h-0 relative">
+            <div className="md:grid md:grid-cols-[3fr_2fr] gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
               <div className="text-xs h-full overflow-y-auto min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 <PortableTextContent value={serviceContent} />
