@@ -12,12 +12,14 @@ import { portalPage } from "./singletons/portalPage";
 import { contactPage } from "./singletons/contactPage";
 import { servicesPage } from "./singletons/servicesPage";
 import { resourcesPage } from "./singletons/resourcesPage";
+import { euVatCompliancePage } from "./singletons/euVatCompliancePage";
+import { guideToCustomsPage } from "./singletons/guideToCustomsPage";
+import { fiscalRepresentationPage } from "./singletons/fiscalRepresentationPage";
 
 // Document Collections
 import { service } from "./documents/service";
 import { teamMember } from "./documents/teamMember";
-import { resourceCategory } from "./documents/resourceCategory";
-import { article } from "./documents/article";
+import { blog } from "./documents/blog";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -33,11 +35,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     contactPage,
     servicesPage,
     resourcesPage,
+    euVatCompliancePage,
+    guideToCustomsPage,
+    fiscalRepresentationPage,
 
     // Document Collections
     service,
     teamMember,
-    resourceCategory,
-    article,
+    blog,
   ],
 };

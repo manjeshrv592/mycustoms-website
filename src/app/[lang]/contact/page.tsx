@@ -8,6 +8,7 @@ import { locales, isValidLocale, type Locale } from "@/i18n";
 import ContactForm from "@/components/contact/ContactForm";
 import ContactInfoSection from "@/components/contact/ContactInfoSection";
 import { ContactFormProvider } from "@/context/ContactFormContext";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 interface ContactPageProps {
   params: Promise<{ lang: string }>;
@@ -57,7 +58,15 @@ export default async function Contact({ params }: ContactPageProps) {
   const email = contactData.email || "";
 
   return (
-    <section className="h-screen pt-[10vh] md:py-[12vh]">
+    <section className="h-screen pt-[10vh] pb-2 md:pt-[12vh] relative">
+      <a
+        target="_blank"
+        href="https://linkedin.com"
+        className="absolute text-white z-30 hidden md:flex flex-col items-center gap-2 opacity-50 left-5 bottom-5"
+      >
+        <FaLinkedinIn />
+        <span className="h-[64px] w-px bg-white inline-block ">&nbsp;</span>
+      </a>
       {/* Background image */}
       <Image
         src={backgroundImageUrl}
@@ -66,9 +75,9 @@ export default async function Contact({ params }: ContactPageProps) {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.1)_0%,rgba(0,0,0,0)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,0)_100%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
-        <Container className="h-full text-white flex flex-col gap-2">
+        <Container className="h-full text-white flex flex-col gap-2 lg:px-30">
           <div className="w-full md:max-w-[60%]">
             {/* Page Title */}
 

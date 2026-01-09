@@ -1,11 +1,12 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper";
+import { splitTextDualColor } from "@/lib/utils";
 
 interface TeamMember {
   id: string;
@@ -41,63 +42,81 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden">
+    <div className="flex flex-col h-full w-full overflow-hidden lg:mt-9">
       <div className="flex-1 min-h-0 overflow-hidden">
         <Swiper
           className="h-full w-full"
-          modules={[Navigation]}
+          modules={[Navigation, Autoplay]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
           slidesPerView={1}
           loop={members.length > 1}
           spaceBetween={20}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           style={{ overflow: "hidden" }}
         >
-          {members.map((member) => (
-            <SwiperSlide key={member.id}>
-              <div className="w-full h-full flex gap-2">
-                <div className="">
-                  {/* Designation / Role */}
-                  <h3 className="text-2xl md:text-4xl writing-mode-vertical-lr font-semibold font-orbitron rotate-180 [writing-mode:vertical-rl]">
-                    <span className="text-[#716B6D]">{member.designation}</span>
-                  </h3>
-                </div>
-                <div className="flex-1 pr-8 md:pr-0">
-                  <div className="size-full relative flex items-end">
-                    <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.9)_100%)]"></div>
-                    {/* Photo */}
-                    <Image
-                      src={member.imageUrl}
-                      fill
-                      alt={`${member.firstName} ${member.lastName}`}
-                      className="absolute object-cover"
-                    />
-                    <div className="z-20 w-full p-4">
-                      <div>
-                        {/* First Name */}
-                        <h2 className="text-3xl md:text-4xl text-[#3871C1] font-orbitron font-bold tracking-tight md:pb-2">
-                          {member.firstName}
-                        </h2>
-                      </div>
-                      <div className="text-right">
-                        {/* Last Name */}
-                        <h3 className="text-[#E5E5E5] font-orbitron font-semibold">
-                          {member.lastName}
-                        </h3>
-                        {/* Description */}
-                        {member.description && (
-                          <p className="text-[#E5E5E5] text-xs">
-                            {member.description}
-                          </p>
-                        )}
+          {members.map((member) => {
+            // Split designation into dual colors using utility function
+            const { firstPart, secondPart } = splitTextDualColor(
+              member.designation
+            );
+
+            return (
+              <SwiperSlide key={member.id}>
+                <div className="w-full h-full flex gap-2">
+                  <div className="">
+                    {/* Designation / Role */}
+                    <h3 className="text-xl md:text-2xl writing-mode-vertical-lr font-semibold font-orbitron rotate-180 [writing-mode:vertical-rl]">
+                      <span className="text-[#716B6D]">{firstPart}</span>
+                      {secondPart && (
+                        <>
+                          {" "}
+                          <span className="text-[#3871C1]">{secondPart}</span>
+                        </>
+                      )}
+                    </h3>
+                  </div>
+                  <div className="flex-1 pr-8 md:pr-0">
+                    <div className="size-full relative flex items-end">
+                      <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.9)_100%)]"></div>
+                      {/* Photo */}
+                      <Image
+                        src={member.imageUrl}
+                        fill
+                        alt={`${member.firstName} ${member.lastName}`}
+                        className="absolute object-cover"
+                      />
+                      <div className="z-20 w-full p-4">
+                        <div>
+                          {/* First Name */}
+                          <h2 className="text-xl md:text-2xl text-[#3871C1] font-orbitron font-bold tracking-tight md:pb-2">
+                            {member.firstName}
+                          </h2>
+                        </div>
+                        <div className="text-right">
+                          {/* Last Name */}
+                          <h3 className="text-[#E5E5E5] font-orbitron font-semibold text-sm">
+                            {member.lastName}
+                          </h3>
+                          {/* Description */}
+                          {member.description && (
+                            <p className="text-[#E5E5E5] text-xs">
+                              {member.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
 

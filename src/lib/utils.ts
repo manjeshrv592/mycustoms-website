@@ -28,3 +28,25 @@ export function formatTitle(title: string): {
 
   return { regularPart, boldPart };
 }
+
+/**
+ * Splits text into two parts for dual-color rendering.
+ * - 1 word: all in first part
+ * - 2+ words: first half (floor division) in firstPart, rest in secondPart
+ */
+export function splitTextDualColor(text: string): {
+  firstPart: string;
+  secondPart: string;
+} {
+  const words = text.split(" ");
+
+  if (words.length < 2) {
+    return { firstPart: text, secondPart: "" };
+  }
+
+  const splitIndex = Math.floor(words.length / 2);
+  const firstPart = words.slice(0, splitIndex).join(" ");
+  const secondPart = words.slice(splitIndex).join(" ");
+
+  return { firstPart, secondPart };
+}

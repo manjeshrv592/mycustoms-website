@@ -29,11 +29,6 @@ const components: PortableTextComponents = {
               className="object-cover rounded"
             />
           </div>
-          {value.caption && (
-            <figcaption className="text-center text-sm text-gray-400 mt-2">
-              {value.caption}
-            </figcaption>
-          )}
         </figure>
       );
     },

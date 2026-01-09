@@ -1,9 +1,9 @@
 import { defineType, defineField } from "sanity";
 import { requireEnglishValue } from "../../lib/validation";
 
-export const article = defineType({
-  name: "article",
-  title: "Article",
+export const blog = defineType({
+  name: "blog",
+  title: "Blog",
   type: "document",
   fields: [
     defineField({
@@ -28,25 +28,17 @@ export const article = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "category",
-      title: "Category",
-      type: "reference",
-      to: [{ type: "resourceCategory" }],
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: "summary",
       title: "Summary",
       type: "internationalizedArrayString",
-      description: "Short summary for article cards",
+      description: "Short summary for blog cards",
       validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
       name: "content",
       title: "Content",
       type: "internationalizedArrayBlockContent",
-      description:
-        "Full article content (rich text with tabs for each language)",
+      description: "Full blog content (rich text with tabs for each language)",
       validation: (Rule) => requireEnglishValue(Rule),
     }),
     defineField({
@@ -74,8 +66,15 @@ export const article = defineType({
       name: "order",
       title: "Display Order",
       type: "number",
-      description: "Manual ordering within the category",
+      description: "Manual ordering (lower = first)",
       initialValue: 0,
+    }),
+    defineField({
+      name: "isActive",
+      title: "Active",
+      type: "boolean",
+      description: "Only active blogs will be displayed on the website",
+      initialValue: true,
     }),
   ],
   orderings: [
@@ -93,16 +92,17 @@ export const article = defineType({
   preview: {
     select: {
       title: "title",
-      category: "category.key",
       media: "image",
       date: "publishedAt",
+      isActive: "isActive",
     },
-    prepare({ title, category, media, date }) {
-      const displayTitle = title?.[0]?.value || "Untitled Article";
+    prepare({ title, media, date, isActive }) {
+      const displayTitle = title?.[0]?.value || "Untitled Blog";
       const formattedDate = date ? new Date(date).toLocaleDateString() : "";
+      const status = isActive === false ? "🔴 " : "";
       return {
-        title: displayTitle,
-        subtitle: `${category || "No category"} • ${formattedDate}`,
+        title: `${status}${displayTitle}`,
+        subtitle: formattedDate,
         media,
       };
     },

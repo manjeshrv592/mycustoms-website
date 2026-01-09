@@ -11,8 +11,6 @@ interface SearchResult {
   title: string;
   summary: string;
   slug: string;
-  categorySlug: string;
-  categoryTitle: string;
 }
 
 interface ResourcesSearchProps {
@@ -146,7 +144,7 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
                 {results.map((result) => (
                   <li key={result.id}>
                     <Link
-                      href={`/${lang}/resources/${result.categorySlug}/${result.slug}`}
+                      href={`/${lang}/resources/blogs/${result.slug}`}
                       onClick={handleResultClick}
                       className="block px-4 py-2 hover:bg-white/10 transition-colors"
                     >
@@ -154,7 +152,7 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
                         {result.title}
                       </div>
                       <div className="text-gray-400 text-[10px] truncate">
-                        {result.categoryTitle}
+                        Blog
                       </div>
                     </Link>
                   </li>

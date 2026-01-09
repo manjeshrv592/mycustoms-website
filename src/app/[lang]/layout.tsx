@@ -2,10 +2,7 @@ import PrimaryNav from "@/components/layouts/PrimaryNav";
 import Header from "@/components/layouts/Header";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
-import {
-  getFirstServiceSlug,
-  getFirstArticleSlugByCategory,
-} from "@/sanity/queries";
+import { getFirstServiceSlug, getFirstBlogSlug } from "@/sanity/queries";
 import { Toaster } from "@/components/ui/sonner";
 import { ViewTransitions } from "next-view-transitions";
 import { NavigationProvider } from "@/context/NavigationContext";
@@ -42,7 +39,7 @@ export default async function LangLayout({
   // Fetch first slugs for direct navigation (SSG-compatible)
   const [firstServiceSlug, firstBlogSlug] = await Promise.all([
     getFirstServiceSlug(),
-    getFirstArticleSlugByCategory("blogs"),
+    getFirstBlogSlug(),
   ]);
 
   return (

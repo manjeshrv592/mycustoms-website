@@ -8,6 +8,9 @@ const singletonTypes = new Set([
   "contactPage",
   "servicesPage",
   "resourcesPage",
+  "euVatCompliancePage",
+  "guideToCustomsPage",
+  "fiscalRepresentationPage",
 ]);
 
 // Define singleton document actions (only publish)
@@ -92,6 +95,30 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("resourcesPage")
                     .documentId("resourcesPage")
                 ),
+              S.listItem()
+                .title("EU VAT Compliance Page")
+                .id("euVatCompliancePage")
+                .child(
+                  S.document()
+                    .schemaType("euVatCompliancePage")
+                    .documentId("euVatCompliancePage")
+                ),
+              S.listItem()
+                .title("Guide to Customs Page")
+                .id("guideToCustomsPage")
+                .child(
+                  S.document()
+                    .schemaType("guideToCustomsPage")
+                    .documentId("guideToCustomsPage")
+                ),
+              S.listItem()
+                .title("Fiscal Representation Page")
+                .id("fiscalRepresentationPage")
+                .child(
+                  S.document()
+                    .schemaType("fiscalRepresentationPage")
+                    .documentId("fiscalRepresentationPage")
+                ),
             ])
         ),
 
@@ -105,15 +132,6 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // Resources
-      S.listItem()
-        .title("Resources")
-        .child(
-          S.list()
-            .title("Resources")
-            .items([
-              S.documentTypeListItem("resourceCategory").title("Categories"),
-              S.documentTypeListItem("article").title("Articles"),
-            ])
-        ),
+      // Blogs
+      S.documentTypeListItem("blog").title("Blogs"),
     ]);

@@ -77,7 +77,7 @@ export default async function Portal({ params }: PortalPageProps) {
         className="object-cover filter brightness-30"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">
           <div className="flex flex-col min-h-0">
@@ -123,11 +123,16 @@ export default async function Portal({ params }: PortalPageProps) {
                   </PrimaryButton>
                 </a>
               ) : (
-                <Link href={ctaButtonLink} className="mt-4 mx-auto">
+                <a
+                  href={"https://my-customs.nl/"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 mx-auto"
+                >
                   <PrimaryButton className="text-[#E5E5E5]">
                     {ctaButtonText}
                   </PrimaryButton>
-                </Link>
+                </a>
               )}
             </div>
             <div className="flex-1 relative hidden md:block">

@@ -22,13 +22,17 @@ export { getAboutPage } from "./about";
 // Team queries
 export { getAllTeamMembers } from "./team";
 
-// Resources queries
+// Blog queries
 export {
-  getAllResourceCategories,
-  getFirstCategorySlug,
-  getArticlesByCategory,
-  getFirstArticleSlugByCategory,
-  getArticleBySlug,
-  getAllArticleSlugsWithCategories,
-  getAllCategorySlugs,
+  getAllBlogs,
+  getFirstBlogSlug,
+  getBlogBySlug,
+  getAllBlogSlugs,
 } from "./resources";
+
+// Resource page queries
+export {
+  getEuVatCompliancePage,
+  getGuideToCustomsPage,
+  getFiscalRepresentationPage,
+} from "./resourcePages";

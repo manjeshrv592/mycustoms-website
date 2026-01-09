@@ -37,10 +37,21 @@ const ContactInfoSection = ({
             fill
             className="object-cover absolute"
           />
-          <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs">
-            <div>Based at</div>
-            {/* Address */}
-            {address && <div>{address}</div>}
+          <div className="z-20 text-white relative border border-white py-1 px-4 rounded-lg bg-black/10 backdrop-blur-[5px] flex-1 text-xs grid grid-cols-[1fr_max-content] items-center">
+            <div>
+              <div className="">Based at</div>
+              {/* Address */}
+              {address && <div>{address}</div>}
+            </div>
+            <div className="">
+              <a
+                className="text-[#3871c1] font-bold border-b border-[#3871c1]"
+                target="_blank"
+                href="https://www.google.com/maps"
+              >
+                View on map
+              </a>
+            </div>
           </div>
         </div>
       </div>

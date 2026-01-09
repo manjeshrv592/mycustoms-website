@@ -7,10 +7,20 @@ import { toast } from "sonner";
 import PrimaryButton from "@/components/custom-ui/PrimaryButton";
 import PrimaryInput from "@/components/custom-ui/PrimaryInput";
 import PrimaryTextarea from "@/components/custom-ui/PrimaryTextarea";
+import PrimarySelect from "@/components/custom-ui/PrimarySelect";
 import { Label } from "@/components/ui/label";
 import { Button } from "../ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useContactForm } from "@/context/ContactFormContext";
+
+// Service options for the select dropdown
+const SERVICE_OPTIONS = [
+  { value: "Import declaration", label: "Import declaration" },
+  { value: "Export declaration", label: "Export declaration" },
+  { value: "Fiscal representation", label: "Fiscal representation" },
+  { value: "Transit", label: "Transit" },
+  { value: "Consulting", label: "Consulting" },
+];
 
 // Zod validation schema
 const contactFormSchema = z.object({
@@ -31,6 +41,8 @@ const ContactForm = () => {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -156,11 +168,14 @@ const ContactForm = () => {
           <Label className="text-xs" htmlFor="service">
             Select Service
           </Label>
-          <PrimaryInput
-            type="text"
+          <PrimarySelect
             id="service"
+            options={SERVICE_OPTIONS}
             placeholder="Choose a service"
-            {...register("service")}
+            value={watch("service")}
+            onValueChange={(value) =>
+              setValue("service", value, { shouldValidate: true })
+            }
           />
           {errors.service && (
             <p className="text-red-400 text-xs mt-1">

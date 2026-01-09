@@ -76,10 +76,10 @@ export default async function About({ params }: AboutPageProps) {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.8)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.9)_100%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_33%)] opacity-50"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full">
-          <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-4 h-full ">
+          <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-24 h-full ">
             <div className="flex flex-col">
               <div className="md:flex-1 md:pl-20 ">
                 {/* Page Title */}

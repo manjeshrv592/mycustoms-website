@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { client } from "@/sanity/lib/client";
 
 /**
- * Search articles by query string
+ * Search blogs by query string
  * Searches in title and summary fields
  */
 export async function GET(request: NextRequest) {
@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // GROQ query to search articles by title
-    const searchQuery = `*[_type == "article" && (
+    // GROQ query to search blogs by title and summary
+    const searchQuery = `*[_type == "blog" && isActive == true && (
       title[_key == $lang].value match $searchTerm ||
       title[_key == "en"].value match $searchTerm ||
       summary[_key == $lang].value match $searchTerm ||
@@ -26,9 +26,7 @@ export async function GET(request: NextRequest) {
       _id,
       title,
       slug,
-      summary,
-      "categorySlug": category->slug.current,
-      "categoryTitle": category->title
+      summary
     }`;
 
     const results = await client.fetch(searchQuery, {
@@ -39,35 +37,27 @@ export async function GET(request: NextRequest) {
 
     // Transform results for the frontend
     const transformedResults = results.map(
-      (article: {
+      (blog: {
         _id: string;
         title?: Array<{ _key: string; value: string }>;
         slug: { current: string };
         summary?: Array<{ _key: string; value: string }>;
-        categorySlug: string;
-        categoryTitle?: Array<{ _key: string; value: string }>;
       }) => {
         const title =
-          article.title?.find((t) => t._key === lang)?.value ||
-          article.title?.find((t) => t._key === "en")?.value ||
+          blog.title?.find((t) => t._key === lang)?.value ||
+          blog.title?.find((t) => t._key === "en")?.value ||
           "Untitled";
         const summary =
-          article.summary?.find((s) => s._key === lang)?.value ||
-          article.summary?.find((s) => s._key === "en")?.value ||
-          "";
-        const categoryTitle =
-          article.categoryTitle?.find((c) => c._key === lang)?.value ||
-          article.categoryTitle?.find((c) => c._key === "en")?.value ||
+          blog.summary?.find((s) => s._key === lang)?.value ||
+          blog.summary?.find((s) => s._key === "en")?.value ||
           "";
 
         return {
-          id: article._id,
+          id: blog._id,
           title,
           summary:
             summary.length > 80 ? `${summary.substring(0, 80)}...` : summary,
-          slug: article.slug.current,
-          categorySlug: article.categorySlug,
-          categoryTitle,
+          slug: blog.slug.current,
         };
       }
     );

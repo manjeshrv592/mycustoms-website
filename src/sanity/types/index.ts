@@ -14,8 +14,9 @@ export type { PortalPageData } from "./portal";
 export type { ContactPageData } from "./contact";
 export type { AboutPageData } from "./about";
 export type { TeamMemberData } from "./team";
+export type { BlogData } from "./resources";
 export type {
-  ResourceCategoryData,
-  ArticleData,
-  ArticleWithCategorySlug,
-} from "./resources";
+  EuVatCompliancePageData,
+  GuideToCustomsPageData,
+  FiscalRepresentationPageData,
+} from "./resourcePages";
