@@ -32,7 +32,6 @@ export default function Header() {
               height={95}
               className="w-[48px] h-auto"
             />
-            <PrimaryButton>Contact Us</PrimaryButton>
           </div>
         )}
         <LanguageSelector />

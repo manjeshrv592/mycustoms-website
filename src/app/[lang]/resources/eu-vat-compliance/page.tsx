@@ -64,7 +64,7 @@ export default async function EuVatCompliancePage({
                 &nbsp;
               </span>
               <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
-                {label}
+                resources
               </span>
             </div>
 

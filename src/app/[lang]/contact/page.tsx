@@ -58,7 +58,7 @@ export default async function Contact({ params }: ContactPageProps) {
   const email = contactData.email || "";
 
   return (
-    <section className="h-screen pt-[10vh] pb-2 md:pt-[12vh] relative">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-11 md:pt-[12vh] relative">
       <a
         target="_blank"
         href="https://linkedin.com"
@@ -81,7 +81,7 @@ export default async function Contact({ params }: ContactPageProps) {
           <div className="w-full md:max-w-[60%]">
             {/* Page Title */}
 
-            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift font-bold">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift font-bold mb-2">
               {title}
             </h1>
             {/* Description */}

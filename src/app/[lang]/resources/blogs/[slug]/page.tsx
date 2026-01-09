@@ -104,7 +104,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
             &nbsp;
           </span>
           <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
-            Blogs
+            Resources
           </span>
         </div>
 
