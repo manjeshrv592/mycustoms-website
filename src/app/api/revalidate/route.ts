@@ -20,6 +20,10 @@ const documentTagMap: Record<string, string[]> = {
   teamMember: ["teamMembers", "teamMember"],
   resourceCategory: ["resourceCategories"],
   article: ["articles", "article"],
+  blog: ["blog"],
+  euVatCompliancePage: ["euVatCompliancePage"],
+  guideToCustomsPage: ["guideToCustomsPage"],
+  fiscalRepresentationPage: ["fiscalRepresentationPage"],
 };
 
 /**
@@ -36,6 +40,10 @@ const documentPathMap: Record<string, string[]> = {
   service: ["/services"],
   teamMember: ["/about"],
   article: ["/resources"],
+  blog: ["/resources"],
+  euVatCompliancePage: ["/resources/eu-vat-compliance"],
+  guideToCustomsPage: ["/resources/guide-to-customs"],
+  fiscalRepresentationPage: ["/resources/fiscal-representation"],
 };
 
 export async function POST(req: NextRequest) {
