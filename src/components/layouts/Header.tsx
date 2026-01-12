@@ -8,6 +8,7 @@ import PrimaryButton from "../custom-ui/PrimaryButton";
 
 export default function Header() {
   const isHomePage = useIsCurrentPath("/");
+  const isContactPage = useIsCurrentPath("/contact");
 
   return (
     <header
@@ -32,6 +33,7 @@ export default function Header() {
               height={95}
               className="w-[48px] h-auto"
             />
+            {!isContactPage && <PrimaryButton>Contact Us</PrimaryButton>}
           </div>
         )}
         <LanguageSelector />

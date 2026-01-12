@@ -89,7 +89,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       : null;
 
   return (
-    <section className="h-screen relative pt-[10vh] pb-2 md:py-[12vh]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
@@ -104,7 +104,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <Container className="h-full flex flex-col gap-4">
           {/* Header */}
           <div>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;
               </span>
@@ -164,15 +164,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 )}
               </div>
             </div>
-            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift">
+            <h1 className="h1 text-white font-grift">
               {regularPart && (
-                <span className="font-normal">{regularPart} </span>
+                <span className="font-light">{regularPart} </span>
               )}
               <span className="font-bold">{boldPart}</span>
             </h1>
-            <h3 className="text-white text-sm md:text-base xl:text-lg">
-              {serviceSummary}
-            </h3>
+            <h3 className="text-white h3">{serviceSummary}</h3>
           </div>
 
           {/* Content Grid */}

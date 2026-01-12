@@ -68,7 +68,7 @@ export default async function Portal({ params }: PortalPageProps) {
     : "/images/team/portal-image.jpg";
 
   return (
-    <section className="h-screen pt-[10vh] pb-2 md:py-[12vh]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
@@ -82,7 +82,7 @@ export default async function Portal({ params }: PortalPageProps) {
         <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">
           <div className="flex flex-col min-h-0">
             <div>
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4">
                 <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                   &nbsp;
                 </span>
@@ -91,24 +91,26 @@ export default async function Portal({ params }: PortalPageProps) {
                 </span>
               </div>
 
-              <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift mt-2 md:mt-4">
-                {regularPart && <span className="">{regularPart} </span>}
+              <h1 className="h1 text-white font-grift">
+                {regularPart && (
+                  <span className="font-light">{regularPart} </span>
+                )}
                 <span className="font-bold">{boldPart}</span>
               </h1>
             </div>
             {/* Main content rich text - scrollable */}
-            <div className="flex-1 min-h-0 mt-2 md:mt-4 overflow-y-auto custom-scrollbar pr-4">
-              <div className="text-[#E5E5E5] text-xs leading-loose text-justify">
+            <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-4">
+              <div className="text-[#E5E5E5] leading-loose text-justify">
                 <PortableTextContent value={content} />
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-center flex-col text-center py-4 md:py-10 px-10 md:px-20">
-              <h3 className="text-xl md:text-2xl lg:text-3xl text-[#3871C1]">
+          <div className="flex flex-col gap-2 justify-center">
+            <div className="flex justify-center flex-col text-center lg:mb-4">
+              <h3 className="text-[clamp(1.5rem,calc(2.21vw-0.137rem),100vw)] text-[#3871C1] leading-0 mb-4 2xl:mb-6">
                 {sidePanelTitle}
               </h3>
-              <p className="text-xs text-[#E5E5E5] mt-4 leading-[20px]">
+              <p className=" text-[#E5E5E5] leading-loose mb-2">
                 {sidePanelDescription}
               </p>
               {ctaButtonIsExternal ? (
@@ -116,7 +118,7 @@ export default async function Portal({ params }: PortalPageProps) {
                   href={ctaButtonLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 mx-auto"
+                  className="mx-auto"
                 >
                   <PrimaryButton className="text-[#E5E5E5]">
                     {ctaButtonText}
@@ -127,7 +129,7 @@ export default async function Portal({ params }: PortalPageProps) {
                   href={"https://my-customs.nl/"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 mx-auto"
+                  className="mx-auto"
                 >
                   <PrimaryButton className="text-[#E5E5E5]">
                     {ctaButtonText}
@@ -135,7 +137,7 @@ export default async function Portal({ params }: PortalPageProps) {
                 </a>
               )}
             </div>
-            <div className="flex-1 relative hidden md:block">
+            <div className="relative hidden md:block h-[calc(20vw-0.12rem)]">
               {/* Side panel image */}
               <Image
                 src={sidePanelImageUrl}

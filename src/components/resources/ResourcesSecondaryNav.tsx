@@ -45,7 +45,7 @@ export default async function ResourcesSecondaryNav({
 
   return (
     <div className="flex justify-center order-1 md:order-0">
-      <div className="md:border-white/50 md:border rounded-full grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8 p-1">
+      <div className="rounded-full grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8 p-1">
         {NAV_ITEMS.map((item) => {
           const isActive = item.key === currentPage;
 

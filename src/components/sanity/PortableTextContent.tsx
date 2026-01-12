@@ -26,7 +26,7 @@ const components: PortableTextComponents = {
               src={urlFor(value).url()}
               alt={value.alt || ""}
               fill
-              className="object-cover rounded"
+              className="object-cover"
             />
           </div>
         </figure>

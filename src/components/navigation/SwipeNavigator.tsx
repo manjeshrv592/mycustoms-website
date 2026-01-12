@@ -125,6 +125,7 @@ export default function SwipeNavigator() {
 
       // Get target path
       const targetPath = PAGE_ORDER[clampedIndex];
+
       const currentLocale = getCurrentLocale();
 
       // Build localized path
