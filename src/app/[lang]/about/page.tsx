@@ -79,7 +79,7 @@ export default async function About({ params }: AboutPageProps) {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full">
-          <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-24 h-full ">
+          <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-4 lg:gap-24 h-full ">
             <div className="flex flex-col">
               <div className="md:flex-1 ">
                 <div className="flex items-center gap-4">
