@@ -54,6 +54,7 @@ export default async function Contact({ params }: ContactPageProps) {
 
   // Get contact info
   const address = contactData.address || "";
+  const mapLink = contactData.mapLink || "https://www.google.com/maps";
   const phone = contactData.phone || "";
   const email = contactData.email || "";
 
@@ -101,6 +102,7 @@ export default async function Contact({ params }: ContactPageProps) {
               <ContactInfoSection
                 contactImageUrl={contactImageUrl}
                 address={address}
+                mapLink={mapLink}
                 phone={phone}
                 email={email}
               />

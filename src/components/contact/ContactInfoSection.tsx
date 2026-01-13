@@ -7,6 +7,7 @@ import Image from "next/image";
 interface ContactInfoSectionProps {
   contactImageUrl: string;
   address: string;
+  mapLink: string;
   phone: string;
   email: string;
 }
@@ -14,6 +15,7 @@ interface ContactInfoSectionProps {
 const ContactInfoSection = ({
   contactImageUrl,
   address,
+  mapLink,
   phone,
   email,
 }: ContactInfoSectionProps) => {
@@ -46,7 +48,7 @@ const ContactInfoSection = ({
               <a
                 className="text-[#3871c1] font-bold border-b border-[#3871c1]"
                 target="_blank"
-                href="https://www.google.com/maps"
+                href={mapLink}
               >
                 View on map
               </a>

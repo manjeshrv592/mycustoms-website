@@ -44,6 +44,12 @@ export const contactPage = defineType({
       description: "Physical address (not localized)",
     }),
     defineField({
+      name: "mapLink",
+      title: "Map Link",
+      type: "url",
+      description: "Google Maps link for the 'View on map' button",
+    }),
+    defineField({
       name: "phone",
       title: "Phone Number",
       type: "string",

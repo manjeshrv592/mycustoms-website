@@ -12,6 +12,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   description,
   contactImage,
   address,
+  mapLink,
   phone,
   email
 }`;

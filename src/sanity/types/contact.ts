@@ -11,6 +11,7 @@ export interface ContactPageData {
   description?: LocalizedString[];
   contactImage?: SanityImageField;
   address?: string;
+  mapLink?: string;
   phone?: string;
   email?: string;
 }
