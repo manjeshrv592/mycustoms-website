@@ -72,7 +72,7 @@ export default async function Home({ params }: HomePageProps) {
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.4)_100%)]"></div>
       <div className="text-center relative z-20">
-        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col md:flex-row md:gap-3 justify-center">
+        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col md:flex-row md:gap-3 justify-center xl:leading-18">
           <span className="text-[#66BD5A] text-[clamp(1.5rem,calc(0.316rem+5.26vw),100vw)] lg:text-[clamp(3rem,calc(2.21rem+3.51vw),100vw)]">
             {titleLine1}
           </span>
