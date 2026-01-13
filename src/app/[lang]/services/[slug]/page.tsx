@@ -88,6 +88,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
       ? allServices[currentIndex + 1]
       : null;
 
+  // Service image URL
+  const serviceImageUrl = service.image ? urlFor(service.image).url() : null;
+
   return (
     <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
       {/* Background Image */}
@@ -112,7 +115,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 {pageLabel}
               </span>
             </div>
-            <div className="my-2 md:hidden flex items-center gap-4 justify-between mb-4">
+            <div className="my-2 md:hidden flex items-center gap-4 justify-between">
               <Link
                 href={`/${currentLang}/services`}
                 className="text-white text-sm border-b-white border-b"
@@ -178,6 +181,17 @@ export default async function ServicePage({ params }: ServicePageProps) {
             <div className="md:grid md:grid-cols-[3fr_2fr] gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
               <div className="text-xs h-full overflow-y-auto min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
+                {/* Service image */}
+                {serviceImageUrl && (
+                  <div className="h-[120px] md:h-[200px] 2xl:h-[15vw] relative mb-4">
+                    <Image
+                      src={serviceImageUrl}
+                      fill
+                      alt={serviceTitle}
+                      className="object-cover"
+                    />
+                  </div>
+                )}
                 <PortableTextContent value={serviceContent} />
               </div>
 
