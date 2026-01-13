@@ -67,7 +67,7 @@ export default async function About({ params }: AboutPageProps) {
   }));
 
   return (
-    <section className=" h-screen text-black pt-[10vh] pb-2 md:py-[12vh]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
@@ -82,18 +82,24 @@ export default async function About({ params }: AboutPageProps) {
           <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-24 h-full ">
             <div className="flex flex-col">
               <div className="md:flex-1 ">
+                <div className="flex items-center gap-4">
+                  <span className="inline-block h-px w-[50px] bg-[#7ED957]">
+                    &nbsp;
+                  </span>
+                  <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
+                    about
+                  </span>
+                </div>
                 {/* Page Title */}
-                <h1 className="text-[#3871C1] text-2xl md:text-3xl xl:text-4xl font-bold md:mb-5 font-grift">
+                {/* <h1 className="text-[#3871C1] text-2xl md:text-3xl xl:text-4xl font-bold md:mb-5 font-grift">
                   {title}
-                </h1>
+                </h1> */}
                 {/* About Description */}
                 {description && (
-                  <p className="text-[#E5E5E5] text-xs md:text-sm md:mb-5">
-                    {description}
-                  </p>
+                  <p className="text-[#E5E5E5] md:mb-5 mt-2">{description}</p>
                 )}
               </div>
-              <div className="md:flex-1 flex flex-col md:flex-row gap-4 md:gap-10 relative after:content-[''] after:absolute after:-bottom-2 after:rotate-90 after:-translate-y-[45%] md:after:rotate-0 after:left-1/2 after:translate-x-[20px] after:h-[50%] md:after:h-[45%] after:w-px after:bg-white rounded-full after:top-1/2 md:after:-translate-y-1/6">
+              <div className="md:flex-1 flex flex-col md:flex-row gap-4 md:gap-10 relative after:hidden after:md:block after:absolute after:contente-[''] after:bg-white after:h-px after:w-[100px] after:left-1/2 after:-translate-x-1/2 md:after:rotate-90 after:top-1/2 after:-translate-y-1/2">
                 <div className="md:flex-1 items-start">
                   {/* Vision Title */}
                   <h3 className="text-[#3871C1] text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-right font-grift">
@@ -101,7 +107,7 @@ export default async function About({ params }: AboutPageProps) {
                   </h3>
                   {/* Vision Description */}
                   {visionDescription && (
-                    <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
+                    <p className="text-[#E5E5E5] text-justify">
                       {visionDescription}
                     </p>
                   )}
@@ -113,7 +119,7 @@ export default async function About({ params }: AboutPageProps) {
                   </h3>
                   {/* Mission Description */}
                   {missionDescription && (
-                    <p className="text-[#E5E5E5] text-xs md:text-sm text-justify">
+                    <p className="text-[#E5E5E5] text-justify">
                       {missionDescription}
                     </p>
                   )}

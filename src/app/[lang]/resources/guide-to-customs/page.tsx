@@ -57,7 +57,7 @@ export default async function GuideToCustomsPage({
       />
 
       <div className="flex-1 min-h-0 grid grid-cols-[1fr] md:grid-cols-[2fr_1fr] gap-4 md:gap-16 mt-4">
-        <div className="flex flex-col min-h-0">
+        <div className="flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
           <div>
             <div className="flex items-center gap-4 mb-4">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
@@ -74,14 +74,14 @@ export default async function GuideToCustomsPage({
             </h1>
           </div>
           {/* Main content - scrollable */}
-          <div className="flex-1 min-h-0 mt-2 md:mt-4 overflow-y-auto custom-scrollbar pr-4">
+          <div className="flex-1 min-h-0 mt-2 md:mt-4  pr-4">
             <div className="text-[#E5E5E5] text-xs leading-loose text-justify">
               <PortableTextContent value={content} />
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 justify-end">
-          <div className="h-[300px] relative hidden md:block">
+        <div className="flex flex-col gap-2 justify-center">
+          <div className="h-[calc(3.73rem+17.6vw)] relative hidden md:block">
             {/* Side panel image */}
             <Image
               src={sidePanelImageUrl}

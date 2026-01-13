@@ -81,11 +81,9 @@ export default async function Contact({ params }: ContactPageProps) {
           <div className="w-full md:max-w-[60%]">
             {/* Page Title */}
 
-            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift font-bold mb-2">
-              {title}
-            </h1>
+            <h1 className="h1 text-white font-grift font-bold mb-2">{title}</h1>
             {/* Description */}
-            {description && <p className="text-xs">{description}</p>}
+            {description && <p>{description}</p>}
           </div>
           <ContactFormProvider>
             <div className="md:grid md:grid-cols-2 flex-1 md:gap-12">

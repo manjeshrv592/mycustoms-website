@@ -76,12 +76,10 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col max-w-[400px] gap-3 max-h-[70dvh] md:max-h-none overflow-y-auto md:overflow-visible"
+      className="flex flex-col max-w-[400px] gap-3 max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
     >
-      <div>
-        <Label className="text-xs" htmlFor="name">
-          Name
-        </Label>
+      <div className="2xl:mb-[1vw]">
+        <Label htmlFor="name">Name</Label>
         <PrimaryInput
           type="text"
           id="name"
@@ -94,7 +92,7 @@ const ContactForm = () => {
           }}
         />
         {errors.name && (
-          <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
+          <p className="text-red-400  mt-1">{errors.name.message}</p>
         )}
       </div>
       <div
@@ -113,12 +111,12 @@ const ContactForm = () => {
         </Button>
       </div>
       <div
-        className={`flex flex-col gap-3 transition-opacity duration-500 ${
+        className={`2xl:flex-1 flex flex-col gap-3 transition-opacity duration-500 ${
           isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
         }`}
       >
-        <div>
-          <Label className="text-xs" htmlFor="email">
+        <div className="2xl:mb-[1vw]">
+          <Label className="" htmlFor="email">
             Email
           </Label>
           <PrimaryInput
@@ -128,12 +126,12 @@ const ContactForm = () => {
             {...register("email")}
           />
           {errors.email && (
-            <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+            <p className="text-red-400  mt-1">{errors.email.message}</p>
           )}
         </div>
 
-        <div>
-          <Label className="text-xs" htmlFor="phone">
+        <div className="2xl:mb-[1vw]">
+          <Label className="" htmlFor="phone">
             Phone Number
           </Label>
           <PrimaryInput
@@ -143,12 +141,12 @@ const ContactForm = () => {
             {...register("phone")}
           />
           {errors.phone && (
-            <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>
+            <p className="text-red-400  mt-1">{errors.phone.message}</p>
           )}
         </div>
 
-        <div>
-          <Label className="text-xs" htmlFor="company">
+        <div className="2xl:mb-[1vw]">
+          <Label className="" htmlFor="company">
             Company Name
           </Label>
           <PrimaryInput
@@ -158,14 +156,12 @@ const ContactForm = () => {
             {...register("company")}
           />
           {errors.company && (
-            <p className="text-red-400 text-xs mt-1">
-              {errors.company.message}
-            </p>
+            <p className="text-red-400  mt-1">{errors.company.message}</p>
           )}
         </div>
 
-        <div>
-          <Label className="text-xs" htmlFor="service">
+        <div className="2xl:mb-[1vw]">
+          <Label className="" htmlFor="service">
             Select Service
           </Label>
           <PrimarySelect
@@ -178,17 +174,16 @@ const ContactForm = () => {
             }
           />
           {errors.service && (
-            <p className="text-red-400 text-xs mt-1">
-              {errors.service.message}
-            </p>
+            <p className="text-red-400  mt-1">{errors.service.message}</p>
           )}
         </div>
 
-        <div>
-          <Label className="text-xs" htmlFor="message">
+        <div className="2xl:mb-[1vw] 2xl:flex-1 flex flex-col">
+          <Label className="" htmlFor="message">
             Message <span className="text-gray-400">(optional)</span>
           </Label>
           <PrimaryTextarea
+            className="2xl:flex-1"
             id="message"
             rows={1}
             placeholder="Tell us more about your requirements..."

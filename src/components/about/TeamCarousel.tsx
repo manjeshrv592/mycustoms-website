@@ -105,7 +105,7 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
                           </h3>
                           {/* Description */}
                           {member.description && (
-                            <p className="text-[#E5E5E5] text-xs">
+                            <p className="text-[#E5E5E5]">
                               {member.description}
                             </p>
                           )}

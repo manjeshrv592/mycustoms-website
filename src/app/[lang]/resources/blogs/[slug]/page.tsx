@@ -94,12 +94,12 @@ export default async function BlogPage({ params }: BlogPageProps) {
     : null;
 
   return (
-    <Container className="h-full flex flex-col gap-4">
+    <Container className="h-full flex flex-col">
       {/* Secondary Navigation */}
       <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />
 
-      <div className="flex items-center md:max-w-[60%] md:pr-10 gap-2">
-        <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center md:w-[65%] gap-2 mt-4">
+        <div className="flex items-center gap-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
           </span>
@@ -109,7 +109,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
         </div>
 
         <div className="ml-auto">
-          <span className="text-white text-sm">
+          <span className="text-white">
             {String(currentPosition).padStart(2, "0")} /{" "}
             {String(totalBlogs).padStart(2, "0")}
           </span>
@@ -161,9 +161,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
           {/* Blog Content */}
           <div className=" h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose  text-xs">
             {/* Blog title */}
-            <h1 className="text-2xl md:text-3xl xl:text-4xl text-white font-grift mb-2 md:mb-4">
+            <h1 className="h1 text-white font-grift mb-2">
               {blogRegularPart && (
-                <span className="font-normal">{blogRegularPart} </span>
+                <span className="font-light">{blogRegularPart} </span>
               )}
               <span className="font-bold">{blogBoldPart}</span>
             </h1>
@@ -173,7 +173,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 src={blogImageUrl}
                 width={800}
                 height={400}
-                className="w-full h-[300px] mb-4 object-cover"
+                className="w-full h-auto mb-4 xl:h-[300px] object-cover"
                 alt={blogTitle}
               />
             )}
@@ -185,7 +185,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
           {/* Sidebar */}
           <div className="text-white hidden md:block">
-            <article className="bg-black/5 backdrop-blur-[20px] h-full w-full rounded-xl px-2 py-4 flex flex-col">
+            <article className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-4 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex gap-4">
                   {/* Previous blog */}
@@ -234,7 +234,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 <ResourcesSearch lang={lang} />
               </div>
 
-              <div className="text-right text-[#3871C1] text-xs mt-auto">
+              <div className="text-right text-[#3871C1] text-xs">
                 {/* Position */}
                 <div className="text-white text-sm mb-1 mt-2">
                   {String(
@@ -251,15 +251,19 @@ export default async function BlogPage({ params }: BlogPageProps) {
               {/* Next blog preview */}
               {nextBlog ? (
                 <>
-                  <h3 className="text-[#3871C1] mb-2">
+                  <h3 className="text-[#3871C1] mb-2 text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)]">
+                    {/* Lorem Ipsum is simply dummy text of the printing */}
                     {nextBlogTitle.length > 40
                       ? `${nextBlogTitle.substring(0, 35)}...`
                       : nextBlogTitle}
                   </h3>
-                  <p className="text-xs mb-2">
+                  <p className="text-xs mb-2 leading-loose">
                     {nextBlogSummary.length > 120
                       ? `${nextBlogSummary.substring(0, 120)}...`
                       : nextBlogSummary}
+                    {/* Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s */}
                   </p>
                   <Image
                     src={nextBlogImageUrl}
