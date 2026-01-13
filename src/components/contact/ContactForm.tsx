@@ -76,7 +76,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col max-w-[400px] gap-3 max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
+      className="flex flex-col max-w-[400px] gap-4 max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
     >
       <div className="2xl:mb-[1vw]">
         <Label htmlFor="name">Name</Label>
@@ -111,7 +111,7 @@ const ContactForm = () => {
         </Button>
       </div>
       <div
-        className={`2xl:flex-1 flex flex-col gap-3 transition-opacity duration-500 ${
+        className={`2xl:flex-1 flex flex-col gap-4 transition-opacity duration-500 ${
           isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
         }`}
       >

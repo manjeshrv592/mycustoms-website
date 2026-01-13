@@ -81,7 +81,7 @@ export default async function About({ params }: AboutPageProps) {
         <Container className="h-full">
           <div className="flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-4 lg:gap-24 h-full ">
             <div className="flex flex-col">
-              <div className="md:flex-1 ">
+              <div className="md:flex-1">
                 <div className="flex items-center gap-4">
                   <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                     &nbsp;
@@ -91,12 +91,12 @@ export default async function About({ params }: AboutPageProps) {
                   </span>
                 </div>
                 {/* Page Title */}
-                {/* <h1 className="text-[#3871C1] text-2xl md:text-3xl xl:text-4xl font-bold md:mb-5 font-grift">
+                {/* <h1 className="text-[#3871C1] h1 font-bold font-grift">
                   {title}
                 </h1> */}
                 {/* About Description */}
                 {description && (
-                  <p className="text-[#E5E5E5] md:mb-5 mt-2">{description}</p>
+                  <p className="text-[#E5E5E5] md:mb-5">{description}</p>
                 )}
               </div>
               <div className="md:flex-1 flex flex-col md:flex-row gap-4 md:gap-10 relative after:hidden after:md:block after:absolute after:contente-[''] after:bg-white after:h-px after:w-[100px] after:left-1/2 after:-translate-x-1/2 md:after:rotate-90 after:top-1/2 after:-translate-y-1/2">
