@@ -100,3 +100,63 @@ export async function getAllBlogSlugs(): Promise<string[]> {
 
   return blogs.map((blog) => blog.slug?.current).filter(Boolean);
 }
+
+// ============================================
+// RESOURCES GRID DATA
+// ============================================
+
+export interface ResourcesGridData {
+  firstBlogImage: { asset: { _ref: string }; alt?: string } | null;
+  firstBlogSlug: string | null;
+  euVatImage: { asset: { _ref: string }; alt?: string } | null;
+  guideToCustomsImage: { asset: { _ref: string }; alt?: string } | null;
+  fiscalRepImage: { asset: { _ref: string }; alt?: string } | null;
+}
+
+/**
+ * Fetch all images needed for resources grid on mobile
+ */
+export async function getResourcesGridData(): Promise<ResourcesGridData> {
+  const result = await client.fetch<{
+    firstBlog: {
+      image: { asset: { _ref: string }; alt?: string } | null;
+      slug: { current: string };
+    } | null;
+    euVat: {
+      sidePanelImage: { asset: { _ref: string }; alt?: string } | null;
+    } | null;
+    guideToCustoms: {
+      sidePanelImage: { asset: { _ref: string }; alt?: string } | null;
+    } | null;
+    fiscalRep: {
+      sidePanelImage: { asset: { _ref: string }; alt?: string } | null;
+    } | null;
+  }>(
+    `{
+      "firstBlog": *[_type == "blog" && isActive == true] | order(order asc, publishedAt desc)[0]{ image, slug },
+      "euVat": *[_type == "euVatCompliancePage"][0]{ sidePanelImage },
+      "guideToCustoms": *[_type == "guideToCustomsPage"][0]{ sidePanelImage },
+      "fiscalRep": *[_type == "fiscalRepresentationPage"][0]{ sidePanelImage }
+    }`,
+    {},
+    {
+      next: {
+        revalidate: process.env.NODE_ENV === "production" ? 60 : 0,
+        tags: [
+          "blog",
+          "euVatCompliancePage",
+          "guideToCustomsPage",
+          "fiscalRepresentationPage",
+        ],
+      },
+    }
+  );
+
+  return {
+    firstBlogImage: result.firstBlog?.image || null,
+    firstBlogSlug: result.firstBlog?.slug?.current || null,
+    euVatImage: result.euVat?.sidePanelImage || null,
+    guideToCustomsImage: result.guideToCustoms?.sidePanelImage || null,
+    fiscalRepImage: result.fiscalRep?.sidePanelImage || null,
+  };
+}

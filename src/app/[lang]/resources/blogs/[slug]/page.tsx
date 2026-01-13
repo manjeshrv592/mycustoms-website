@@ -95,10 +95,12 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   return (
     <Container className="h-full flex flex-col">
-      {/* Secondary Navigation */}
-      <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />
+      {/* Secondary Navigation - Desktop only */}
+      <div className="hidden md:block">
+        <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />
+      </div>
 
-      <div className="flex items-center md:w-[65%] gap-2 mt-4">
+      <div className="flex md:w-[65%] gap-2 flex-col mt-2">
         <div className="flex items-center gap-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
@@ -107,52 +109,61 @@ export default async function BlogPage({ params }: BlogPageProps) {
             Resources
           </span>
         </div>
+        {/* View All Resources - Mobile only */}
+        <div className="flex items-center gap-4 mb-2">
+          <Link
+            href={`/${lang}/resources`}
+            className="text-white text-sm border-b-white border-b md:hidden"
+          >
+            View All Resources
+          </Link>
 
-        <div className="ml-auto">
-          <span className="text-white">
-            {String(currentPosition).padStart(2, "0")} /{" "}
-            {String(totalBlogs).padStart(2, "0")}
-          </span>
-        </div>
-        <div className="flex gap-4 md:hidden">
-          {/* Previous blog */}
-          {prevBlog ? (
-            <Link href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}>
+          <div className="ml-auto">
+            <span className="text-white">
+              {String(currentPosition).padStart(2, "0")} /{" "}
+              {String(totalBlogs).padStart(2, "0")}
+            </span>
+          </div>
+          <div className="flex gap-4 md:hidden">
+            {/* Previous blog */}
+            {prevBlog ? (
+              <Link href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}>
+                <Button
+                  size="icon"
+                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                >
+                  <ArrowLeft />
+                </Button>
+              </Link>
+            ) : (
               <Button
                 size="icon"
-                className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+                disabled
               >
                 <ArrowLeft />
               </Button>
-            </Link>
-          ) : (
-            <Button
-              size="icon"
-              className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
-              disabled
-            >
-              <ArrowLeft />
-            </Button>
-          )}
-          {/* Next blog */}
-          {nextBlog ? (
-            <Link href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}>
+            )}
+            {/* Next blog */}
+            {nextBlog ? (
+              <Link href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}>
+                <Button
+                  size="icon"
+                  className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                >
+                  <ArrowRight />
+                </Button>
+              </Link>
+            ) : (
               <Button
                 size="icon"
-                className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8"
+                className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
+                disabled
               >
                 <ArrowRight />
               </Button>
-            </Link>
-          ) : (
-            <Button
-              size="icon"
-              className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-8"
-              disabled
-            >
-              <ArrowRight />
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -251,19 +262,11 @@ export default async function BlogPage({ params }: BlogPageProps) {
               {/* Next blog preview */}
               {nextBlog ? (
                 <>
-                  <h3 className="text-[#3871C1] mb-2 text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)]">
-                    {/* Lorem Ipsum is simply dummy text of the printing */}
-                    {nextBlogTitle.length > 40
-                      ? `${nextBlogTitle.substring(0, 35)}...`
-                      : nextBlogTitle}
+                  <h3 className="text-[#3871C1] mb-2 text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)] 2xl:line-clamp-2 line-clamp-1">
+                    {nextBlogTitle}
                   </h3>
-                  <p className="text-xs mb-2 leading-loose">
-                    {nextBlogSummary.length > 120
-                      ? `${nextBlogSummary.substring(0, 120)}...`
-                      : nextBlogSummary}
-                    {/* Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s */}
+                  <p className="text-xs mb-2 leading-loose line-clamp-1 2xl:line-clamp-4">
+                    {nextBlogSummary}
                   </p>
                   <Image
                     src={nextBlogImageUrl}

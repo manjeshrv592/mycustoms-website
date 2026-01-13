@@ -1,6 +1,10 @@
-import { redirect } from "next/navigation";
-import { getFirstBlogSlug } from "@/sanity/queries";
-import { locales, isValidLocale } from "@/i18n";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getResourcesGridData, getFirstBlogSlug } from "@/sanity/queries";
+import { locales, isValidLocale, type Locale } from "@/i18n";
+import Container from "@/components/layouts/Container";
+import ResourcesGrid from "@/components/resources/ResourcesGrid";
+import DesktopRedirect from "@/components/services/DesktopRedirect";
 
 interface ResourcesPageProps {
   params: Promise<{ lang: string }>;
@@ -12,23 +16,63 @@ export async function generateStaticParams() {
 }
 
 /**
- * Resources index page - redirects to the first blog
+ * Resources index page
+ * - Mobile: Shows resources grid (stays on this page)
+ * - Desktop: Redirects to first blog via client-side redirect
  */
 export default async function ResourcesPage({ params }: ResourcesPageProps) {
   const { lang } = await params;
 
   if (!isValidLocale(lang)) {
-    redirect(`/en/resources`);
+    notFound();
   }
 
-  // Get first blog slug
-  const firstBlogSlug = await getFirstBlogSlug();
+  const currentLang: Locale = lang;
 
-  if (!firstBlogSlug) {
-    // No blogs exist - redirect to blogs page (will show empty state)
-    redirect(`/${lang}/resources/blogs`);
-  }
+  // Fetch data in parallel
+  const [gridData, firstBlogSlug] = await Promise.all([
+    getResourcesGridData(),
+    getFirstBlogSlug(),
+  ]);
 
-  // Redirect to the first blog
-  redirect(`/${lang}/resources/blogs/${firstBlogSlug}`);
+  // Target URL for desktop redirect
+  const desktopRedirectUrl = firstBlogSlug
+    ? `/${currentLang}/resources/blogs/${firstBlogSlug}`
+    : `/${currentLang}/resources/blogs`;
+
+  return (
+    <>
+      {/* Desktop redirect - only triggers on md+ screens */}
+      <DesktopRedirect targetUrl={desktopRedirectUrl} />
+
+      {/* Mobile View - Resources Grid Page */}
+      <Container className="h-full flex flex-col gap-4 md:hidden">
+        {/* Header */}
+        <div>
+          <div className="flex items-center gap-4 mb-4 mt-2">
+            <span className="inline-block h-px w-[50px] bg-[#7ED957]">
+              &nbsp;
+            </span>
+            <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
+              Resources
+            </span>
+          </div>
+        </div>
+
+        {/* Resources Grid */}
+        <div className="flex-1 min-h-0">
+          <ResourcesGrid
+            gridData={gridData}
+            currentLang={currentLang}
+            className="h-full"
+          />
+        </div>
+      </Container>
+
+      {/* Desktop View - Loading skeleton while redirect happens */}
+      <Container className="h-full hidden md:flex items-center justify-center">
+        <div className="text-white text-lg animate-pulse">Loading...</div>
+      </Container>
+    </>
+  );
 }

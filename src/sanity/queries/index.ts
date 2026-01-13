@@ -28,6 +28,7 @@ export {
   getFirstBlogSlug,
   getBlogBySlug,
   getAllBlogSlugs,
+  getResourcesGridData,
 } from "./resources";
 
 // Resource page queries

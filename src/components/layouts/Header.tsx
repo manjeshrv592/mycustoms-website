@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useIsCurrentPath } from "@/hooks/useIsCurrentPath";
+import { useIsCurrentPath, useCurrentLocale } from "@/hooks/useIsCurrentPath";
+import TransitionLink from "@/components/animation/TransitionLink";
 import LanguageSelector from "../custom-ui/LanguageSelector";
 import Logo from "../custom-ui/Logo";
 import PrimaryButton from "../custom-ui/PrimaryButton";
@@ -9,6 +10,7 @@ import PrimaryButton from "../custom-ui/PrimaryButton";
 export default function Header() {
   const isHomePage = useIsCurrentPath("/");
   const isContactPage = useIsCurrentPath("/contact");
+  const currentLocale = useCurrentLocale();
 
   return (
     <header
@@ -33,7 +35,11 @@ export default function Header() {
               height={95}
               className="w-[48px] h-auto"
             />
-            {!isContactPage && <PrimaryButton>Contact Us</PrimaryButton>}
+            {!isContactPage && (
+              <TransitionLink href={`/${currentLocale}/contact`}>
+                <PrimaryButton>Contact Us</PrimaryButton>
+              </TransitionLink>
+            )}
           </div>
         )}
         <LanguageSelector />

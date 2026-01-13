@@ -1,4 +1,5 @@
 import Container from "@/components/layouts/Container";
+import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { locales, isValidLocale, type Locale } from "@/i18n";
@@ -50,11 +51,13 @@ export default async function FiscalRepresentationPage({
 
   return (
     <Container className="h-full flex flex-col">
-      {/* Secondary Navigation */}
-      <ResourcesSecondaryNav
-        currentPage="fiscal-representation"
-        lang={currentLang}
-      />
+      {/* Secondary Navigation - Desktop only */}
+      <div className="hidden md:block">
+        <ResourcesSecondaryNav
+          currentPage="fiscal-representation"
+          lang={currentLang}
+        />
+      </div>
 
       <div className="flex-1 min-h-0 grid grid-cols-[1fr] md:grid-cols-[2fr_1fr] gap-4 md:gap-16 mt-4">
         <div className="flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
@@ -67,11 +70,27 @@ export default async function FiscalRepresentationPage({
                 resources
               </span>
             </div>
+            {/* View All Resources - Mobile only */}
+            <Link
+              href={`/${currentLang}/resources`}
+              className="text-white text-sm border-b-white border-b md:hidden my-2 inline-block"
+            >
+              View All Resources
+            </Link>
 
             <h1 className="h1 text-white font-grift mt-2">
               {regularPart && <span className="">{regularPart} </span>}
               <span className="font-bold">{boldPart}</span>
             </h1>
+            {/* Side panel image - Mobile only */}
+            <div className="h-[150px] relative md:hidden my-4">
+              <Image
+                src={sidePanelImageUrl}
+                fill
+                alt={label}
+                className="object-cover"
+              />
+            </div>
           </div>
           {/* Main content - scrollable */}
           <div className="flex-1 min-h-0 mt-2 md:mt-4  pr-4">
