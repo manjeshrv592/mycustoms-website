@@ -24,7 +24,7 @@ export default function ServicesGrid({
 }: ServicesGridProps) {
   return (
     <div
-      className={`grid grid-cols-2 md:grid-cols-3 gap-4 md:grid-rows-2 self-center ${className}`}
+      className={`pb-20 lg:pb-0  grid grid-cols-2 md:grid-cols-1 gap-4 md:grid-rows-5 ${className} lg:grid-cols-2 lg:grid-rows-3 xl:grid-cols-3 xl:grid-rows-2 xl:self-center`}
     >
       {services.map((item: ServiceData) => {
         const itemTitle = getLocalizedValue(item.title, currentLang);
@@ -40,16 +40,16 @@ export default function ServicesGrid({
               isActive ? "border-[#3871C1]/50 border" : "border-none"
             }`}
           >
-            <div className="p-3 py-5">
+            <div className="p-3 py-5 md:p-2 lg:p-3 lg:py-5">
               <h4
-                className={`w-[70%] leading-[1.2] text-xs font-semibold ${
+                className={`w-[70%] leading-[1.2] text-[10px] font-semibold lg:text-xs ${
                   isActive ? "text-[#38B6FF]" : "text-white"
                 }`}
               >
                 {itemTitle}
               </h4>
             </div>
-            <div className="flex-1 md:flex-none relative md:h-[calc(4.97vw-0.055rem)]">
+            <div className="flex-1 relative xl:flex-none xl:h-[calc(4.97vw-0.055rem)]">
               {item.image && (
                 <Image
                   src={urlFor(item.image).url()}

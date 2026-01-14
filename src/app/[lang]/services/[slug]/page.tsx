@@ -167,18 +167,22 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 )}
               </div>
             </div>
-            <h1 className="h1 text-white font-grift">
-              {regularPart && (
-                <span className="font-light">{regularPart} </span>
-              )}
-              <span className="font-bold">{boldPart}</span>
-            </h1>
-            <h3 className="text-white h3">{serviceSummary}</h3>
+            <div className="md:grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4">
+              <div>
+                <h1 className="h1 text-white font-grift">
+                  {regularPart && (
+                    <span className="font-light">{regularPart} </span>
+                  )}
+                  <span className="font-bold">{boldPart}</span>
+                </h1>
+                <h3 className="text-white h3">{serviceSummary}</h3>
+              </div>
+            </div>
           </div>
 
           {/* Content Grid */}
           <div className="flex-1 min-h-0">
-            <div className="md:grid md:grid-cols-[3fr_2fr] gap-4 h-full min-h-0 relative">
+            <div className="md:grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4 h-full min-h-0 relative">
               {/* Rich Text Content */}
               <div className="text-xs h-full overflow-y-auto min-h-0 custom-scrollbar text-white pr-4 text-justify leading-loose">
                 {/* Service image */}
