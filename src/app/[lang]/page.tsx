@@ -61,26 +61,26 @@ export default async function Home({ params }: HomePageProps) {
         src={backgroundImageUrl}
         alt="Hero background"
         fill
-        className="object-cover object-top-right hidden md:block"
+        className="object-cover object-top-right hidden lg:block"
       />
       {/* Mobile Background Image */}
       <Image
         src={mobileBackgroundImageUrl}
         alt="Hero background mobile"
         fill
-        className="object-cover md:hidden"
+        className="object-cover lg:hidden"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.4)_100%)]"></div>
       <div className="text-center relative z-20">
-        <h1 className="font-grift uppercase mb-4 md:mb-2 flex flex-col md:flex-row md:gap-3 justify-center xl:leading-18">
-          <span className="text-[#66BD5A] text-[clamp(1.5rem,calc(0.316rem+5.26vw),100vw)] lg:text-[clamp(3rem,calc(2.21rem+3.51vw),100vw)]">
+        <h1 className="font-grift uppercase flex flex-col lg:flex-row lg:gap-3 justify-center lg:items-center lg:leading-18">
+          <span className="text-[#66BD5A] text-2xl lg:text-[clamp(3rem,calc(2.21rem+3.51vw),100vw)]">
             {titleLine1}
           </span>
-          <span className="text-[#5e98e9] text-[clamp(3rem,calc(2.21rem+3.51vw),100vw)] md:mt-0 inline-block">
+          <span className="text-[#5e98e9] lg:text-[clamp(3rem,calc(2.21rem+3.51vw),100vw)] text-5xl">
             {titleLine2}
           </span>
         </h1>
-        <p className="text-sm md:text-lg px-10 md:px-0 uppercase text-white max-w-[900px] mx-auto">
+        <p className="text-sm md:text-lg px-10 md:px-0 uppercase text-white max-w-[600px] lg:max-w-[900px] mx-auto">
           {description}
         </p>
         <div className="flex gap-4 items-center justify-center py-4">

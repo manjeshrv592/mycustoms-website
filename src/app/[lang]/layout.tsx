@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { ViewTransitions } from "next-view-transitions";
 import { NavigationProvider } from "@/context/NavigationContext";
 import SwipeNavigator from "@/components/navigation/SwipeNavigator";
-import PolyfillLoader from "@/components/PolyfillLoader";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -46,7 +45,6 @@ export default async function LangLayout({
   return (
     <ViewTransitions>
       <NavigationProvider>
-        <PolyfillLoader />
         <SwipeNavigator />
         <Header />
         <PrimaryNav
