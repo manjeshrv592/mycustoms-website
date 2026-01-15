@@ -79,72 +79,81 @@ export default async function Portal({ params }: PortalPageProps) {
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
-        <Container className="h-full grid grid-cols-[1fr] md:grid-cols-[1.3fr_1fr] gap-4 md:gap-16">
-          <div className="flex flex-col min-h-0">
-            <div>
-              <div className="flex items-center gap-4">
-                <span className="inline-block h-px w-[50px] bg-[#7ED957]">
-                  &nbsp;
-                </span>
-                <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
-                  {label}
-                </span>
-              </div>
-
-              <h1 className="h1 text-white font-grift">
-                {regularPart && (
-                  <span className="font-light">{regularPart} </span>
-                )}
-                <span className="font-bold">{boldPart}</span>
-              </h1>
+        <Container className="h-full flex flex-col gap-4">
+          {/* Header */}
+          <div>
+            <div className="flex items-center gap-4">
+              <span className="inline-block h-px w-[50px] bg-[#7ED957]">
+                &nbsp;
+              </span>
+              <span className="text-[#7ED957] uppercase text-xs tracking-[5px] font-bold">
+                {label}
+              </span>
             </div>
-            {/* Main content rich text - scrollable */}
-            <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-4">
-              <div className="text-[#E5E5E5] leading-loose text-justify">
-                <PortableTextContent value={content} />
+
+            <div className="md:grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4">
+              <div>
+                <h1 className="h1 text-white font-grift">
+                  {regularPart && (
+                    <span className="font-light">{regularPart} </span>
+                  )}
+                  <span className="font-bold">{boldPart}</span>
+                </h1>
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2 justify-center">
-            <div className="flex justify-center flex-col text-center lg:mb-4">
-              <h3 className="text-[clamp(1.5rem,calc(2.21vw-0.137rem),100vw)] text-[#3871C1] leading-0 mb-4 2xl:mb-6">
-                {sidePanelTitle}
-              </h3>
-              <p className=" text-[#E5E5E5] leading-loose mb-2">
-                {sidePanelDescription}
-              </p>
-              {ctaButtonIsExternal ? (
-                <a
-                  href={ctaButtonLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mx-auto"
-                >
-                  <PrimaryButton className="text-[#E5E5E5]">
-                    {ctaButtonText}
-                  </PrimaryButton>
-                </a>
-              ) : (
-                <a
-                  href={"https://my-customs.nl/"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mx-auto"
-                >
-                  <PrimaryButton className="text-[#E5E5E5]">
-                    {ctaButtonText}
-                  </PrimaryButton>
-                </a>
-              )}
-            </div>
-            <div className="relative hidden md:block h-[calc(20vw-0.12rem)]">
-              {/* Side panel image */}
-              <Image
-                src={sidePanelImageUrl}
-                fill
-                alt="Portal preview"
-                className="absolute object-cover"
-              />
+
+          {/* Content Grid */}
+          <div className="flex-1 min-h-0">
+            <div className="md:grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
+              {/* Main content rich text - scrollable */}
+              <div className="h-full overflow-y-auto min-h-0 custom-scrollbar text-[#E5E5E5] pr-4 text-justify leading-loose">
+                <PortableTextContent value={content} />
+              </div>
+
+              {/* Side Panel */}
+              <div className="flex flex-col gap-2 lg:justify-center">
+                <div className="flex justify-center flex-col text-center lg:mb-4">
+                  <h3 className="text-[clamp(1.5rem,calc(2.21vw-0.137rem),100vw)] text-[#3871C1] mb-4 2xl:mb-6">
+                    {sidePanelTitle}
+                  </h3>
+                  <p className="text-[#E5E5E5] leading-loose mb-2">
+                    {sidePanelDescription}
+                  </p>
+                  {ctaButtonIsExternal ? (
+                    <a
+                      href={ctaButtonLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mx-auto"
+                    >
+                      <PrimaryButton className="text-[#E5E5E5]">
+                        {ctaButtonText}
+                      </PrimaryButton>
+                    </a>
+                  ) : (
+                    <a
+                      href={"https://my-customs.nl/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mx-auto"
+                    >
+                      <PrimaryButton className="text-[#E5E5E5]">
+                        {ctaButtonText}
+                      </PrimaryButton>
+                    </a>
+                  )}
+                </div>
+                <div className="relative hidden md:block h-[calc(20vw-0.12rem)]">
+                  {/* Side panel image */}
+                  <Image
+                    src={sidePanelImageUrl}
+                    fill
+                    alt="Portal preview"
+                    className="absolute object-cover"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </Container>
