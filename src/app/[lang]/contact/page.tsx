@@ -57,17 +57,20 @@ export default async function Contact({ params }: ContactPageProps) {
   const mapLink = contactData.mapLink || "https://www.google.com/maps";
   const phone = contactData.phone || "";
   const email = contactData.email || "";
+  const linkedinUrl = contactData.linkedinUrl || "";
 
   return (
     <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
-      <a
-        target="_blank"
-        href="https://linkedin.com"
-        className="absolute text-white z-30 hidden md:flex flex-col items-center gap-2 opacity-50 left-5 bottom-5"
-      >
-        <FaLinkedinIn />
-        <span className="h-[64px] w-px bg-white inline-block ">&nbsp;</span>
-      </a>
+      {linkedinUrl && (
+        <a
+          target="_blank"
+          href={linkedinUrl}
+          className="absolute text-white z-30 hidden md:flex flex-col items-center gap-2 opacity-50 left-5 bottom-5"
+        >
+          <FaLinkedinIn />
+          <span className="h-[64px] w-px bg-white inline-block ">&nbsp;</span>
+        </a>
+      )}
       {/* Background image */}
       <Image
         src={backgroundImageUrl}

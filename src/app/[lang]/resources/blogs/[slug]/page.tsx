@@ -100,7 +100,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
         <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />
       </div>
 
-      <div className="flex md:w-[65%] gap-2 flex-col bg-red-500 mt-2">
+      <div className="flex w-full lg:w-[60%] gap-2 flex-col mt-2 pr-4">
         <div className="flex items-center gap-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
@@ -124,7 +124,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
               {String(totalBlogs).padStart(2, "0")}
             </span>
           </div>
-          <div className="flex gap-4 md:hidden">
+          <div className="flex gap-4 lg:hidden">
             {/* Previous blog */}
             {prevBlog ? (
               <Link href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}>
@@ -167,8 +167,8 @@ export default async function BlogPage({ params }: BlogPageProps) {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 ">
-        <div className="grid md:grid-cols-[2fr_1fr] gap-4 h-full min-h-0">
+      <div className="flex-1 min-h-0">
+        <div className="grid lg:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
           {/* Blog Content */}
           <div className=" h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose  text-xs">
             {/* Blog title */}
@@ -195,10 +195,10 @@ export default async function BlogPage({ params }: BlogPageProps) {
           </div>
 
           {/* Sidebar */}
-          <div className="text-white hidden md:block">
-            <article className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-4 flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <div className="flex gap-4">
+          <div className="text-white hidden lg:block">
+            <article className="bg-white/5 backdrop-blur-[10px] h-full 2xl:h-auto w-full rounded-xl px-2 py-4 flex flex-col justify-between">
+              <div className="flex items-center justify-between gap-2 xl:gap-4">
+                <div className="flex gap-2 xl:gap-4">
                   {/* Previous blog */}
                   {prevBlog ? (
                     <Link
@@ -262,10 +262,10 @@ export default async function BlogPage({ params }: BlogPageProps) {
               {/* Next blog preview */}
               {nextBlog ? (
                 <>
-                  <h3 className="text-[#3871C1] mb-2 text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)] 2xl:line-clamp-2 line-clamp-1">
+                  <h3 className="text-[#3871C1] mb-2 text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)]  line-clamp-1">
                     {nextBlogTitle}
                   </h3>
-                  <p className="text-xs mb-2 leading-loose line-clamp-1 2xl:line-clamp-4">
+                  <p className="text-xs mb-2 leading-loose line-clamp-1 2xl:line-clamp-2">
                     {nextBlogSummary}
                   </p>
                   <Image

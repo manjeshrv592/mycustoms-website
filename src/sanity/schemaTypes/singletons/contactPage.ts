@@ -60,6 +60,12 @@ export const contactPage = defineType({
       type: "string",
       validation: (Rule) => Rule.email(),
     }),
+    defineField({
+      name: "linkedinUrl",
+      title: "LinkedIn URL",
+      type: "url",
+      description: "LinkedIn profile or company page URL",
+    }),
   ],
   preview: {
     prepare() {

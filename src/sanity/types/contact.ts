@@ -14,4 +14,5 @@ export interface ContactPageData {
   mapLink?: string;
   phone?: string;
   email?: string;
+  linkedinUrl?: string;
 }

@@ -30,7 +30,7 @@ const ContactInfoSection = ({
       }`}
     >
       <div className="lg:flex-1 md:flex lg:items-end">
-        <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end h-[40vh] md:h-[30vh]">
+        <div className="size-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end h-[40vh] md:h-[30vh] xl:h-[40vh]">
           {/* Contact Section - Image */}
           <Image
             src={contactImageUrl}
