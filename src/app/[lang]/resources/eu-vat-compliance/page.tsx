@@ -52,14 +52,14 @@ export default async function EuVatCompliancePage({
   return (
     <Container className="h-full flex flex-col">
       {/* Secondary Navigation - Desktop only */}
-      <div className="hidden md:block">
+      <div className="hidden md:block mb-4">
         <ResourcesSecondaryNav
           currentPage="eu-vat-compliance"
           lang={currentLang}
         />
       </div>
 
-      <div className="flex-1 min-h-0 grid grid-cols-[1fr] md:grid-cols-[2fr_1fr] gap-4 md:gap-16 mt-4">
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4">
         <div className="flex flex-col min-h-0 overflow-y-auto custom-scrollbar pr-4">
           <div>
             <div className="flex items-center gap-4">
@@ -83,7 +83,7 @@ export default async function EuVatCompliancePage({
               <span className="font-bold">{boldPart}</span>
             </h1>
             {/* Side panel image - Mobile only */}
-            <div className="h-[150px] relative md:hidden my-4">
+            <div className="h-[150px] md:h-[200px] relative lg:hidden my-4">
               <Image
                 src={sidePanelImageUrl}
                 fill
@@ -100,7 +100,7 @@ export default async function EuVatCompliancePage({
           </div>
         </div>
         <div className="flex flex-col gap-2 justify-center">
-          <div className="h-[calc(3.73rem+17.6vw)] relative hidden md:block">
+          <div className="h-[calc(3.73rem+17.6vw)] relative hidden lg:block">
             {/* Side panel image */}
             <Image
               src={sidePanelImageUrl}
