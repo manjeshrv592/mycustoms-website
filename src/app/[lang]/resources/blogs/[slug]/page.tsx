@@ -100,7 +100,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
         <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />
       </div>
 
-      <div className="flex md:w-[65%] gap-2 flex-col">
+      <div className="flex md:w-[65%] gap-2 flex-col bg-red-500 mt-2">
         <div className="flex items-center gap-4">
           <span className="inline-block h-px w-[50px] bg-[#7ED957]">
             &nbsp;
