@@ -76,7 +76,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col max-w-[400px] gap-4 max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
+      className="flex flex-col max-w-[400px] gap-4 md:gap-8 lg:gap-0 lg:justify-between max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
     >
       <div className="2xl:mb-[1vw]">
         <Label htmlFor="name">Name</Label>
@@ -95,111 +95,134 @@ const ContactForm = () => {
           <p className="text-red-400  mt-1">{errors.name.message}</p>
         )}
       </div>
+      {showClickButton && (
+        <div className="text-center md:hidden">
+          <Button
+            className="bg-transparent"
+            type="button"
+            variant="default"
+            onClick={toggleInfoCollapsed}
+          >
+            <span className="flex flex-col items-center">
+              <span>Click</span>
+              <ChevronDown />
+            </span>
+          </Button>
+        </div>
+      )}
+
       <div
-        className={`text-center md:hidden ${showClickButton ? "" : "hidden"}`}
-      >
-        <Button
-          className="bg-transparent"
-          type="button"
-          variant="default"
-          onClick={toggleInfoCollapsed}
-        >
-          <span className="flex flex-col items-center">
-            <span>Click</span>
-            <ChevronDown />
-          </span>
-        </Button>
-      </div>
-      <div
-        className={`2xl:flex-1 flex flex-col gap-4 transition-opacity duration-500 ${
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
           isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
         }`}
       >
-        <div className="2xl:mb-[1vw]">
-          <Label className="" htmlFor="email">
-            Email
-          </Label>
-          <PrimaryInput
-            type="email"
-            id="email"
-            placeholder="Enter your email address"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-400  mt-1">{errors.email.message}</p>
-          )}
-        </div>
+        <Label className="" htmlFor="email">
+          Email
+        </Label>
+        <PrimaryInput
+          type="email"
+          id="email"
+          placeholder="Enter your email address"
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="text-red-400  mt-1">{errors.email.message}</p>
+        )}
+      </div>
 
-        <div className="2xl:mb-[1vw]">
-          <Label className="" htmlFor="phone">
-            Phone Number
-          </Label>
-          <PrimaryInput
-            type="text"
-            id="phone"
-            placeholder="Phone Number"
-            {...register("phone")}
-          />
-          {errors.phone && (
-            <p className="text-red-400  mt-1">{errors.phone.message}</p>
-          )}
-        </div>
+      <div
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+      >
+        <Label className="" htmlFor="phone">
+          Phone Number
+        </Label>
+        <PrimaryInput
+          type="text"
+          id="phone"
+          placeholder="Phone Number"
+          {...register("phone")}
+        />
+        {errors.phone && (
+          <p className="text-red-400  mt-1">{errors.phone.message}</p>
+        )}
+      </div>
 
-        <div className="2xl:mb-[1vw]">
-          <Label className="" htmlFor="company">
-            Company Name
-          </Label>
-          <PrimaryInput
-            type="text"
-            id="company"
-            placeholder="Enter your company name"
-            {...register("company")}
-          />
-          {errors.company && (
-            <p className="text-red-400  mt-1">{errors.company.message}</p>
-          )}
-        </div>
+      <div
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+      >
+        <Label className="" htmlFor="company">
+          Company Name
+        </Label>
+        <PrimaryInput
+          type="text"
+          id="company"
+          placeholder="Enter your company name"
+          {...register("company")}
+        />
+        {errors.company && (
+          <p className="text-red-400  mt-1">{errors.company.message}</p>
+        )}
+      </div>
 
-        <div className="2xl:mb-[1vw]">
-          <Label className="" htmlFor="service">
-            Select Service
-          </Label>
-          <PrimarySelect
-            id="service"
-            options={SERVICE_OPTIONS}
-            placeholder="Choose a service"
-            value={watch("service")}
-            onValueChange={(value) =>
-              setValue("service", value, { shouldValidate: true })
-            }
-          />
-          {errors.service && (
-            <p className="text-red-400  mt-1">{errors.service.message}</p>
-          )}
-        </div>
+      <div
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+      >
+        <Label className="" htmlFor="service">
+          Select Service
+        </Label>
+        <PrimarySelect
+          id="service"
+          options={SERVICE_OPTIONS}
+          placeholder="Choose a service"
+          value={watch("service")}
+          onValueChange={(value) =>
+            setValue("service", value, { shouldValidate: true })
+          }
+        />
+        {errors.service && (
+          <p className="text-red-400  mt-1">{errors.service.message}</p>
+        )}
+      </div>
 
-        <div className="2xl:mb-[1vw] 2xl:flex-1 flex flex-col">
-          <Label className="" htmlFor="message">
-            Message <span className="text-gray-400">(optional)</span>
-          </Label>
-          <PrimaryTextarea
-            className="2xl:flex-1"
-            id="message"
-            rows={1}
-            placeholder="Tell us more about your requirements..."
-            {...register("message")}
-          />
-        </div>
+      <div
+        className={`flex flex-col transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+      >
+        <Label className="" htmlFor="message">
+          Message <span className="text-gray-400">(optional)</span>
+        </Label>
+        <PrimaryTextarea
+          className="md:h-32 lg:h-auto"
+          id="message"
+          rows={1}
+          placeholder="Tell us more about your requirements..."
+          {...register("message")}
+        />
+      </div>
 
-        <PrimaryButton type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </PrimaryButton>
+      <PrimaryButton
+        type="submit"
+        className={`w-full transition-opacity duration-500 ${
+          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        }`}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
+      </PrimaryButton>
 
-        {/* Hide form button - visible on mobile when form is expanded */}
+      {/* Hide form button - visible on mobile when form is expanded */}
+      {isInfoCollapsed && (
         <Button
           type="button"
           variant="ghost"
-          className={`w-full md:hidden ${isInfoCollapsed ? "" : "hidden"}`}
+          className="w-full md:hidden"
           onClick={toggleInfoCollapsed}
         >
           <span className="flex items-center gap-2">
@@ -207,7 +230,7 @@ const ContactForm = () => {
             <span>Hide Form</span>
           </span>
         </Button>
-      </div>
+      )}
     </form>
   );
 };
