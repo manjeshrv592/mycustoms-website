@@ -45,7 +45,7 @@ export default function SearchableBlogsList({
   }, [blogs, searchQuery, isSearching]);
 
   return (
-    <div className="flex flex-col gap-2 overflow-y-auto flex-1 min-h-0 custom-scrollbar pr-2">
+    <div className="flex flex-col gap-1 overflow-y-auto flex-1 min-h-0 custom-scrollbar pr-2 mt-2">
       {/* Search results indicator */}
       {isSearching && (
         <div className="flex items-center gap-2 text-[#3871C1] text-xs py-1 border-b border-white/10 mb-1">
@@ -65,7 +65,7 @@ export default function SearchableBlogsList({
             <Link
               key={blog.slug}
               href={`/${lang}/resources/blogs/${blog.slug}?view=list`}
-              className={`flex gap-2 p-2 rounded-lg transition-colors hover:bg-white/10 ${
+              className={`flex gap-2 p-1 rounded-sm transition-colors hover:bg-white/10 ${
                 isCurrentBlog ? "bg-white/10 border border-[#3871C1]/50" : ""
               }`}
             >

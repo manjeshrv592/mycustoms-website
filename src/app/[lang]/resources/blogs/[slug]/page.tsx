@@ -72,6 +72,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
   const blogTitle = getLocalizedValue(blog.title, currentLang) || "Untitled";
   const { regularPart: blogRegularPart, boldPart: blogBoldPart } =
     formatTitle(blogTitle);
+  const blogSummary = getLocalizedValue(blog.summary, currentLang) || "";
   const blogContent = blog.content?.find(
     (c: { _key: string }) => c._key === currentLang,
   )?.value;
@@ -205,9 +206,15 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 src={blogImageUrl}
                 width={800}
                 height={400}
-                className="w-full h-auto mb-4 xl:h-[300px] object-cover"
+                className="w-full h-auto mb-4 xl:h-[250px] object-cover"
                 alt={blogTitle}
               />
+            )}
+            {/* Blog Summary as Quote */}
+            {blogSummary && (
+              <blockquote className="border-l-2 border-[#3871C1] pl-4 py-1 mb-4 bg-white/5 italic text-white/80">
+                {blogSummary}
+              </blockquote>
             )}
             {/* Rich content */}
             <div className="text-justify">
@@ -224,6 +231,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
             >
               <BlogSidebarProvider>
                 <article className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-2 flex flex-col overflow-hidden">
+                  <div className="mb-2 text-right">
+                    <BlogViewToggleButton />
+                  </div>
                   <div className="flex items-center justify-between gap-2 xl:gap-4">
                     <div className="flex gap-2 xl:gap-4">
                       {/* Previous blog */}
@@ -233,7 +243,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         >
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 [&>svg]:size-4"
                           >
                             <ArrowLeft />
                           </Button>
@@ -241,7 +251,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                       ) : (
                         <Button
                           size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
                           disabled
                         >
                           <ArrowLeft />
@@ -254,7 +264,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         >
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 [&>svg]:size-4"
                           >
                             <ArrowRight />
                           </Button>
@@ -262,7 +272,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                       ) : (
                         <Button
                           size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
                           disabled
                         >
                           <ArrowRight />
@@ -289,9 +299,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
                       </div>
                     </HideInListView>
                     {/* View more/less toggle button */}
-                    <div className="self-start">
+                    {/* <div className="self-start">
                       <BlogViewToggleButton />
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Blog sidebar toggle - switches between next blog preview and all blogs list */}
@@ -312,7 +322,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                             src={nextBlogImageUrl}
                             width={600}
                             height={700}
-                            className="w-full flex-1 min-h-0 object-cover rounded-md"
+                            className="w-full flex-1 min-h-0 object-cover rounded-lg"
                             alt={nextBlogTitle}
                           />
                         </Link>

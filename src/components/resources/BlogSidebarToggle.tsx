@@ -2,8 +2,7 @@
 
 import { ReactNode } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import PrimaryButton from "../custom-ui/PrimaryButton";
 
 interface BlogSidebarToggleProps {
   nextBlogPreview: ReactNode;
@@ -53,23 +52,11 @@ export function BlogViewToggleButton() {
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
+    <PrimaryButton
+      className="text-xs px-4 py-1 h-auto"
       onClick={() => toggleView(!showAllBlogs)}
-      className="cursor-pointer text-[#3871C1] gap-2 hover:bg-transparent hover:text-[#3871C1] hover:opacity-70 transition-opacity !px-0"
     >
-      {showAllBlogs ? (
-        <>
-          <ArrowRight className="size-4" />
-          <span>View less</span>
-        </>
-      ) : (
-        <>
-          <ArrowLeft className="size-4" />
-          <span>View more</span>
-        </>
-      )}
-    </Button>
+      {showAllBlogs ? "View less" : "View all"}
+    </PrimaryButton>
   );
 }
