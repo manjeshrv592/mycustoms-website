@@ -82,7 +82,7 @@ export default async function About({ params }: AboutPageProps) {
           <div className="flex flex-col md:grid lg:grid-cols-[3fr_2fr] xl:grid-cols-[2fr_1fr] gap-4 lg:gap-24 h-full ">
             <div className="flex flex-col">
               <div className="md:flex-1">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 mb-2">
                   <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                     &nbsp;
                   </span>

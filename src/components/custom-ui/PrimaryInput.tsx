@@ -11,8 +11,8 @@ export default function PrimaryInput({
   return (
     <Input
       className={cn(
-        "bg-transparent rounded-lg border-0 border-b border-white",
-        className
+        "bg-transparent rounded-lg border-0 border-b border-white focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none",
+        className,
       )}
       {...props}
     />

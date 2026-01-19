@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useBlogSearch } from "@/context/BlogSearchContext";
 
 interface SearchResult {
   id: string;
@@ -43,12 +44,32 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Try to get blog search context (may not exist if not in provider)
+  let blogSearchContext: ReturnType<typeof useBlogSearch> | null = null;
+  try {
+    blogSearchContext = useBlogSearch();
+  } catch {
+    // Not wrapped in BlogSearchProvider, that's fine
+  }
+
+  const isListView = blogSearchContext?.isListView ?? false;
+
   // Debounce the search query (300ms delay)
   const debouncedQuery = useDebounce(query, 300);
 
-  // Search function
+  // Update context when query changes (for list view filtering)
+  useEffect(() => {
+    if (blogSearchContext && isListView) {
+      blogSearchContext.setSearchQuery(query);
+    }
+  }, [query, blogSearchContext, isListView]);
+
+  // Search function (only for non-list view)
   const performSearch = useCallback(
     async (searchQuery: string) => {
+      // Skip API search in list view (uses client-side filtering instead)
+      if (isListView) return;
+
       if (searchQuery.trim().length < 2) {
         setResults([]);
         return;
@@ -58,7 +79,7 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
 
       try {
         const response = await fetch(
-          `/api/search?q=${encodeURIComponent(searchQuery)}&lang=${lang}&limit=5`
+          `/api/search?q=${encodeURIComponent(searchQuery)}&lang=${lang}&limit=5`,
         );
         const data = await response.json();
         setResults(data.results || []);
@@ -69,17 +90,17 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
         setIsLoading(false);
       }
     },
-    [lang]
+    [lang, isListView],
   );
 
   // Trigger search when debounced query changes
   useEffect(() => {
-    if (debouncedQuery) {
+    if (debouncedQuery && !isListView) {
       performSearch(debouncedQuery);
     } else {
       setResults([]);
     }
-  }, [debouncedQuery, performSearch]);
+  }, [debouncedQuery, performSearch, isListView]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -101,7 +122,9 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
-    setIsOpen(true);
+    if (!isListView) {
+      setIsOpen(true);
+    }
   };
 
   // Handle result click
@@ -111,32 +134,35 @@ export default function ResourcesSearch({ lang }: ResourcesSearchProps) {
     setIsOpen(false);
   };
 
+  // Only show dropdown in non-list view
   const showDropdown =
-    isOpen && (results.length > 0 || (query.length >= 2 && !isLoading));
+    !isListView &&
+    isOpen &&
+    (results.length > 0 || (query.length >= 2 && !isLoading));
 
   return (
-    <div className="bg-[#3871C1] p-1 rounded-full" ref={containerRef}>
+    <div className="bg-[#3871C1] p-[2px] rounded-full" ref={containerRef}>
       <div className="flex items-center relative">
         <Input
-          className="bg-white rounded-full text-neutral-800"
+          className="bg-white rounded-full text-neutral-800 text-xs h-7 px-3 focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none"
           type="text"
           placeholder="Search..."
           value={query}
           onChange={handleInputChange}
-          onFocus={() => setIsOpen(true)}
+          onFocus={() => !isListView && setIsOpen(true)}
         />
         <Button
           size="icon"
-          className="rounded-full bg-transparent hover:bg-transparent cursor-pointer"
+          className="rounded-full bg-transparent hover:bg-transparent cursor-pointer size-7"
         >
           {isLoading ? (
-            <Loader2 className="size-5 animate-spin" />
+            <Loader2 className="size-4 animate-spin" />
           ) : (
-            <Search className="size-5" />
+            <Search className="size-4" />
           )}
         </Button>
 
-        {/* Search Results Dropdown */}
+        {/* Search Results Dropdown - only shown in non-list view */}
         {showDropdown && (
           <div className="absolute top-full left-0 right-0 mt-2 rounded-lg bg-black/90 backdrop-blur-[20px] overflow-hidden z-50 shadow-lg">
             {results.length > 0 ? (

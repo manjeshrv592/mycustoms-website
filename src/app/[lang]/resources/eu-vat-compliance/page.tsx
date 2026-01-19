@@ -59,7 +59,7 @@ export default async function EuVatCompliancePage({
         />
       </div>
 
-      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 mt-2">
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4">
         <div className="flex flex-col min-h-0 overflow-y-auto custom-scrollbar pr-4">
           <div>
             <div className="flex items-center gap-4">

@@ -155,8 +155,14 @@ body {
 
 /* Fluid Typography Classes */
 .h1 {
-  font-size: clamp(1.5rem, 2.8vw, 100vw);
+  font-size: clamp(1.5rem, 2vw, 100vw);
   line-height: 120%;
+}
+
+@media (min-width: 1400px) {
+  .h1 {
+    font-size: clamp(1.5rem, 2.8vw, 100vw);
+  }
 }
 
 .h3 {
@@ -183,6 +189,25 @@ body {
 
 /* Handle on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #2d5a9a;
+}
+
+/* Phone input country selector scrollbar */
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-track {
+  background: #4e4e4e;
+  border-radius: 100px;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb {
+  background: #3871c1;
+  border-radius: 100px;
+}
+
+.react-international-phone-country-selector-dropdown::-webkit-scrollbar-thumb:hover {
   background: #2d5a9a;
 }
 

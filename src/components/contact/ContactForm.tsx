@@ -8,6 +8,7 @@ import PrimaryButton from "@/components/custom-ui/PrimaryButton";
 import PrimaryInput from "@/components/custom-ui/PrimaryInput";
 import PrimaryTextarea from "@/components/custom-ui/PrimaryTextarea";
 import PrimarySelect from "@/components/custom-ui/PrimarySelect";
+import PrimaryPhoneInput from "@/components/custom-ui/PrimaryPhoneInput";
 import { Label } from "@/components/ui/label";
 import { Button } from "../ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -20,14 +21,18 @@ const SERVICE_OPTIONS = [
   { value: "Fiscal representation", label: "Fiscal representation" },
   { value: "Transit", label: "Transit" },
   { value: "Consulting", label: "Consulting" },
+  { value: "General Enquiry", label: "General Enquiry" },
 ];
 
 // Zod validation schema
 const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .regex(/^[^\d]*$/, "Name cannot contain numbers"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(6, "Please enter a valid phone number"),
-  company: z.string().min(2, "Company name must be at least 2 characters"),
+  phone: z.string().optional().or(z.literal("")), // Phone is optional, format handled by input component
+  company: z.string().optional(), // Company is optional
   service: z.string().min(1, "Please select a service"),
   message: z.string().optional(), // Message is optional
 });
@@ -85,6 +90,12 @@ const ContactForm = () => {
           id="name"
           placeholder="Enter your full name"
           {...register("name")}
+          onKeyDown={(e) => {
+            // Prevent typing numbers in name field
+            if (/\d/.test(e.key)) {
+              e.preventDefault();
+            }
+          }}
           onFocus={() => {
             if (!isInfoCollapsed) {
               toggleInfoCollapsed();
@@ -136,13 +147,15 @@ const ContactForm = () => {
         }`}
       >
         <Label className="" htmlFor="phone">
-          Phone Number
+          Phone Number <span className="text-gray-400">(optional)</span>
         </Label>
-        <PrimaryInput
-          type="text"
+        <PrimaryPhoneInput
           id="phone"
           placeholder="Phone Number"
-          {...register("phone")}
+          value={watch("phone")}
+          onChange={(phone) =>
+            setValue("phone", phone, { shouldValidate: true })
+          }
         />
         {errors.phone && (
           <p className="text-red-400  mt-1">{errors.phone.message}</p>
@@ -155,7 +168,7 @@ const ContactForm = () => {
         }`}
       >
         <Label className="" htmlFor="company">
-          Company Name
+          Company Name <span className="text-gray-400">(optional)</span>
         </Label>
         <PrimaryInput
           type="text"

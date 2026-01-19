@@ -11,8 +11,8 @@ export default function PrimaryTextarea({
   return (
     <Textarea
       className={cn(
-        "bg-transparent rounded-lg border-0 border-b border-white resize-none min-h-0",
-        className
+        "bg-transparent rounded-lg border-0 border-b border-white resize-none min-h-0 focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none",
+        className,
       )}
       {...props}
     />

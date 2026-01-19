@@ -10,7 +10,7 @@ interface ResourcesLayoutProps {
  */
 export default function ResourcesLayout({ children }: ResourcesLayoutProps) {
   return (
-    <section className="h-screen relative pt-[10vh] pb-2 md:py-[12vh]">
+    <section className="h-screen relative pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
       <Image
         src="/images/resources-bg.jpg"
         alt="Resources background"

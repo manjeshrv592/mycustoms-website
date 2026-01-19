@@ -13,7 +13,8 @@ import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schema } from "./src/sanity/schemaTypes";
 import { structure, singletonPlugin } from "./src/sanity/structure";
-import { TranslateAction } from "./src/sanity/actions/translateAction";
+// Translate action - commented out for now, uncomment to enable
+// import { TranslateAction } from "./src/sanity/actions/translateAction";
 
 // Define supported languages
 const languages = [
@@ -43,11 +44,12 @@ export default defineConfig({
     // Singleton plugin for page documents
     singletonPlugin,
   ],
-  // Document actions - adds Translate button to all documents
-  document: {
-    actions: (prev, context) => {
-      // Add translate action to all document types
-      return [...prev, TranslateAction];
-    },
-  },
+  // Document actions - Translate button commented out
+  // Uncomment below to re-enable the translate functionality
+  // document: {
+  //   actions: (prev, context) => {
+  //     // Add translate action to all document types
+  //     return [...prev, TranslateAction];
+  //   },
+  // },
 });

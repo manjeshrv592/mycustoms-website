@@ -1,4 +1,5 @@
 import PrimaryButton from "@/components/custom-ui/PrimaryButton";
+import ContactButton from "@/components/custom-ui/ContactButton";
 import Image from "next/image";
 import { getHomePage } from "@/sanity/queries";
 import { getLocalizedValue } from "@/sanity/lib/localization";
@@ -114,6 +115,10 @@ export default async function Home({ params }: HomePageProps) {
             </>
           )}
         </div>
+        {/* Contact Us button with page transition */}
+        <ContactButton locale={currentLang} />
+
+        {/* Schedule a Call button - commented out
         {homeData?.ctaButton?.link ? (
           <a
             href={ctaLink}
@@ -124,6 +129,7 @@ export default async function Home({ params }: HomePageProps) {
         ) : (
           <PrimaryButton>{ctaText}</PrimaryButton>
         )}
+        */}
       </div>
     </section>
   );
