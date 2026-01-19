@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Container from "@/components/layouts/Container";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -216,116 +217,122 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
           {/* Sidebar */}
           <div className="text-white hidden lg:block h-full min-h-0 overflow-hidden">
-            <BlogSidebarProvider>
-              <article className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-2 flex flex-col overflow-hidden">
-                <div className="flex items-center justify-between gap-2 xl:gap-4">
-                  <div className="flex gap-2 xl:gap-4">
-                    {/* Previous blog */}
-                    {prevBlog ? (
-                      <Link
-                        href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}
-                      >
+            <Suspense
+              fallback={
+                <div className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-2" />
+              }
+            >
+              <BlogSidebarProvider>
+                <article className="bg-white/5 backdrop-blur-[10px] h-full w-full rounded-xl px-2 py-2 flex flex-col overflow-hidden">
+                  <div className="flex items-center justify-between gap-2 xl:gap-4">
+                    <div className="flex gap-2 xl:gap-4">
+                      {/* Previous blog */}
+                      {prevBlog ? (
+                        <Link
+                          href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}
+                        >
+                          <Button
+                            size="icon"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          >
+                            <ArrowLeft />
+                          </Button>
+                        </Link>
+                      ) : (
                         <Button
                           size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          disabled
                         >
                           <ArrowLeft />
                         </Button>
-                      </Link>
-                    ) : (
-                      <Button
-                        size="icon"
-                        className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
-                        disabled
-                      >
-                        <ArrowLeft />
-                      </Button>
-                    )}
-                    {/* Next blog */}
-                    {nextBlog ? (
-                      <Link
-                        href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
-                      >
+                      )}
+                      {/* Next blog */}
+                      {nextBlog ? (
+                        <Link
+                          href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
+                        >
+                          <Button
+                            size="icon"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          >
+                            <ArrowRight />
+                          </Button>
+                        </Link>
+                      ) : (
                         <Button
                           size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
+                          disabled
                         >
                           <ArrowRight />
                         </Button>
-                      </Link>
-                    ) : (
-                      <Button
-                        size="icon"
-                        className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 2xl:size-9 [&>svg]:size-4 2xl:[&>svg]:size-5"
-                        disabled
-                      >
-                        <ArrowRight />
-                      </Button>
-                    )}
-                  </div>
-                  <ResourcesSearch lang={lang} />
-                </div>
-
-                <div className="flex items-end text-[#3871C1] text-xs flex-col">
-                  <HideInListView>
-                    <div className="text-right">
-                      {/* Position */}
-                      <div className="text-white text-xs mb-1 mt-2">
-                        {String(
-                          currentPosition + 1 <= totalBlogs
-                            ? currentPosition + 1
-                            : currentPosition,
-                        ).padStart(2, "0")}{" "}
-                        / {String(totalBlogs).padStart(2, "0")}
-                      </div>
-                      {/* Updated date */}
-                      {updatedDate && <div>Updated on - {updatedDate}</div>}
+                      )}
                     </div>
-                  </HideInListView>
-                  {/* View more/less toggle button */}
-                  <div className="self-start">
-                    <BlogViewToggleButton />
+                    <ResourcesSearch lang={lang} />
                   </div>
-                </div>
 
-                {/* Blog sidebar toggle - switches between next blog preview and all blogs list */}
-                <BlogSidebarToggle
-                  nextBlogPreview={
-                    nextBlog ? (
-                      <Link
-                        href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
-                        className="flex flex-col flex-1 min-h-0 hover:opacity-80 transition-opacity"
-                      >
-                        <h3 className="text-[#3871C1] text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)] line-clamp-1">
-                          {nextBlogTitle}
-                        </h3>
-                        <p className="text-xs leading-loose line-clamp-1 2xl:line-clamp-2">
-                          {nextBlogSummary}
-                        </p>
-                        <Image
-                          src={nextBlogImageUrl}
-                          width={600}
-                          height={700}
-                          className="w-full flex-1 min-h-0 object-cover rounded-md"
-                          alt={nextBlogTitle}
-                        />
-                      </Link>
-                    ) : (
-                      <div className="text-center text-[#716B6D] mt-4">
-                        No more blogs
+                  <div className="flex items-end text-[#3871C1] text-xs flex-col">
+                    <HideInListView>
+                      <div className="text-right">
+                        {/* Position */}
+                        <div className="text-white text-xs mb-1 mt-2">
+                          {String(
+                            currentPosition + 1 <= totalBlogs
+                              ? currentPosition + 1
+                              : currentPosition,
+                          ).padStart(2, "0")}{" "}
+                          / {String(totalBlogs).padStart(2, "0")}
+                        </div>
+                        {/* Updated date */}
+                        {updatedDate && <div>Updated on - {updatedDate}</div>}
                       </div>
-                    )
-                  }
-                  allBlogsList={
-                    <SearchableBlogsList
-                      blogs={blogsForSearch}
-                      lang={currentLang}
-                      currentSlug={slug}
-                    />
-                  }
-                />
-              </article>
-            </BlogSidebarProvider>
+                    </HideInListView>
+                    {/* View more/less toggle button */}
+                    <div className="self-start">
+                      <BlogViewToggleButton />
+                    </div>
+                  </div>
+
+                  {/* Blog sidebar toggle - switches between next blog preview and all blogs list */}
+                  <BlogSidebarToggle
+                    nextBlogPreview={
+                      nextBlog ? (
+                        <Link
+                          href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
+                          className="flex flex-col flex-1 min-h-0 hover:opacity-80 transition-opacity"
+                        >
+                          <h3 className="text-[#3871C1] text-[clamp(1rem,calc(1.2vw-0.137rem),100vw)] line-clamp-1">
+                            {nextBlogTitle}
+                          </h3>
+                          <p className="text-xs leading-loose line-clamp-1 2xl:line-clamp-2">
+                            {nextBlogSummary}
+                          </p>
+                          <Image
+                            src={nextBlogImageUrl}
+                            width={600}
+                            height={700}
+                            className="w-full flex-1 min-h-0 object-cover rounded-md"
+                            alt={nextBlogTitle}
+                          />
+                        </Link>
+                      ) : (
+                        <div className="text-center text-[#716B6D] mt-4">
+                          No more blogs
+                        </div>
+                      )
+                    }
+                    allBlogsList={
+                      <SearchableBlogsList
+                        blogs={blogsForSearch}
+                        lang={currentLang}
+                        currentSlug={slug}
+                      />
+                    }
+                  />
+                </article>
+              </BlogSidebarProvider>
+            </Suspense>
           </div>
         </div>
       </div>
