@@ -49,11 +49,11 @@ export default async function Portal({ params }: PortalPageProps) {
   const content = getLocalizedBlockContent(portalData.content, currentLang);
   const sidePanelTitle = getLocalizedValue(
     portalData.sidePanelTitle,
-    currentLang
+    currentLang,
   );
   const sidePanelDescription = getLocalizedValue(
     portalData.sidePanelDescription,
-    currentLang
+    currentLang,
   );
   const ctaButtonText = portalData.ctaButton
     ? getLocalizedValue(portalData.ctaButton.text, currentLang)
@@ -105,7 +105,7 @@ export default async function Portal({ params }: PortalPageProps) {
 
           {/* Content Grid */}
           <div className="flex-1 min-h-0">
-            <div className="md:grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
+            <div className="grid md:grid-cols-[3fr_1fr] lg:grid-cols-[3fr_2fr] gap-4 h-full min-h-0">
               {/* Main content rich text - scrollable */}
               <div className="h-full overflow-y-auto min-h-0 custom-scrollbar text-[#E5E5E5] pr-4 text-justify leading-loose">
                 <PortableTextContent value={content} />

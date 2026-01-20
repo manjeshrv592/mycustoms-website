@@ -235,7 +235,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                     <BlogViewToggleButton />
                   </div>
                   <div className="flex items-center justify-between gap-2 xl:gap-4">
-                    <div className="flex gap-2 xl:gap-4">
+                    <div className="flex gap-2 xl:gap-4 items-center">
                       {/* Previous blog */}
                       {prevBlog ? (
                         <Link
@@ -243,7 +243,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         >
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 [&>svg]:size-4"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
                           >
                             <ArrowLeft />
                           </Button>
@@ -264,7 +264,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         >
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-7 [&>svg]:size-4"
+                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
                           >
                             <ArrowRight />
                           </Button>
