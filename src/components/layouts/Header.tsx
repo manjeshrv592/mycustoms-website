@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useIsCurrentPath, useCurrentLocale } from "@/hooks/useIsCurrentPath";
-import TransitionLink from "@/components/animation/TransitionLink";
+import Link from "next/link";
 import LanguageSelector from "../custom-ui/LanguageSelector";
 import Logo from "../custom-ui/Logo";
 import PrimaryButton from "../custom-ui/PrimaryButton";
@@ -15,7 +15,6 @@ export default function Header() {
   return (
     <header
       className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4"
-      style={{ viewTransitionName: "header" }}
     >
       <Logo />
       <div className="flex items-center gap-4">
@@ -36,9 +35,9 @@ export default function Header() {
               className="w-[48px] h-auto"
             />
             {!isContactPage && (
-              <TransitionLink href={`/${currentLocale}/contact`}>
+              <Link href={`/${currentLocale}/contact`}>
                 <PrimaryButton>Contact Us</PrimaryButton>
-              </TransitionLink>
+              </Link>
             )}
           </div>
         )}

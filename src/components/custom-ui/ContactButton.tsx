@@ -1,6 +1,6 @@
 "use client";
 
-import TransitionLink from "@/components/animation/TransitionLink";
+import Link from "next/link";
 import PrimaryButton from "@/components/custom-ui/PrimaryButton";
 
 interface ContactButtonProps {
@@ -13,8 +13,8 @@ interface ContactButtonProps {
  */
 export default function ContactButton({ locale }: ContactButtonProps) {
   return (
-    <TransitionLink href={`/${locale}/contact`}>
+    <Link href={`/${locale}/contact`}>
       <PrimaryButton variant="gradient">Contact Us</PrimaryButton>
-    </TransitionLink>
+    </Link>
   );
 }

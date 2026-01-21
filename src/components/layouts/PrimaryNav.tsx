@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { locales, defaultLocale, type Locale } from "@/i18n";
-import TransitionLink from "@/components/animation/TransitionLink";
+import Link from "next/link";
 
 interface NavLink {
   href: string;
@@ -19,19 +19,19 @@ const getNavLinks = (
   firstServiceSlug?: string | null,
   firstBlogSlug?: string | null
 ): NavLink[] => [
-  { href: "/", label: "Home" },
-  {
-    href: firstServiceSlug ? `/services/${firstServiceSlug}` : "/services",
-    label: "Services",
-  },
-  { href: "/portal", label: "Portal" },
-  {
-    href: firstBlogSlug ? `/resources/blogs/${firstBlogSlug}` : "/resources",
-    label: "Resources",
-  },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
+    { href: "/", label: "Home" },
+    {
+      href: firstServiceSlug ? `/services/${firstServiceSlug}` : "/services",
+      label: "Services",
+    },
+    { href: "/portal", label: "Portal" },
+    {
+      href: firstBlogSlug ? `/resources/blogs/${firstBlogSlug}` : "/resources",
+      label: "Resources",
+    },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
 
 export default function PrimaryNav({
   firstServiceSlug,
@@ -62,7 +62,6 @@ export default function PrimaryNav({
   return (
     <nav
       className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block"
-      style={{ viewTransitionName: "primary-nav" }}
     >
       <ul className="flex gap-5 flex-col justify-center items-center">
         {navLinks.map((link) => {
@@ -88,22 +87,20 @@ export default function PrimaryNav({
 
           return (
             <li key={link.label}>
-              <TransitionLink
+              <Link
                 href={localizedHref}
-                className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${
-                  isActive
-                    ? "bg-[#3871C1]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
-                    : "bg-white/0"
-                }`}
+                className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${isActive
+                  ? "bg-[#3871C1]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
+                  : "bg-white/0"
+                  }`}
               >
                 <span
-                  className={`inline-block size-1.5 rounded-full ${
-                    isActive ? "bg-[#3871C1]" : "bg-white"
-                  }`}
+                  className={`inline-block size-1.5 rounded-full ${isActive ? "bg-[#3871C1]" : "bg-white"
+                    }`}
                 >
                   &nbsp;
                 </span>
-              </TransitionLink>
+              </Link>
             </li>
           );
         })}

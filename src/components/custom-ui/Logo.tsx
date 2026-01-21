@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import TransitionLink from "@/components/animation/TransitionLink";
+import Link from "next/link";
 import { useIsCurrentPath, useCurrentLocale } from "@/hooks/useIsCurrentPath";
 
 export default function Logo() {
@@ -9,7 +9,7 @@ export default function Logo() {
   const currentLocale = useCurrentLocale();
 
   return (
-    <TransitionLink href={`/${currentLocale}`}>
+    <Link href={`/${currentLocale}`}>
       <Image
         className="w-[80px] h-auto"
         src={
@@ -21,6 +21,6 @@ export default function Logo() {
         width={100}
         height={100}
       />
-    </TransitionLink>
+    </Link>
   );
 }
