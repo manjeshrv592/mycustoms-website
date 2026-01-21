@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
  * Page order for navigation direction calculation
  * Lower index = earlier in navigation hierarchy
  */
-const PAGE_ORDER = [
+export const PAGE_ORDER = [
     "/", // 0 - Home
     "/services", // 1 - Services (includes /services/*)
     "/portal", // 2 - Portal
@@ -26,7 +26,10 @@ type NavigationDirection = "forward" | "backward" | "none";
 
 interface NavigationContextType {
     direction: NavigationDirection;
+    currentPageIndex: number;
     setNavigationDirection: (targetPath: string) => void;
+    getNextPath: (locale: string) => string | null;
+    getPrevPath: (locale: string) => string | null;
 }
 
 const NavigationContext = createContext<NavigationContextType | null>(null);
@@ -59,8 +62,12 @@ function getPageIndex(path: string): number {
  */
 export function NavigationProvider({
     children,
+    firstServiceSlug,
+    firstBlogSlug,
 }: {
     children: React.ReactNode;
+    firstServiceSlug?: string | null;
+    firstBlogSlug?: string | null;
 }) {
     const pathname = usePathname();
     const [direction, setDirection] = useState<NavigationDirection>("none");
@@ -97,6 +104,50 @@ export function NavigationProvider({
         [currentPageIndex]
     );
 
+    // Get path to next page
+    const getNextPath = useCallback(
+        (locale: string): string | null => {
+            if (currentPageIndex >= PAGE_ORDER.length - 1) {
+                return null; // Already at last page
+            }
+            const nextIndex = currentPageIndex + 1;
+            const basePath = PAGE_ORDER[nextIndex];
+
+            // Use slug paths for services and resources
+            if (basePath === "/services" && firstServiceSlug) {
+                return `/${locale}/services/${firstServiceSlug}`;
+            }
+            if (basePath === "/resources" && firstBlogSlug) {
+                return `/${locale}/resources/blogs/${firstBlogSlug}`;
+            }
+
+            return `/${locale}${basePath}`;
+        },
+        [currentPageIndex, firstServiceSlug, firstBlogSlug]
+    );
+
+    // Get path to previous page
+    const getPrevPath = useCallback(
+        (locale: string): string | null => {
+            if (currentPageIndex <= 0) {
+                return null; // Already at first page
+            }
+            const prevIndex = currentPageIndex - 1;
+            const basePath = PAGE_ORDER[prevIndex];
+
+            // Use slug paths for services and resources
+            if (basePath === "/services" && firstServiceSlug) {
+                return `/${locale}/services/${firstServiceSlug}`;
+            }
+            if (basePath === "/resources" && firstBlogSlug) {
+                return `/${locale}/resources/blogs/${firstBlogSlug}`;
+            }
+
+            return `/${locale}${basePath}`;
+        },
+        [currentPageIndex, firstServiceSlug, firstBlogSlug]
+    );
+
     // Set CSS data attribute for direction-based animations
     useEffect(() => {
         if (typeof document !== "undefined") {
@@ -108,7 +159,10 @@ export function NavigationProvider({
         <NavigationContext.Provider
             value={{
                 direction,
+                currentPageIndex,
                 setNavigationDirection,
+                getNextPath,
+                getPrevPath,
             }}
         >
             {children}
