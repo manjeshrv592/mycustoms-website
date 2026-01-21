@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { locales, defaultLocale, type Locale } from "@/i18n";
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 
 interface NavLink {
   href: string;
@@ -87,7 +87,7 @@ export default function PrimaryNav({
 
           return (
             <li key={link.label}>
-              <Link
+              <TransitionLink
                 href={localizedHref}
                 className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${isActive
                   ? "bg-[#3871C1]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
@@ -100,7 +100,7 @@ export default function PrimaryNav({
                 >
                   &nbsp;
                 </span>
-              </Link>
+              </TransitionLink>
             </li>
           );
         })}

@@ -130,6 +130,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html,
   body {
     @apply text-foreground font-poppins;
@@ -140,11 +141,9 @@
     overscroll-behavior: none;
     touch-action: none;
     background:
-      linear-gradient(
-        to bottom,
+      linear-gradient(to bottom,
         rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.8) 100%
-      ),
+        rgba(0, 0, 0, 0.8) 100%),
       linear-gradient(to right, #3871c1 0%, #000000 33%);
   }
 }
@@ -211,3 +210,72 @@ body {
   background: #2d5a9a;
 }
 
+/* ============================================
+   VIEW TRANSITIONS - Page Slide Animations
+   ============================================ */
+
+/* Disable default crossfade for smooth directional slides */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Forward navigation: current slides UP and out, new slides UP into view */
+[data-nav-direction="forward"]::view-transition-old(root) {
+  animation: slide-out-up 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+[data-nav-direction="forward"]::view-transition-new(root) {
+  animation: slide-in-from-bottom 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Backward navigation: current slides DOWN and out, new slides DOWN into view */
+[data-nav-direction="backward"]::view-transition-old(root) {
+  animation: slide-out-down 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+[data-nav-direction="backward"]::view-transition-new(root) {
+  animation: slide-in-from-top 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Keyframe animations */
+@keyframes slide-out-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-out-down {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}

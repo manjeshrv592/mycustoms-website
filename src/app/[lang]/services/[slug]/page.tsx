@@ -92,12 +92,14 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const serviceImageUrl = service.image ? urlFor(service.image).url() : null;
 
   return (
-    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
         alt="Services background"
         fill
+        sizes="100vw"
+        priority
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
@@ -191,6 +193,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     <Image
                       src={serviceImageUrl}
                       fill
+                      sizes="(max-width: 768px) 100vw, 60vw"
                       alt={serviceTitle}
                       className="object-cover"
                     />

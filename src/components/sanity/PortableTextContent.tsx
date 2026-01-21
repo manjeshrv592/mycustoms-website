@@ -26,6 +26,7 @@ const components: PortableTextComponents = {
               src={urlFor(value).url()}
               alt={value.alt || ""}
               fill
+              sizes="(max-width: 768px) 100vw, 60vw"
               className="object-cover"
             />
           </div>

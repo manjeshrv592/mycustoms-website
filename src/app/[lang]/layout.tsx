@@ -4,6 +4,8 @@ import { locales, isValidLocale } from "@/i18n";
 import { notFound } from "next/navigation";
 import { getFirstServiceSlug, getFirstBlogSlug } from "@/sanity/queries";
 import { Toaster } from "@/components/ui/sonner";
+import { ViewTransitions } from "next-view-transitions";
+import { NavigationProvider } from "@/context/NavigationContext";
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -20,7 +22,7 @@ export async function generateStaticParams() {
 
 /**
  * Layout for main website pages with locale support
- * Adds Header and Navigation components
+ * Adds Header and Navigation components with View Transitions
  */
 export default async function LangLayout({
   children,
@@ -40,14 +42,16 @@ export default async function LangLayout({
   ]);
 
   return (
-    <>
-      <Header />
-      <PrimaryNav
-        firstServiceSlug={firstServiceSlug}
-        firstBlogSlug={firstBlogSlug}
-      />
-      {children}
-      <Toaster position="bottom-right" richColors />
-    </>
+    <ViewTransitions>
+      <NavigationProvider>
+        <Header />
+        <PrimaryNav
+          firstServiceSlug={firstServiceSlug}
+          firstBlogSlug={firstBlogSlug}
+        />
+        {children}
+        <Toaster position="bottom-right" richColors />
+      </NavigationProvider>
+    </ViewTransitions>
   );
 }

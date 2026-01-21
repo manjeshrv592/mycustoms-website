@@ -76,6 +76,8 @@ export default async function Contact({ params }: ContactPageProps) {
         src={backgroundImageUrl}
         alt="Contact background"
         fill
+        sizes="100vw"
+        priority
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.1)_0%,rgba(0,0,0,0)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,0)_100%)]"></div>

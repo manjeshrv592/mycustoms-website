@@ -78,6 +78,7 @@ export default function ResourcesGrid({
                   src={imageUrl}
                   alt={item.image?.alt || item.label}
                   fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
                 />
               )}

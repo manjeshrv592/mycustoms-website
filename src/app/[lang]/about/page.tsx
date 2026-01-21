@@ -67,12 +67,14 @@ export default async function About({ params }: AboutPageProps) {
   }));
 
   return (
-    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
         alt="About background"
         fill
+        sizes="100vw"
+        priority
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.8)_100%)] md:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.9)_100%)]"></div>

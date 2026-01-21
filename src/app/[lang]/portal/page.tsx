@@ -68,12 +68,14 @@ export default async function Portal({ params }: PortalPageProps) {
     : "/images/team/portal-image.jpg";
 
   return (
-    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)]">
+    <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
       {/* Background Image */}
       <Image
         src={backgroundImageUrl}
         alt="Portal background"
         fill
+        sizes="100vw"
+        priority
         className="object-cover filter brightness-30"
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
@@ -149,6 +151,7 @@ export default async function Portal({ params }: PortalPageProps) {
                   <Image
                     src={sidePanelImageUrl}
                     fill
+                    sizes="(max-width: 1024px) 25vw, 30vw"
                     alt="Portal preview"
                     className="absolute object-cover"
                   />

@@ -36,15 +36,13 @@ export default function ServicesGrid({
           <Link
             key={item._id}
             href={`/${currentLang}/services/${item.slug.current}`}
-            className={`border flex flex-col justify-between hover:scale-[1.04] transition-all bg-neutral-900 md:bg-black/20 duration-300 cursor-pointer shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.85)] ${
-              isActive ? "border-[#3871C1]/50 border" : "border-none"
-            }`}
+            className={`border flex flex-col justify-between hover:scale-[1.04] transition-all bg-neutral-900 md:bg-black/20 duration-300 cursor-pointer shadow-[inset_0_4px_4px_0_rgba(0,0,0,0.85)] ${isActive ? "border-[#3871C1]/50 border" : "border-none"
+              }`}
           >
             <div className="p-3 py-5 md:p-2 lg:p-3 lg:py-5">
               <h4
-                className={`w-[70%] leading-[1.2] text-[10px] font-semibold lg:text-xs ${
-                  isActive ? "text-[#38B6FF]" : "text-white"
-                }`}
+                className={`w-[70%] leading-[1.2] text-[10px] font-semibold lg:text-xs ${isActive ? "text-[#38B6FF]" : "text-white"
+                  }`}
               >
                 {itemTitle}
               </h4>
@@ -55,6 +53,7 @@ export default function ServicesGrid({
                   src={urlFor(item.image).url()}
                   alt={item.image.alt || itemTitle}
                   fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 15vw"
                   className="object-cover"
                 />
               )}

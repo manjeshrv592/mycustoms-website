@@ -77,6 +77,8 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
           src={backgroundImageUrl}
           alt="Services background"
           fill
+          sizes="100vw"
+          priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>
@@ -115,6 +117,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
           src={backgroundImageUrl}
           alt="Services background"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.8)_0%,rgba(0,0,0,.8)_100%)]"></div>

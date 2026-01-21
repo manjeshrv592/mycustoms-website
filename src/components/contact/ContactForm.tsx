@@ -123,9 +123,8 @@ const ContactForm = () => {
       )}
 
       <div
-        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
       >
         <Label className="" htmlFor="email">
           Email
@@ -142,9 +141,8 @@ const ContactForm = () => {
       </div>
 
       <div
-        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
       >
         <Label className="" htmlFor="phone">
           Phone Number <span className="text-gray-400">(optional)</span>
@@ -163,9 +161,8 @@ const ContactForm = () => {
       </div>
 
       <div
-        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
       >
         <Label className="" htmlFor="company">
           Company Name <span className="text-gray-400">(optional)</span>
@@ -182,9 +179,8 @@ const ContactForm = () => {
       </div>
 
       <div
-        className={`2xl:mb-[1vw] transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`2xl:mb-[1vw] transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
       >
         <Label className="" htmlFor="service">
           Select Service
@@ -204,9 +200,8 @@ const ContactForm = () => {
       </div>
 
       <div
-        className={`flex flex-col transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`flex flex-col transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
       >
         <Label className="" htmlFor="message">
           Message <span className="text-gray-400">(optional)</span>
@@ -222,9 +217,8 @@ const ContactForm = () => {
 
       <PrimaryButton
         type="submit"
-        className={`w-full transition-opacity duration-500 ${
-          isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
-        }`}
+        className={`w-full mt-4 transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
         disabled={isSubmitting}
       >
         {isSubmitting ? "Submitting..." : "Submit"}

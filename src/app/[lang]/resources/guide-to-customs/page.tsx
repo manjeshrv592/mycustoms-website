@@ -87,6 +87,7 @@ export default async function GuideToCustomsPage({
               <Image
                 src={sidePanelImageUrl}
                 fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 alt={label}
                 className="object-cover"
               />
@@ -105,6 +106,7 @@ export default async function GuideToCustomsPage({
             <Image
               src={sidePanelImageUrl}
               fill
+              sizes="40vw"
               alt={label}
               className="absolute object-cover"
             />

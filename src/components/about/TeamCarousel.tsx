@@ -83,6 +83,7 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
                   <Image
                     src={member.imageUrl}
                     fill
+                    sizes="(max-width: 1024px) 350px, 30vw"
                     alt={`${member.firstName} ${member.lastName}`}
                     className="absolute object-cover"
                   />

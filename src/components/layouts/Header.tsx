@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useIsCurrentPath, useCurrentLocale } from "@/hooks/useIsCurrentPath";
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import LanguageSelector from "../custom-ui/LanguageSelector";
 import Logo from "../custom-ui/Logo";
 import PrimaryButton from "../custom-ui/PrimaryButton";
@@ -25,19 +25,21 @@ export default function Header() {
               alt="Fenex logo"
               width={178}
               height={48}
-              className="w-[96px] h-auto"
+              className="w-[96px]"
+              style={{ height: "auto" }}
             />
             <Image
               src="/images/featured-logos/aeo.png"
               alt="AEO logo"
               width={127}
               height={95}
-              className="w-[48px] h-auto"
+              className="w-[48px]"
+              style={{ height: "auto" }}
             />
             {!isContactPage && (
-              <Link href={`/${currentLocale}/contact`}>
+              <TransitionLink href={`/${currentLocale}/contact`}>
                 <PrimaryButton>Contact Us</PrimaryButton>
-              </Link>
+              </TransitionLink>
             )}
           </div>
         )}

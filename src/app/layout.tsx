@@ -8,12 +8,14 @@ const orbitron = Orbitron({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-orbitron",
+  preload: false,
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
   variable: "--font-poppins",
+  preload: false,
 });
 
 const aptos = localFont({
@@ -35,6 +37,7 @@ const aptos = localFont({
     },
   ],
   variable: "--font-aptos",
+  preload: false,
 });
 
 const grift = localFont({
@@ -56,6 +59,7 @@ const grift = localFont({
     },
   ],
   variable: "--font-grift",
+  preload: false,
 });
 
 export const metadata: Metadata = {

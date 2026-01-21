@@ -15,6 +15,7 @@ export default function ResourcesLayout({ children }: ResourcesLayoutProps) {
         src="/images/resources-bg.jpg"
         alt="Resources background"
         fill
+        sizes="100vw"
         className="object-cover"
         priority
       />

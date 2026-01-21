@@ -93,7 +93,8 @@ export default async function Home({ params }: HomePageProps) {
                 alt={logo.alt}
                 width={200}
                 height={logo.height || 48}
-                style={{ height: logo.height || 48, width: "auto" }}
+                className="h-[48px] md:h-[60px]"
+                style={{ width: "auto", height: "auto", maxHeight: logo.height || 48 }}
               />
             ))
           ) : (
@@ -103,14 +104,16 @@ export default async function Home({ params }: HomePageProps) {
                 alt="Fenex logo"
                 width={178}
                 height={48}
-                className="w-[100px] md:w-[158px] h-auto"
+                className="w-[100px] md:w-[158px]"
+                style={{ height: "auto" }}
               />
               <Image
                 src="/images/featured-logos/aeo.png"
                 alt="AEO logo"
                 width={127}
                 height={95}
-                className="w-[70px] md:w-[100px] h-auto"
+                className="w-[70px] md:w-[100px]"
+                style={{ height: "auto" }}
               />
             </>
           )}
