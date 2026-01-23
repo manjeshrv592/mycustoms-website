@@ -31,10 +31,10 @@ const contactFormSchema = z.object({
     .min(2, "Name must be at least 2 characters")
     .regex(/^[^\d]*$/, "Name cannot contain numbers"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().optional().or(z.literal("")), // Phone is optional, format handled by input component
-  company: z.string().optional(), // Company is optional
+  phone: z.string().min(1, "Please enter your phone number"),
+  company: z.string().min(1, "Please enter your company name"),
   service: z.string().min(1, "Please select a service"),
-  message: z.string().optional(), // Message is optional
+  message: z.string().min(1, "Please enter your message"),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -84,7 +84,7 @@ const ContactForm = () => {
       className="flex flex-col max-w-[400px] gap-4 md:gap-8 lg:gap-0 lg:justify-between max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
     >
       <div className="2xl:mb-[1vw]">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Name <span className="text-red-500">*</span></Label>
         <PrimaryInput
           type="text"
           id="name"
@@ -127,7 +127,7 @@ const ContactForm = () => {
           }`}
       >
         <Label className="" htmlFor="email">
-          Email
+          Email <span className="text-red-500">*</span>
         </Label>
         <PrimaryInput
           type="email"
@@ -145,7 +145,7 @@ const ContactForm = () => {
           }`}
       >
         <Label className="" htmlFor="phone">
-          Phone Number <span className="text-gray-400">(optional)</span>
+          Phone Number <span className="text-red-500">*</span>
         </Label>
         <PrimaryPhoneInput
           id="phone"
@@ -165,7 +165,7 @@ const ContactForm = () => {
           }`}
       >
         <Label className="" htmlFor="company">
-          Company Name <span className="text-gray-400">(optional)</span>
+          Company Name <span className="text-red-500">*</span>
         </Label>
         <PrimaryInput
           type="text"
@@ -183,7 +183,7 @@ const ContactForm = () => {
           }`}
       >
         <Label className="" htmlFor="service">
-          Select Service
+          Select Service <span className="text-red-500">*</span>
         </Label>
         <PrimarySelect
           id="service"
@@ -204,7 +204,7 @@ const ContactForm = () => {
           }`}
       >
         <Label className="" htmlFor="message">
-          Message <span className="text-gray-400">(optional)</span>
+          Message <span className="text-red-500">*</span>
         </Label>
         <PrimaryTextarea
           className="md:h-32 lg:h-auto"
@@ -213,6 +213,9 @@ const ContactForm = () => {
           placeholder="Tell us more about your requirements..."
           {...register("message")}
         />
+        {errors.message && (
+          <p className="text-red-400  mt-1">{errors.message.message}</p>
+        )}
       </div>
 
       <PrimaryButton
