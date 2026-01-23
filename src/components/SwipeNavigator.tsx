@@ -8,10 +8,11 @@ interface SwipeNavigatorProps {
 }
 
 // Configuration
-const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
-const TOUCH_THRESHOLD = 50; // Minimum touch swipe distance to trigger navigation
-const NAVIGATION_LOCK_DURATION = 350; // Lock duration after navigation (ms) - matches animation
-const VELOCITY_INCREASE_RATIO = 1.3; // Delta must increase by 30% to be considered new swipe
+const TOUCH_THRESHOLD = 50;
+const SCROLL_THRESHOLD = 50; // Minimum delta to trigger navigation
+const NAVIGATION_LOCK_DURATION = 350; // Lock duration (ms) - matches animation
+const COASTING_SAMPLE_SIZE = 3; // How many samples to check for steady decrease
+const SPIKE_RATIO = 1.5; // Delta must be 1.5x the previous to be considered a spike
 
 /**
  * Check if an element or any of its parents is scrollable
@@ -52,11 +53,25 @@ function isAtScrollBoundary(
 }
 
 /**
+ * Check if an array of values is steadily decreasing
+ */
+function isSteadilyDecreasing(values: number[]): boolean {
+    if (values.length < 2) return false;
+    for (let i = 1; i < values.length; i++) {
+        if (values[i] >= values[i - 1]) return false;
+    }
+    return true;
+}
+
+/**
  * SwipeNavigator - Handles wheel scroll and touch swipe for page navigation
  * 
- * Uses VELOCITY CHANGE DETECTION to distinguish:
- * - Inertia: delta values DECREASE over time
- * - New swipe: delta values suddenly INCREASE
+ * Navigation Logic:
+ * 1. First swipe → Navigate, lock for 350ms
+ * 2. During lock → Block all events
+ * 3. After lock expires:
+ *    - If coasting (steady decrease) AND spike detected → NEW SWIPE → Navigate
+ *    - Edge case: If significant spike (1.5x) detected regardless of coasting → Navigate
  */
 export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const { navigateToPage, isNavigating, currentPageIndex } = useNavigation();
@@ -66,23 +81,25 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const touchStartX = useRef<number | null>(null);
     const touchStartElement = useRef<HTMLElement | null>(null);
 
-    // Navigation lock ref
+    // Navigation lock
     const isLockedRef = useRef(false);
     const lockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Gesture and velocity tracking
-    const hasNavigatedInGestureRef = useRef(false);
-    const lastDeltaYRef = useRef<number>(0);
+    // Delta history for detecting coasting
+    const deltaHistoryRef = useRef<number[]>([]);
+    const hasNavigatedRef = useRef(false);
 
-    // Store current page index in a ref for synchronous access
+    // Store current page index in ref for synchronous access
     const currentPageIndexRef = useRef(currentPageIndex);
     useEffect(() => {
         currentPageIndexRef.current = currentPageIndex;
     }, [currentPageIndex]);
 
-    // Function to lock navigation during animation
+    // Lock navigation for animation duration
     const lockNavigation = useCallback(() => {
         isLockedRef.current = true;
+        hasNavigatedRef.current = true;
+        deltaHistoryRef.current = []; // Reset history on navigation
 
         if (lockTimeoutRef.current) {
             clearTimeout(lockTimeoutRef.current);
@@ -90,48 +107,57 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
 
         lockTimeoutRef.current = setTimeout(() => {
             isLockedRef.current = false;
-            // Don't reset hasNavigatedInGestureRef here - let velocity detection handle it
+            // Note: hasNavigatedRef stays true until we detect coasting + spike
         }, NAVIGATION_LOCK_DURATION);
     }, []);
 
-    // Handle wheel scroll with velocity change detection
+    // Handle wheel scroll
     const handleWheel = useCallback(
         (e: WheelEvent) => {
-            const currentDeltaY = Math.abs(e.deltaY);
-            const lastDeltaY = lastDeltaYRef.current;
+            const currentDelta = Math.abs(e.deltaY);
+            const lastDelta = deltaHistoryRef.current[deltaHistoryRef.current.length - 1] || 0;
 
-            // Update tracking
-            lastDeltaYRef.current = currentDeltaY;
-
-            // Detect NEW gesture: delta suddenly increased (new force applied = new swipe)
-            // Inertia has DECREASING delta, new swipe has INCREASING delta
-            const isNewGesture = lastDeltaY > 0 && currentDeltaY > lastDeltaY * VELOCITY_INCREASE_RATIO;
-
-            // Reset gesture flag if this is a new gesture
-            if (isNewGesture) {
-                hasNavigatedInGestureRef.current = false;
+            // Add to history
+            deltaHistoryRef.current.push(currentDelta);
+            if (deltaHistoryRef.current.length > COASTING_SAMPLE_SIZE) {
+                deltaHistoryRef.current.shift();
             }
 
-            // Block if we already navigated in this gesture
-            if (hasNavigatedInGestureRef.current) {
-                e.preventDefault();
-                return;
-            }
+            // Check coasting (steady decrease) and spike
+            const isCoasting = isSteadilyDecreasing(deltaHistoryRef.current);
+            const isSpike = lastDelta > 0 && currentDelta > lastDelta * SPIKE_RATIO;
 
-            // Block during animation
+            // Block during lock
             if (isLockedRef.current) {
                 e.preventDefault();
                 return;
             }
 
-            // Block if React state says navigating
+            // Block if React says navigating
             if (isNavigating) {
                 e.preventDefault();
                 return;
             }
 
+            // If we already navigated, only allow new swipe under specific conditions
+            if (hasNavigatedRef.current) {
+                // Condition 1: Coasting detected + spike → NEW SWIPE
+                // Condition 2: Significant spike (edge case, no coasting) → NEW SWIPE
+                const isNewSwipe = (isCoasting && isSpike) || isSpike;
+
+                if (isNewSwipe) {
+                    // Reset for new gesture
+                    hasNavigatedRef.current = false;
+                    deltaHistoryRef.current = [];
+                } else {
+                    // Still same gesture, block
+                    e.preventDefault();
+                    return;
+                }
+            }
+
             // Check threshold
-            if (currentDeltaY < SCROLL_THRESHOLD) {
+            if (currentDelta < SCROLL_THRESHOLD) {
                 return;
             }
 
@@ -156,12 +182,10 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             // Navigate
             if (isScrollingDown && !isAtLastPage) {
                 e.preventDefault();
-                hasNavigatedInGestureRef.current = true;
                 lockNavigation();
                 navigateToPage("next");
             } else if (isScrollingUp && !isAtFirstPage) {
                 e.preventDefault();
-                hasNavigatedInGestureRef.current = true;
                 lockNavigation();
                 navigateToPage("prev");
             }
@@ -182,7 +206,6 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const handleTouchEnd = useCallback(
         (e: TouchEvent) => {
             if (touchStartY.current === null || touchStartX.current === null) return;
-
             if (isLockedRef.current) return;
             if (isNavigating) return;
 
