@@ -1,30 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { StringInputProps } from "sanity";
-import { Box, Flex, Text } from "@sanity/ui";
+import { useCallback, useMemo } from "react";
+import { set, StringInputProps, unset } from "sanity";
+import { Box, Flex, Text, TextInput } from "@sanity/ui";
 
 /**
  * Custom string input component that displays character counter inline
  * at the end of the input field: "More Than [05/10]"
  * 
- * This component wraps the default input and adds a counter badge
- * on the right side of the input row.
+ * This component uses a custom TextInput with character restriction
+ * to prevent users from typing beyond the max limit.
  */
 export function StringWithInlineCounter(props: StringInputProps) {
-    const { value = "", schemaType, renderDefault, path } = props;
-    const [charCount, setCharCount] = useState(0);
+    const { value = "", schemaType, onChange } = props;
 
     // Get character limit from schema options
     const options = (schemaType as any).options || {};
 
     // The limit could be passed as a number directly
-    let limit: number | undefined = options.characterLimit;
+    const limit: number | undefined = options.characterLimit;
 
-    // Update character count when value changes
-    useEffect(() => {
-        setCharCount(typeof value === "string" ? value.length : 0);
-    }, [value]);
+    // Handle input change with character restriction
+    const handleChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const newValue = event.currentTarget.value;
+
+            // Truncate the value if it exceeds the limit
+            const truncatedValue = limit && newValue.length > limit
+                ? newValue.slice(0, limit)
+                : newValue;
+
+            if (truncatedValue) {
+                onChange(set(truncatedValue));
+            } else {
+                onChange(unset());
+            }
+        },
+        [onChange, limit]
+    );
+
+    // Get current character count
+    const charCount = typeof value === "string" ? value.length : 0;
 
     // Format character count with leading zeros based on max digits
     const formatCount = (count: number, max: number) => {
@@ -32,22 +48,25 @@ export function StringWithInlineCounter(props: StringInputProps) {
         return count.toString().padStart(digits, "0");
     };
 
-    // Determine if over limit
-    const isOverLimit = limit ? charCount > limit : false;
-
-    // If no limit configured, just render the default
+    // If no limit configured, just render the default with renderDefault
     if (!limit) {
-        return <>{renderDefault(props)}</>;
+        return <>{props.renderDefault(props)}</>;
     }
 
     return (
         <Flex align="center" gap={2}>
-            <Box flex={1}>{renderDefault(props)}</Box>
+            <Box flex={1}>
+                <TextInput
+                    value={typeof value === "string" ? value : ""}
+                    onChange={handleChange}
+                    maxLength={limit}
+                />
+            </Box>
             <Box
                 padding={1}
                 paddingX={2}
                 style={{
-                    backgroundColor: isOverLimit ? "#ffeae8" : "#2a2a2a",
+                    backgroundColor: "#2a2a2a",
                     borderRadius: "4px",
                     flexShrink: 0,
                 }}
@@ -57,7 +76,7 @@ export function StringWithInlineCounter(props: StringInputProps) {
                     weight="medium"
                     style={{
                         fontFamily: "monospace",
-                        color: isOverLimit ? "#c4281c" : "#9ca3af",
+                        color: "#9ca3af",
                         letterSpacing: "0.5px",
                         whiteSpace: "nowrap",
                     }}

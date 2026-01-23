@@ -54,14 +54,22 @@ export function LocalizedStringInput(props: ArrayOfObjectsInputProps) {
     // Handle input change for a specific language
     const handleChange = useCallback(
         (lang: string, newValue: string) => {
+            // Get the character limit for this language
+            const limit = limits?.[lang as keyof LanguageLimits];
+
+            // Truncate the value if it exceeds the limit
+            const truncatedValue = limit && newValue.length > limit
+                ? newValue.slice(0, limit)
+                : newValue;
+
             const existingIndex = (value as InternationalizedItem[]).findIndex(
                 (v) => v._key === lang
             );
 
             if (existingIndex >= 0) {
                 // Update existing item
-                if (newValue) {
-                    onChange(set(newValue, [existingIndex, "value"]));
+                if (truncatedValue) {
+                    onChange(set(truncatedValue, [existingIndex, "value"]));
                 } else {
                     onChange(set("", [existingIndex, "value"]));
                 }
@@ -74,7 +82,7 @@ export function LocalizedStringInput(props: ArrayOfObjectsInputProps) {
                             {
                                 _key: lang,
                                 _type: "internationalizedArrayStringValue",
-                                value: newValue,
+                                value: truncatedValue,
                             },
                         ],
                         "after",
@@ -83,7 +91,7 @@ export function LocalizedStringInput(props: ArrayOfObjectsInputProps) {
                 ]);
             }
         },
-        [onChange, value]
+        [onChange, value, limits]
     );
 
     // Format character count

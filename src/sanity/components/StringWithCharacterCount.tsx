@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { StringInputProps } from "sanity";
-import { Stack, Text, Card, Flex, Box } from "@sanity/ui";
+import { useCallback, useMemo } from "react";
+import { set, StringInputProps, unset } from "sanity";
+import { Stack, Text, Flex, Box, TextInput } from "@sanity/ui";
 
 interface CharacterLimitConfig {
     en: number;
@@ -23,10 +23,10 @@ interface StringWithLimitProps extends StringInputProps {
 /**
  * Custom string input component wrapper that adds a real-time character counter.
  * Shows counter in header row above the input, similar to LocalizedStringInput.
+ * Restricts character input to the max limit.
  */
 export function StringWithCharacterCount(props: StringWithLimitProps) {
-    const { value = "", schemaType, renderDefault } = props;
-    const [charCount, setCharCount] = useState(0);
+    const { value = "", schemaType, renderDefault, onChange } = props;
 
     // Get character limit from schema options
     const options = schemaType.options || {};
@@ -34,28 +34,44 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
     const language = options.language || "en";
 
     // Determine the limit - could be a number or per-language object
-    let limit: number | undefined;
-    if (typeof limitConfig === "number") {
-        limit = limitConfig;
-    } else if (limitConfig && typeof limitConfig === "object") {
-        limit = (limitConfig as CharacterLimitConfig)[
-            language as keyof CharacterLimitConfig
-        ];
-    }
+    const limit = useMemo(() => {
+        if (typeof limitConfig === "number") {
+            return limitConfig;
+        } else if (limitConfig && typeof limitConfig === "object") {
+            return (limitConfig as CharacterLimitConfig)[
+                language as keyof CharacterLimitConfig
+            ];
+        }
+        return undefined;
+    }, [limitConfig, language]);
 
-    // Update character count when value changes
-    useEffect(() => {
-        setCharCount(typeof value === "string" ? value.length : 0);
-    }, [value]);
+    // Handle input change with character restriction
+    const handleChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const newValue = event.currentTarget.value;
+
+            // Truncate the value if it exceeds the limit
+            const truncatedValue = limit && newValue.length > limit
+                ? newValue.slice(0, limit)
+                : newValue;
+
+            if (truncatedValue) {
+                onChange(set(truncatedValue));
+            } else {
+                onChange(unset());
+            }
+        },
+        [onChange, limit]
+    );
+
+    // Get current character count
+    const charCount = typeof value === "string" ? value.length : 0;
 
     // Format character count with leading zero for single digits
     const formatCount = (count: number, max: number) => {
         const digits = Math.max(max.toString().length, 2);
         return count.toString().padStart(digits, "0");
     };
-
-    // Determine if over limit
-    const isOverLimit = limit ? charCount > limit : false;
 
     // If no limit configured, just render the default
     if (!limit) {
@@ -70,7 +86,7 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
                     padding={1}
                     paddingX={2}
                     style={{
-                        backgroundColor: isOverLimit ? "#ffeae8" : "#2a2a2a",
+                        backgroundColor: "#2a2a2a",
                         borderRadius: "4px",
                     }}
                 >
@@ -79,7 +95,7 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
                         weight="medium"
                         style={{
                             fontFamily: "monospace",
-                            color: isOverLimit ? "#c4281c" : "#9ca3af",
+                            color: "#9ca3af",
                             letterSpacing: "0.5px",
                         }}
                     >
@@ -87,8 +103,12 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
                     </Text>
                 </Box>
             </Flex>
-            {/* Input field */}
-            {renderDefault(props)}
+            {/* Input field with character restriction */}
+            <TextInput
+                value={typeof value === "string" ? value : ""}
+                onChange={handleChange}
+                maxLength={limit}
+            />
         </Stack>
     );
 }
