@@ -127,14 +127,20 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             const isCoasting = isSteadilyDecreasing(deltaHistoryRef.current);
             const isSpike = lastDelta > 0 && currentDelta > lastDelta * SPIKE_RATIO;
 
+            console.log(
+                `Delta: ${currentDelta} | Last: ${lastDelta} | History: ${deltaHistoryRef.current.join('→')} | Coasting: ${isCoasting} | Spike: ${isSpike} | Locked: ${isLockedRef.current} | HasNav: ${hasNavigatedRef.current}`
+            );
+
             // Block during lock
             if (isLockedRef.current) {
+                console.log("→ BLOCKED: Lock active");
                 e.preventDefault();
                 return;
             }
 
             // Block if React says navigating
             if (isNavigating) {
+                console.log("→ BLOCKED: isNavigating");
                 e.preventDefault();
                 return;
             }
@@ -145,12 +151,16 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
                 // Condition 2: Significant spike (edge case, no coasting) → NEW SWIPE
                 const isNewSwipe = (isCoasting && isSpike) || isSpike;
 
+                console.log(`→ hasNavigated=true | isNewSwipe: ${isNewSwipe} (coasting+spike: ${isCoasting && isSpike}, spikeOnly: ${isSpike})`);
+
                 if (isNewSwipe) {
+                    console.log("→ ✅ NEW SWIPE DETECTED - Resetting for navigation");
                     // Reset for new gesture
                     hasNavigatedRef.current = false;
                     deltaHistoryRef.current = [];
                 } else {
                     // Still same gesture, block
+                    console.log("→ BLOCKED: Same gesture (no spike)");
                     e.preventDefault();
                     return;
                 }
@@ -158,6 +168,7 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
 
             // Check threshold
             if (currentDelta < SCROLL_THRESHOLD) {
+                console.log("→ BLOCKED: Below threshold");
                 return;
             }
 
@@ -170,6 +181,7 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             if (scrollableParent) {
                 const direction = isScrollingDown ? "down" : "up";
                 if (!isAtScrollBoundary(scrollableParent, direction)) {
+                    console.log("→ BLOCKED: Inside scrollable, not at boundary");
                     return;
                 }
             }
@@ -181,13 +193,17 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
 
             // Navigate
             if (isScrollingDown && !isAtLastPage) {
+                console.log("→ 🚀 NAVIGATING: Next page");
                 e.preventDefault();
                 lockNavigation();
                 navigateToPage("next");
             } else if (isScrollingUp && !isAtFirstPage) {
+                console.log("→ 🚀 NAVIGATING: Prev page");
                 e.preventDefault();
                 lockNavigation();
                 navigateToPage("prev");
+            } else {
+                console.log("→ BLOCKED: At page boundary");
             }
         },
         [isNavigating, navigateToPage, lockNavigation]
