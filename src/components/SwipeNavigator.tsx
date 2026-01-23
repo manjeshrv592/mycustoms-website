@@ -99,9 +99,10 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             clearTimeout(lockTimeoutRef.current);
         }
 
-        // Set unlock timeout
+        // Set unlock timeout - also reset gesture flag when lock expires
         lockTimeoutRef.current = setTimeout(() => {
             isLockedRef.current = false;
+            isInGestureRef.current = false; // Allow new gesture after lock expires
         }, NAVIGATION_LOCK_DURATION);
     }, []);
 
