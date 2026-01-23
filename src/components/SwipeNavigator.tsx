@@ -11,6 +11,7 @@ interface SwipeNavigatorProps {
 const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
 const TOUCH_THRESHOLD = 50; // Minimum touch swipe distance to trigger navigation
 const NAVIGATION_LOCK_DURATION = 350; // Lock duration after navigation (ms) - matches animation
+const WHEEL_DEBOUNCE_TIME = 100; // Debounce time for wheel events (ms)
 
 /**
  * Check if an element or any of its parents is scrollable
@@ -78,8 +79,21 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const isLockedRef = useRef(false);
     const lockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Function to lock navigation
+    // Wheel debounce refs - accumulate wheel events and process once
+    const wheelAccumulatorRef = useRef(0);
+    const wheelDebounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const lastWheelTargetRef = useRef<HTMLElement | null>(null);
+    const hasNavigatedThisGestureRef = useRef(false);
+
+    // Store current page index in a ref for synchronous access
+    const currentPageIndexRef = useRef(currentPageIndex);
+    useEffect(() => {
+        currentPageIndexRef.current = currentPageIndex;
+    }, [currentPageIndex]);
+
+    // Function to lock navigation - SYNCHRONOUSLY sets the lock immediately
     const lockNavigation = useCallback(() => {
+        // Set lock IMMEDIATELY and SYNCHRONOUSLY before any async operations
         isLockedRef.current = true;
 
         // Clear existing timeout
@@ -93,7 +107,62 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         }, NAVIGATION_LOCK_DURATION);
     }, []);
 
-    // Handle wheel scroll
+    // Process accumulated wheel delta and navigate
+    const processWheelNavigation = useCallback(() => {
+        // Don't process if already navigated in this gesture
+        if (hasNavigatedThisGestureRef.current) {
+            wheelAccumulatorRef.current = 0;
+            return;
+        }
+
+        // Don't navigate if locked
+        if (isLockedRef.current) {
+            wheelAccumulatorRef.current = 0;
+            return;
+        }
+
+        const accumulatedDelta = wheelAccumulatorRef.current;
+        wheelAccumulatorRef.current = 0;
+
+        // Check if accumulated scroll exceeds threshold
+        if (Math.abs(accumulatedDelta) < SCROLL_THRESHOLD) return;
+
+        // Determine scroll direction
+        const isScrollingDown = accumulatedDelta > 0;
+        const isScrollingUp = accumulatedDelta < 0;
+
+        // Check for scrollable parent
+        const scrollableParent = getScrollableParent(lastWheelTargetRef.current);
+
+        if (scrollableParent) {
+            // We're inside a scrollable container
+            const direction = isScrollingDown ? "down" : "up";
+
+            // Only allow page navigation if at the boundary
+            if (!isAtScrollBoundary(scrollableParent, direction)) {
+                // Not at boundary, let the container scroll normally
+                return;
+            }
+        }
+
+        // Check if we're at the boundary pages (use ref for synchronous access)
+        const pageIndex = currentPageIndexRef.current;
+        const isAtFirstPage = pageIndex === 0;
+        const isAtLastPage = pageIndex === PAGE_ORDER.length - 1;
+
+        // Navigate based on direction
+        if (isScrollingDown && !isAtLastPage) {
+            hasNavigatedThisGestureRef.current = true; // Mark as navigated
+            lockNavigation();
+            navigateToPage("next");
+        } else if (isScrollingUp && !isAtFirstPage) {
+            hasNavigatedThisGestureRef.current = true; // Mark as navigated
+            lockNavigation();
+            navigateToPage("prev");
+        }
+    }, [navigateToPage, lockNavigation]);
+
+    // Handle wheel scroll - accumulate and debounce
     const handleWheel = useCallback(
         (e: WheelEvent) => {
             // Don't navigate if locked (immediate check with ref)
@@ -108,44 +177,34 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
                 return;
             }
 
-            // Determine scroll direction
-            const isScrollingDown = e.deltaY > 0;
-            const isScrollingUp = e.deltaY < 0;
+            // Accumulate wheel delta
+            wheelAccumulatorRef.current += e.deltaY;
+            lastWheelTargetRef.current = e.target as HTMLElement;
 
-            // Check if scroll exceeds threshold
-            const exceedsThreshold = Math.abs(e.deltaY) >= SCROLL_THRESHOLD;
-            if (!exceedsThreshold) return;
+            // Clear existing debounce timeout
+            if (wheelDebounceTimeoutRef.current) {
+                clearTimeout(wheelDebounceTimeoutRef.current);
+            }
 
-            // Check for scrollable parent
+            // Set debounce timeout to process after wheel events settle
+            wheelDebounceTimeoutRef.current = setTimeout(() => {
+                processWheelNavigation();
+                // Reset gesture flag after debounce completes
+                hasNavigatedThisGestureRef.current = false;
+            }, WHEEL_DEBOUNCE_TIME);
+
+            // Prevent default scrolling if we might navigate
             const scrollableParent = getScrollableParent(e.target as HTMLElement);
-
-            if (scrollableParent) {
-                // We're inside a scrollable container
-                const direction = isScrollingDown ? "down" : "up";
-
-                // Only allow page navigation if at the boundary
-                if (!isAtScrollBoundary(scrollableParent, direction)) {
-                    // Not at boundary, let the container scroll normally
-                    return;
+            if (!scrollableParent) {
+                e.preventDefault();
+            } else {
+                const direction = e.deltaY > 0 ? "down" : "up";
+                if (isAtScrollBoundary(scrollableParent, direction)) {
+                    e.preventDefault();
                 }
             }
-
-            // Check if we're at the boundary pages
-            const isAtFirstPage = currentPageIndex === 0;
-            const isAtLastPage = currentPageIndex === PAGE_ORDER.length - 1;
-
-            // Navigate based on direction
-            if (isScrollingDown && !isAtLastPage) {
-                e.preventDefault();
-                lockNavigation();
-                navigateToPage("next");
-            } else if (isScrollingUp && !isAtFirstPage) {
-                e.preventDefault();
-                lockNavigation();
-                navigateToPage("prev");
-            }
         },
-        [isNavigating, currentPageIndex, navigateToPage, lockNavigation]
+        [isNavigating, processWheelNavigation]
     );
 
     // Handle touch start
@@ -223,6 +282,9 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         return () => {
             if (lockTimeoutRef.current) {
                 clearTimeout(lockTimeoutRef.current);
+            }
+            if (wheelDebounceTimeoutRef.current) {
+                clearTimeout(wheelDebounceTimeoutRef.current);
             }
         };
     }, []);
