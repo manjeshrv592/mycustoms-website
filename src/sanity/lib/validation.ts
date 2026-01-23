@@ -5,7 +5,7 @@ interface InternationalizedArrayItem {
   value?: string | unknown[];
 }
 
-/**
+/***
  * Validates that the English (en) value is present in an internationalized array field.
  * English is the base language used for translations.
  */
