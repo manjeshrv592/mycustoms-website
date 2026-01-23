@@ -1,5 +1,11 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import {
+  requireEnglishValue,
+  withCharacterLimit,
+  withSimpleCharacterLimit,
+} from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const contactPage = defineType({
   name: "contactPage",
@@ -19,15 +25,32 @@ export const contactPage = defineType({
       name: "title",
       title: "Page Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.contactPage.title,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.contactPage.title)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.contactPage.description,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.contactPage.description)(
+          requireEnglishValue(Rule)
+        ),
     }),
-    // Right column / Contact Info
     defineField({
       name: "contactImage",
       title: "Contact Section - Image",
@@ -42,6 +65,8 @@ export const contactPage = defineType({
       type: "text",
       rows: 3,
       description: "Physical address (not localized)",
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.contactPage.address)(Rule),
     }),
     defineField({
       name: "mapLink",
@@ -53,12 +78,17 @@ export const contactPage = defineType({
       name: "phone",
       title: "Phone Number",
       type: "string",
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.contactPage.phone)(Rule),
     }),
     defineField({
       name: "email",
       title: "Email Address",
       type: "string",
-      validation: (Rule) => Rule.email(),
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.contactPage.email)(
+          Rule.email()
+        ),
     }),
     defineField({
       name: "linkedinUrl",

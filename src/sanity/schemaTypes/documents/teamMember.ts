@@ -1,5 +1,11 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import {
+  requireEnglishValue,
+  withCharacterLimit,
+  withSimpleCharacterLimit,
+} from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const teamMember = defineType({
   name: "teamMember",
@@ -10,13 +16,19 @@ export const teamMember = defineType({
       name: "firstName",
       title: "First Name",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.teamMember.firstName)(
+          Rule.required()
+        ),
     }),
     defineField({
       name: "lastName",
       title: "Last Name",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.teamMember.lastName)(
+          Rule.required()
+        ),
     }),
     defineField({
       name: "slug",
@@ -33,14 +45,32 @@ export const teamMember = defineType({
       title: "Designation / Role",
       type: "internationalizedArrayString",
       description: 'Job title or role (e.g., "General Manager")',
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.teamMember.designation,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.teamMember.designation)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
       description: "Short description about what they do",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.teamMember.description,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.teamMember.description)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "image",

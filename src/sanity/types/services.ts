@@ -31,6 +31,4 @@ export interface ServicesPageData {
   _type: "servicesPage";
   backgroundImage: SanityImageField;
   label?: LocalizedString[];
-  title: LocalizedString[];
-  subtitle?: LocalizedString[];
 }

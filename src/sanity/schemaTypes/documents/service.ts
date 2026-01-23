@@ -1,5 +1,7 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import { requireEnglishValue, withCharacterLimit } from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const service = defineType({
   name: "service",
@@ -10,7 +12,16 @@ export const service = defineType({
       name: "title",
       title: "Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.service.title,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.service.title)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "slug",
@@ -18,7 +29,6 @@ export const service = defineType({
       type: "slug",
       options: {
         source: (doc) => {
-          // Get the first available title translation for slug generation
           const title = doc.title as
             | Array<{ _key: string; value: string }>
             | undefined;
@@ -33,7 +43,16 @@ export const service = defineType({
       title: "Summary",
       type: "internationalizedArrayString",
       description: "Short summary displayed on cards",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.service.summary,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.service.summary)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "content",

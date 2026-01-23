@@ -36,4 +36,11 @@ export {
   getEuVatCompliancePage,
   getGuideToCustomsPage,
   getFiscalRepresentationPage,
+  getResourcePageLabels,
+  getResourcePageBySlug,
+  getAllResourcePageSlugs,
 } from "./resourcePages";
+
+export type { ResourcePageData } from "./resourcePages";
+
+

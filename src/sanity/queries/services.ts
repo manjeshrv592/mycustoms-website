@@ -47,9 +47,7 @@ export const SERVICES_PAGE_QUERY = `
     _id,
     _type,
     backgroundImage,
-    label,
-    title,
-    subtitle
+    label
   }
 `;
 

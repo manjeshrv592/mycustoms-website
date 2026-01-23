@@ -1,5 +1,7 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import { requireEnglishValue, withCharacterLimit } from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const blog = defineType({
   name: "blog",
@@ -10,7 +12,16 @@ export const blog = defineType({
       name: "title",
       title: "Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.blog.title,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.blog.title)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "slug",
@@ -32,7 +43,16 @@ export const blog = defineType({
       title: "Summary",
       type: "internationalizedArrayString",
       description: "Short summary for blog cards",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.blog.summary,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.blog.summary)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "content",

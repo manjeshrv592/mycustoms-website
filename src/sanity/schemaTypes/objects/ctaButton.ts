@@ -1,4 +1,10 @@
 import { defineType, defineField } from "sanity";
+import {
+  withCharacterLimit,
+  withSimpleCharacterLimit,
+} from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const ctaButton = defineType({
   name: "ctaButton",
@@ -9,13 +15,22 @@ export const ctaButton = defineType({
       name: "text",
       title: "Button Text",
       type: "internationalizedArrayString",
-      validation: (Rule) => Rule.required(),
+      options: {
+        characterLimit: characterLimits.ctaButton.text,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.ctaButton.text)(Rule.required()),
     }),
     defineField({
       name: "link",
       title: "Link URL",
       type: "string",
       description: "URL to navigate to when button is clicked",
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.ctaButton.link)(Rule),
     }),
     defineField({
       name: "isExternal",
@@ -29,7 +44,6 @@ export const ctaButton = defineType({
       title: "text",
     },
     prepare({ title }) {
-      // Get the first language value for preview
       const text = title?.[0]?.value || "CTA Button";
       return { title: text };
     },

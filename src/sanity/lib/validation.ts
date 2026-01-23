@@ -80,3 +80,68 @@ export function requireEnglishValue(rule: Rule): Rule {
 export function requiredWithEnglish(rule: Rule): Rule {
   return requireEnglishValue(rule.required());
 }
+
+/**
+ * Language limits type for internationalized fields
+ */
+type LanguageLimits = {
+  en: number | null;
+  nl: number | null;
+  de: number | null;
+  cn: number | null;
+};
+
+/**
+ * Validates character limits for each language in an internationalized array field.
+ * @param limits - Object with character limits per language { en: 50, nl: 60, de: 70, cn: 30 }
+ */
+export function withCharacterLimit(limits: LanguageLimits) {
+  return (rule: Rule): Rule => {
+    return rule.custom((value: InternationalizedArrayItem[] | undefined) => {
+      if (!value || !Array.isArray(value)) {
+        return true; // Let required() handle empty values
+      }
+
+      const errors: string[] = [];
+
+      for (const item of value) {
+        const lang = item._key as keyof LanguageLimits;
+        const limit = limits[lang];
+
+        if (limit && typeof item.value === "string") {
+          const charCount = item.value.length;
+          if (charCount > limit) {
+            const langNames: Record<string, string> = {
+              en: "English",
+              nl: "Dutch",
+              de: "German",
+              cn: "Chinese",
+            };
+            errors.push(
+              `${langNames[lang] || lang}: ${charCount}/${limit} characters (exceeds limit by ${charCount - limit})`
+            );
+          }
+        }
+      }
+
+      if (errors.length > 0) {
+        return `Character limit exceeded:\n${errors.join("\n")}`;
+      }
+
+      return true;
+    });
+  };
+}
+
+/**
+ * Validates character limit for a simple (non-localized) string field.
+ * @param limit - Maximum number of characters allowed, or null for unlimited
+ */
+export function withSimpleCharacterLimit(limit: number | null) {
+  return (rule: Rule): Rule => {
+    if (limit === null) {
+      return rule; // No limit, return rule as-is
+    }
+    return rule.max(limit).error(`Maximum ${limit} characters allowed`);
+  };
+}

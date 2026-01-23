@@ -1,4 +1,6 @@
 import { defineType, defineField } from "sanity";
+import { withSimpleCharacterLimit } from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
 
 export const featuredLogo = defineType({
   name: "featuredLogo",
@@ -19,7 +21,10 @@ export const featuredLogo = defineType({
       title: "Alt Text",
       type: "string",
       description: "Describe the logo for accessibility",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        withSimpleCharacterLimit(characterLimits.featuredLogo.alt)(
+          Rule.required()
+        ),
     }),
     defineField({
       name: "url",

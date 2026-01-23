@@ -1,5 +1,7 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import { requireEnglishValue, withCharacterLimit } from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const portalPage = defineType({
   name: "portalPage",
@@ -20,13 +22,31 @@ export const portalPage = defineType({
       title: "Section Label",
       type: "internationalizedArrayString",
       description: 'Small label above the title (e.g., "Our Portal")',
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.portalPage.label,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.portalPage.label)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "title",
       title: "Page Title",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.portalPage.title,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.portalPage.title)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "content",
@@ -35,7 +55,6 @@ export const portalPage = defineType({
       description: "Rich text content about the portal",
       validation: (Rule) => requireEnglishValue(Rule),
     }),
-    // Right column / Side Panel
     defineField({
       name: "sidePanelImage",
       title: "Side Panel - Image",
@@ -49,13 +68,31 @@ export const portalPage = defineType({
       title: "Side Panel - Title",
       type: "internationalizedArrayString",
       description: 'Title in the side panel (e.g., "Access the Portal")',
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.portalPage.sidePanelTitle,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.portalPage.sidePanelTitle)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "sidePanelDescription",
       title: "Side Panel - Description",
       type: "internationalizedArrayString",
-      validation: (Rule) => requireEnglishValue(Rule),
+      options: {
+        characterLimit: characterLimits.portalPage.sidePanelDescription,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.portalPage.sidePanelDescription)(
+          requireEnglishValue(Rule)
+        ),
     }),
     defineField({
       name: "ctaButton",

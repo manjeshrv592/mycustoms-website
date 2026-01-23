@@ -1,5 +1,7 @@
 import { defineType, defineField } from "sanity";
-import { requireEnglishValue } from "../../lib/validation";
+import { requireEnglishValue, withCharacterLimit } from "../../lib/validation";
+import { characterLimits } from "../../lib/characterLimits";
+import { LocalizedStringInput } from "../../components";
 
 export const homePage = defineType({
   name: "homePage",
@@ -30,21 +32,48 @@ export const homePage = defineType({
       title: "Main Title - Line 1",
       type: "internationalizedArrayString",
       description: 'First part of the title (e.g., "More Than")',
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.homePage.mainTitleLine1,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.homePage.mainTitleLine1)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "mainTitleLine2",
       title: "Main Title - Line 2 (Highlighted)",
       type: "internationalizedArrayString",
       description: 'Second part of the title in red (e.g., "Customs")',
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.homePage.mainTitleLine2,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.homePage.mainTitleLine2)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "internationalizedArrayString",
       description: "Subtitle text below the main title",
-      validation: (Rule) => requireEnglishValue(Rule.required()),
+      options: {
+        characterLimit: characterLimits.homePage.description,
+      },
+      components: {
+        input: LocalizedStringInput,
+      },
+      validation: (Rule) =>
+        withCharacterLimit(characterLimits.homePage.description)(
+          requireEnglishValue(Rule.required())
+        ),
     }),
     defineField({
       name: "featuredLogos",
