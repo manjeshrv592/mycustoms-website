@@ -11,7 +11,7 @@ interface SwipeNavigatorProps {
 const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
 const TOUCH_THRESHOLD = 50; // Minimum touch swipe distance to trigger navigation
 const NAVIGATION_LOCK_DURATION = 350; // Lock duration after navigation (ms) - matches animation
-const NEW_GESTURE_GAP = 80; // Time gap (ms) to consider wheel events as a new gesture
+const POST_LOCK_THRESHOLD = 100; // Higher threshold for first event after lock expires (filters inertia)
 
 /**
  * Check if an element or any of its parents is scrollable
@@ -51,10 +51,8 @@ function isAtScrollBoundary(
     const tolerance = 2; // Small tolerance for rounding errors
 
     if (direction === "up") {
-        // At top if scrollTop is 0 or very close to 0
         return element.scrollTop <= tolerance;
     } else {
-        // At bottom if scrollTop + clientHeight >= scrollHeight
         return (
             element.scrollTop + element.clientHeight >=
             element.scrollHeight - tolerance
@@ -64,12 +62,12 @@ function isAtScrollBoundary(
 
 /**
  * SwipeNavigator - Handles wheel scroll and touch swipe for page navigation
- * Wraps children and attaches global event listeners
- * Respects scrollable containers - only navigates at scroll boundaries
  * 
- * Uses time-gap detection to distinguish between:
- * - Continuous wheel events from same swipe (inertia) → only navigate once
- * - New intentional swipe after a gap → allow navigation
+ * Gesture detection logic:
+ * 1. During navigation (locked): block all wheel events
+ * 2. First event after lock expires: require higher deltaY (POST_LOCK_THRESHOLD)
+ *    to filter out weak inertia, but allow strong intentional swipes
+ * 3. After navigating: block remaining events from same gesture until lock expires
  */
 export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const { navigateToPage, isNavigating, currentPageIndex } = useNavigation();
@@ -83,9 +81,9 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const isLockedRef = useRef(false);
     const lockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Time-gap based gesture detection
-    const lastWheelTimeRef = useRef<number>(0);
+    // Gesture tracking
     const hasNavigatedInGestureRef = useRef(false);
+    const justUnlockedRef = useRef(false); // True for first event after lock expires
 
     // Store current page index in a ref for synchronous access
     const currentPageIndexRef = useRef(currentPageIndex);
@@ -96,6 +94,7 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     // Function to lock navigation during animation
     const lockNavigation = useCallback(() => {
         isLockedRef.current = true;
+        justUnlockedRef.current = false;
 
         if (lockTimeoutRef.current) {
             clearTimeout(lockTimeoutRef.current);
@@ -103,30 +102,22 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
 
         lockTimeoutRef.current = setTimeout(() => {
             isLockedRef.current = false;
+            hasNavigatedInGestureRef.current = false; // Allow new gesture
+            justUnlockedRef.current = true; // Mark that we just unlocked
         }, NAVIGATION_LOCK_DURATION);
     }, []);
 
-    // Handle wheel scroll with time-gap gesture detection
+    // Handle wheel scroll
     const handleWheel = useCallback(
         (e: WheelEvent) => {
-            const now = performance.now();
-            const timeSinceLastWheel = now - lastWheelTimeRef.current;
-            lastWheelTimeRef.current = now;
-
-            // Detect if this is a NEW gesture (gap since last wheel event)
-            // If gap > NEW_GESTURE_GAP, reset the "navigated" flag
-            if (timeSinceLastWheel > NEW_GESTURE_GAP) {
-                hasNavigatedInGestureRef.current = false;
-            }
-
-            // If we already navigated in this gesture, ignore remaining events
-            if (hasNavigatedInGestureRef.current) {
+            // Don't navigate if locked (animation in progress)
+            if (isLockedRef.current) {
                 e.preventDefault();
                 return;
             }
 
-            // Don't navigate if locked (animation in progress)
-            if (isLockedRef.current) {
+            // If we already navigated in this gesture, block remaining events
+            if (hasNavigatedInGestureRef.current) {
                 e.preventDefault();
                 return;
             }
@@ -137,13 +128,24 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
                 return;
             }
 
-            // Determine scroll direction
-            const isScrollingDown = e.deltaY > 0;
-            const isScrollingUp = e.deltaY < 0;
+            // Determine scroll direction and delta
+            const deltaY = e.deltaY;
+            const absDeltaY = Math.abs(deltaY);
+            const isScrollingDown = deltaY > 0;
+            const isScrollingUp = deltaY < 0;
+
+            // Use higher threshold right after lock expires to filter inertia
+            const threshold = justUnlockedRef.current ? POST_LOCK_THRESHOLD : SCROLL_THRESHOLD;
+
+            // After first event, reset justUnlocked flag
+            if (justUnlockedRef.current) {
+                justUnlockedRef.current = false;
+            }
 
             // Check if scroll exceeds threshold
-            const exceedsThreshold = Math.abs(e.deltaY) >= SCROLL_THRESHOLD;
-            if (!exceedsThreshold) return;
+            if (absDeltaY < threshold) {
+                return;
+            }
 
             // Check for scrollable parent
             const scrollableParent = getScrollableParent(e.target as HTMLElement);
@@ -160,15 +162,15 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             const isAtFirstPage = pageIndex === 0;
             const isAtLastPage = pageIndex === PAGE_ORDER.length - 1;
 
-            // Navigate and mark this gesture as "navigated"
+            // Navigate
             if (isScrollingDown && !isAtLastPage) {
                 e.preventDefault();
-                hasNavigatedInGestureRef.current = true; // Block rest of this gesture
+                hasNavigatedInGestureRef.current = true;
                 lockNavigation();
                 navigateToPage("next");
             } else if (isScrollingUp && !isAtFirstPage) {
                 e.preventDefault();
-                hasNavigatedInGestureRef.current = true; // Block rest of this gesture
+                hasNavigatedInGestureRef.current = true;
                 lockNavigation();
                 navigateToPage("prev");
             }
@@ -212,8 +214,6 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             // Check if swipe exceeds threshold
             if (Math.abs(deltaY) < TOUCH_THRESHOLD) return;
 
-            // Swipe up (deltaY positive) = next page
-            // Swipe down (deltaY negative) = prev page
             const isSwipingUp = deltaY > 0;
             const isSwipingDown = deltaY < 0;
 
