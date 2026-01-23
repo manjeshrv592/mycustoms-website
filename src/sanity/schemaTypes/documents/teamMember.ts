@@ -5,7 +5,7 @@ import {
   withSimpleCharacterLimit,
 } from "../../lib/validation";
 import { characterLimits } from "../../lib/characterLimits";
-import { LocalizedStringInput } from "../../components";
+import { LocalizedStringInput, StringWithCharacterCount } from "../../components";
 
 export const teamMember = defineType({
   name: "teamMember",
@@ -16,6 +16,12 @@ export const teamMember = defineType({
       name: "firstName",
       title: "First Name",
       type: "string",
+      options: {
+        characterLimit: characterLimits.teamMember.firstName,
+      } as any,
+      components: {
+        input: StringWithCharacterCount,
+      },
       validation: (Rule) =>
         withSimpleCharacterLimit(characterLimits.teamMember.firstName)(
           Rule.required()
@@ -25,6 +31,12 @@ export const teamMember = defineType({
       name: "lastName",
       title: "Last Name",
       type: "string",
+      options: {
+        characterLimit: characterLimits.teamMember.lastName,
+      } as any,
+      components: {
+        input: StringWithCharacterCount,
+      },
       validation: (Rule) =>
         withSimpleCharacterLimit(characterLimits.teamMember.lastName)(
           Rule.required()

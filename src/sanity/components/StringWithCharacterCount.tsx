@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { StringInputProps } from "sanity";
-import { Stack, Text, Card, Flex } from "@sanity/ui";
+import { Stack, Text, Card, Flex, Box } from "@sanity/ui";
 
 interface CharacterLimitConfig {
     en: number;
@@ -22,8 +22,7 @@ interface StringWithLimitProps extends StringInputProps {
 
 /**
  * Custom string input component wrapper that adds a real-time character counter.
- * Uses renderDefault to preserve the default Sanity input behavior.
- * Shows "05/50" format that updates as user types.
+ * Shows counter in header row above the input, similar to LocalizedStringInput.
  */
 export function StringWithCharacterCount(props: StringWithLimitProps) {
     const { value = "", schemaType, renderDefault } = props;
@@ -51,7 +50,7 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
 
     // Format character count with leading zero for single digits
     const formatCount = (count: number, max: number) => {
-        const digits = max.toString().length;
+        const digits = Math.max(max.toString().length, 2);
         return count.toString().padStart(digits, "0");
     };
 
@@ -65,30 +64,32 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
 
     return (
         <Stack space={2}>
-            {renderDefault(props)}
-            <Flex justify="flex-end">
-                <Card
+            {/* Header row with counter on the right */}
+            <Flex justify="flex-end" align="center">
+                <Box
                     padding={1}
                     paddingX={2}
-                    radius={2}
-                    tone={isOverLimit ? "critical" : "default"}
                     style={{
-                        backgroundColor: isOverLimit ? "#ffeae8" : "#f3f3f3",
+                        backgroundColor: isOverLimit ? "#ffeae8" : "#2a2a2a",
+                        borderRadius: "4px",
                     }}
                 >
                     <Text
-                        size={1}
+                        size={0}
                         weight="medium"
                         style={{
                             fontFamily: "monospace",
-                            color: isOverLimit ? "#c4281c" : "#6b7280",
+                            color: isOverLimit ? "#c4281c" : "#9ca3af",
                             letterSpacing: "0.5px",
                         }}
                     >
                         {formatCount(charCount, limit)}/{formatCount(limit, limit)}
                     </Text>
-                </Card>
+                </Box>
             </Flex>
+            {/* Input field */}
+            {renderDefault(props)}
         </Stack>
     );
 }
+
