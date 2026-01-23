@@ -1,4 +1,4 @@
-import { Rule } from "sanity";
+import { Rule, StringRule } from "sanity";
 
 interface InternationalizedArrayItem {
   _key: string;
@@ -138,7 +138,7 @@ export function withCharacterLimit(limits: LanguageLimits) {
  * @param limit - Maximum number of characters allowed, or null for unlimited
  */
 export function withSimpleCharacterLimit(limit: number | null) {
-  return (rule: Rule): Rule => {
+  return (rule: StringRule): StringRule => {
     if (limit === null) {
       return rule; // No limit, return rule as-is
     }
