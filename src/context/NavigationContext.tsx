@@ -6,8 +6,10 @@ import React, {
     useState,
     useCallback,
     useEffect,
+    useRef,
 } from "react";
 import { usePathname } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
 
 /**
  * Page order for navigation direction calculation
@@ -26,13 +28,22 @@ type NavigationDirection = "forward" | "backward" | "none";
 
 interface NavigationContextType {
     direction: NavigationDirection;
-    currentPageIndex: number;
     setNavigationDirection: (targetPath: string) => void;
-    getNextPath: (locale: string) => string | null;
-    getPrevPath: (locale: string) => string | null;
+    navigateToPage: (direction: "next" | "prev") => void;
+    isNavigating: boolean;
+    currentPageIndex: number;
+}
+
+interface NavigationProviderProps {
+    children: React.ReactNode;
+    firstServiceSlug?: string | null;
+    firstBlogSlug?: string | null;
 }
 
 const NavigationContext = createContext<NavigationContextType | null>(null);
+
+// Cooldown duration in milliseconds (prevents rapid navigation)
+const NAVIGATION_COOLDOWN = 1000;
 
 /**
  * Get page index from path (handles dynamic routes and locale prefixes)
@@ -57,6 +68,14 @@ function getPageIndex(path: string): number {
 }
 
 /**
+ * Get locale from path
+ */
+function getLocale(path: string): string {
+    const match = path.match(/^\/(en|nl|de|cn)/);
+    return match ? match[1] : "en";
+}
+
+/**
  * NavigationProvider - Tracks navigation direction for page transitions
  * This is a client component but doesn't affect SSG of child pages
  */
@@ -64,16 +83,35 @@ export function NavigationProvider({
     children,
     firstServiceSlug,
     firstBlogSlug,
-}: {
-    children: React.ReactNode;
-    firstServiceSlug?: string | null;
-    firstBlogSlug?: string | null;
-}) {
+}: NavigationProviderProps) {
     const pathname = usePathname();
+    const router = useTransitionRouter();
     const [direction, setDirection] = useState<NavigationDirection>("none");
+    const [isNavigating, setIsNavigating] = useState(false);
     const [currentPageIndex, setCurrentPageIndex] = useState(() =>
         getPageIndex(pathname)
     );
+    const cooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Build dynamic default paths based on props
+    const getDefaultPath = useCallback((pageKey: string): string => {
+        switch (pageKey) {
+            case "/":
+                return "/";
+            case "/services":
+                return firstServiceSlug ? `/services/${firstServiceSlug}` : "/services";
+            case "/portal":
+                return "/portal";
+            case "/resources":
+                return firstBlogSlug ? `/resources/blogs/${firstBlogSlug}` : "/resources";
+            case "/about":
+                return "/about";
+            case "/contact":
+                return "/contact";
+            default:
+                return pageKey;
+        }
+    }, [firstServiceSlug, firstBlogSlug]);
 
     // Update current page index when pathname changes
     useEffect(() => {
@@ -104,49 +142,56 @@ export function NavigationProvider({
         [currentPageIndex]
     );
 
-    // Get path to next page
-    const getNextPath = useCallback(
-        (locale: string): string | null => {
-            if (currentPageIndex >= PAGE_ORDER.length - 1) {
-                return null; // Already at last page
-            }
-            const nextIndex = currentPageIndex + 1;
-            const basePath = PAGE_ORDER[nextIndex];
+    // Programmatic navigation to next/prev page
+    const navigateToPage = useCallback(
+        (navDirection: "next" | "prev") => {
+            // Don't navigate if already navigating (cooldown active)
+            if (isNavigating) return;
 
-            // Use slug paths for services and resources
-            if (basePath === "/services" && firstServiceSlug) {
-                return `/${locale}/services/${firstServiceSlug}`;
-            }
-            if (basePath === "/resources" && firstBlogSlug) {
-                return `/${locale}/resources/blogs/${firstBlogSlug}`;
+            const locale = getLocale(pathname);
+            let targetIndex: number;
+
+            if (navDirection === "next") {
+                targetIndex = currentPageIndex + 1;
+                if (targetIndex >= PAGE_ORDER.length) return; // Already at last page
+            } else {
+                targetIndex = currentPageIndex - 1;
+                if (targetIndex < 0) return; // Already at first page
             }
 
-            return `/${locale}${basePath}`;
+            // Get the target page path using dynamic paths
+            const targetPageKey = PAGE_ORDER[targetIndex];
+            const targetPath = getDefaultPath(targetPageKey);
+            const fullPath = `/${locale}${targetPath}`;
+
+            // Set navigation state
+            setIsNavigating(true);
+            setDirection(navDirection === "next" ? "forward" : "backward");
+
+            // Clear any existing cooldown timer
+            if (cooldownTimerRef.current) {
+                clearTimeout(cooldownTimerRef.current);
+            }
+
+            // Navigate to the target page
+            router.push(fullPath);
+
+            // Set cooldown timer
+            cooldownTimerRef.current = setTimeout(() => {
+                setIsNavigating(false);
+            }, NAVIGATION_COOLDOWN);
         },
-        [currentPageIndex, firstServiceSlug, firstBlogSlug]
+        [currentPageIndex, isNavigating, pathname, router, getDefaultPath]
     );
 
-    // Get path to previous page
-    const getPrevPath = useCallback(
-        (locale: string): string | null => {
-            if (currentPageIndex <= 0) {
-                return null; // Already at first page
+    // Cleanup cooldown timer on unmount
+    useEffect(() => {
+        return () => {
+            if (cooldownTimerRef.current) {
+                clearTimeout(cooldownTimerRef.current);
             }
-            const prevIndex = currentPageIndex - 1;
-            const basePath = PAGE_ORDER[prevIndex];
-
-            // Use slug paths for services and resources
-            if (basePath === "/services" && firstServiceSlug) {
-                return `/${locale}/services/${firstServiceSlug}`;
-            }
-            if (basePath === "/resources" && firstBlogSlug) {
-                return `/${locale}/resources/blogs/${firstBlogSlug}`;
-            }
-
-            return `/${locale}${basePath}`;
-        },
-        [currentPageIndex, firstServiceSlug, firstBlogSlug]
-    );
+        };
+    }, []);
 
     // Set CSS data attribute for direction-based animations
     useEffect(() => {
@@ -159,10 +204,10 @@ export function NavigationProvider({
         <NavigationContext.Provider
             value={{
                 direction,
-                currentPageIndex,
                 setNavigationDirection,
-                getNextPath,
-                getPrevPath,
+                navigateToPage,
+                isNavigating,
+                currentPageIndex,
             }}
         >
             {children}
