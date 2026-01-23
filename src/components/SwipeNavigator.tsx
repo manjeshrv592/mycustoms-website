@@ -11,19 +11,16 @@ interface SwipeNavigatorProps {
 const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
 const TOUCH_THRESHOLD = 50; // Minimum touch swipe distance to trigger navigation
 const NAVIGATION_LOCK_DURATION = 350; // Lock duration after navigation (ms) - matches animation
-const POST_LOCK_THRESHOLD = 100; // Higher threshold for first event after lock expires (filters inertia)
+const VELOCITY_INCREASE_RATIO = 1.3; // Delta must increase by 30% to be considered new swipe
 
 /**
  * Check if an element or any of its parents is scrollable
- * Returns the scrollable element if found, null otherwise
  */
 function getScrollableParent(element: HTMLElement | null): HTMLElement | null {
     if (!element) return null;
-
     let current: HTMLElement | null = element;
 
     while (current) {
-        // Check if element is scrollable
         const style = window.getComputedStyle(current);
         const overflowY = style.overflowY;
         const isScrollable = overflowY === "auto" || overflowY === "scroll";
@@ -31,25 +28,19 @@ function getScrollableParent(element: HTMLElement | null): HTMLElement | null {
         if (isScrollable && current.scrollHeight > current.clientHeight) {
             return current;
         }
-
         current = current.parentElement;
     }
-
     return null;
 }
 
 /**
  * Check if a scrollable element is at its scroll boundary
- * @param element - The scrollable element
- * @param direction - 'up' or 'down'
- * @returns true if at the boundary in the given direction
  */
 function isAtScrollBoundary(
     element: HTMLElement,
     direction: "up" | "down"
 ): boolean {
-    const tolerance = 2; // Small tolerance for rounding errors
-
+    const tolerance = 2;
     if (direction === "up") {
         return element.scrollTop <= tolerance;
     } else {
@@ -63,11 +54,9 @@ function isAtScrollBoundary(
 /**
  * SwipeNavigator - Handles wheel scroll and touch swipe for page navigation
  * 
- * Gesture detection logic:
- * 1. During navigation (locked): block all wheel events
- * 2. First event after lock expires: require higher deltaY (POST_LOCK_THRESHOLD)
- *    to filter out weak inertia, but allow strong intentional swipes
- * 3. After navigating: block remaining events from same gesture until lock expires
+ * Uses VELOCITY CHANGE DETECTION to distinguish:
+ * - Inertia: delta values DECREASE over time
+ * - New swipe: delta values suddenly INCREASE
  */
 export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const { navigateToPage, isNavigating, currentPageIndex } = useNavigation();
@@ -77,13 +66,13 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     const touchStartX = useRef<number | null>(null);
     const touchStartElement = useRef<HTMLElement | null>(null);
 
-    // Navigation lock ref (prevents navigation during animation)
+    // Navigation lock ref
     const isLockedRef = useRef(false);
     const lockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Gesture tracking
+    // Gesture and velocity tracking
     const hasNavigatedInGestureRef = useRef(false);
-    const justUnlockedRef = useRef(false); // True for first event after lock expires
+    const lastDeltaYRef = useRef<number>(0);
 
     // Store current page index in a ref for synchronous access
     const currentPageIndexRef = useRef(currentPageIndex);
@@ -94,7 +83,6 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
     // Function to lock navigation during animation
     const lockNavigation = useCallback(() => {
         isLockedRef.current = true;
-        justUnlockedRef.current = false;
 
         if (lockTimeoutRef.current) {
             clearTimeout(lockTimeoutRef.current);
@@ -102,54 +90,57 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
 
         lockTimeoutRef.current = setTimeout(() => {
             isLockedRef.current = false;
-            hasNavigatedInGestureRef.current = false; // Allow new gesture
-            justUnlockedRef.current = true; // Mark that we just unlocked
+            // Don't reset hasNavigatedInGestureRef here - let velocity detection handle it
         }, NAVIGATION_LOCK_DURATION);
     }, []);
 
-    // Handle wheel scroll
+    // Handle wheel scroll with velocity change detection
     const handleWheel = useCallback(
         (e: WheelEvent) => {
-            // Don't navigate if locked (animation in progress)
-            if (isLockedRef.current) {
-                e.preventDefault();
-                return;
+            const currentDeltaY = Math.abs(e.deltaY);
+            const lastDeltaY = lastDeltaYRef.current;
+
+            // Update tracking
+            lastDeltaYRef.current = currentDeltaY;
+
+            // Detect NEW gesture: delta suddenly increased (new force applied = new swipe)
+            // Inertia has DECREASING delta, new swipe has INCREASING delta
+            const isNewGesture = lastDeltaY > 0 && currentDeltaY > lastDeltaY * VELOCITY_INCREASE_RATIO;
+
+            // Reset gesture flag if this is a new gesture
+            if (isNewGesture) {
+                hasNavigatedInGestureRef.current = false;
             }
 
-            // If we already navigated in this gesture, block remaining events
+            // Block if we already navigated in this gesture
             if (hasNavigatedInGestureRef.current) {
                 e.preventDefault();
                 return;
             }
 
-            // Don't navigate if already navigating (React state check)
+            // Block during animation
+            if (isLockedRef.current) {
+                e.preventDefault();
+                return;
+            }
+
+            // Block if React state says navigating
             if (isNavigating) {
                 e.preventDefault();
                 return;
             }
 
-            // Determine scroll direction and delta
-            const deltaY = e.deltaY;
-            const absDeltaY = Math.abs(deltaY);
-            const isScrollingDown = deltaY > 0;
-            const isScrollingUp = deltaY < 0;
-
-            // Use higher threshold right after lock expires to filter inertia
-            const threshold = justUnlockedRef.current ? POST_LOCK_THRESHOLD : SCROLL_THRESHOLD;
-
-            // After first event, reset justUnlocked flag
-            if (justUnlockedRef.current) {
-                justUnlockedRef.current = false;
-            }
-
-            // Check if scroll exceeds threshold
-            if (absDeltaY < threshold) {
+            // Check threshold
+            if (currentDeltaY < SCROLL_THRESHOLD) {
                 return;
             }
 
+            // Determine direction
+            const isScrollingDown = e.deltaY > 0;
+            const isScrollingUp = e.deltaY < 0;
+
             // Check for scrollable parent
             const scrollableParent = getScrollableParent(e.target as HTMLElement);
-
             if (scrollableParent) {
                 const direction = isScrollingDown ? "down" : "up";
                 if (!isAtScrollBoundary(scrollableParent, direction)) {
@@ -192,7 +183,6 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         (e: TouchEvent) => {
             if (touchStartY.current === null || touchStartX.current === null) return;
 
-            // Don't navigate if locked
             if (isLockedRef.current) return;
             if (isNavigating) return;
 
@@ -202,24 +192,18 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
             const deltaY = touchStartY.current - touchEndY;
             const deltaX = touchStartX.current - touchEndX;
 
-            // Reset touch tracking
             const startElement = touchStartElement.current;
             touchStartY.current = null;
             touchStartX.current = null;
             touchStartElement.current = null;
 
-            // Check if vertical swipe is more dominant than horizontal
             if (Math.abs(deltaY) < Math.abs(deltaX)) return;
-
-            // Check if swipe exceeds threshold
             if (Math.abs(deltaY) < TOUCH_THRESHOLD) return;
 
             const isSwipingUp = deltaY > 0;
             const isSwipingDown = deltaY < 0;
 
-            // Check for scrollable parent
             const scrollableParent = getScrollableParent(startElement);
-
             if (scrollableParent) {
                 const direction = isSwipingUp ? "down" : "up";
                 if (!isAtScrollBoundary(scrollableParent, direction)) {
@@ -227,7 +211,6 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
                 }
             }
 
-            // Check page boundaries
             const isAtFirstPage = currentPageIndex === 0;
             const isAtLastPage = currentPageIndex === PAGE_ORDER.length - 1;
 
@@ -242,7 +225,7 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         [isNavigating, currentPageIndex, navigateToPage, lockNavigation]
     );
 
-    // Cleanup on unmount
+    // Cleanup
     useEffect(() => {
         return () => {
             if (lockTimeoutRef.current) {
