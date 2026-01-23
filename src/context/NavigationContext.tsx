@@ -42,8 +42,8 @@ interface NavigationProviderProps {
 
 const NavigationContext = createContext<NavigationContextType | null>(null);
 
-// Cooldown duration in milliseconds (prevents rapid navigation)
-const NAVIGATION_COOLDOWN = 1000;
+// Cooldown duration in milliseconds (prevents rapid navigation) - matches animation
+const NAVIGATION_COOLDOWN = 350;
 
 /**
  * Get page index from path (handles dynamic routes and locale prefixes)

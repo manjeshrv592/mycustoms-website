@@ -10,7 +10,7 @@ interface SwipeNavigatorProps {
 // Configuration
 const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
 const TOUCH_THRESHOLD = 50; // Minimum touch swipe distance to trigger navigation
-const NAVIGATION_LOCK_DURATION = 1200; // Lock duration after navigation (ms)
+const NAVIGATION_LOCK_DURATION = 350; // Lock duration after navigation (ms) - matches animation
 
 /**
  * Check if an element or any of its parents is scrollable
