@@ -49,10 +49,10 @@ export async function sendThankYouEmail(data: ContactFormData): Promise<void> {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f0f0;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f0f0f0; padding: 0;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f0f0f0; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; background: #ffffff;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; background: #ffffff; border-radius: 12px; overflow: hidden;">
                   
                   <!-- Header with Logo -->
                   <tr>
@@ -201,10 +201,10 @@ export async function sendContactNotification(
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f0f0;">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f0f0f0; padding: 0;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f0f0f0; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; background: #ffffff;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width: 600px; background: #ffffff; border-radius: 12px; overflow: hidden;">
                   
                   <!-- Header with Logo -->
                   <tr>
