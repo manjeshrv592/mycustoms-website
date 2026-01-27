@@ -21,6 +21,7 @@ const PrimaryPhoneInput = forwardRef<HTMLInputElement, PrimaryPhoneInputProps>(
   ({ value, onChange, placeholder = "Phone Number", className, id }, ref) => {
     const phoneInput = usePhoneInput({
       defaultCountry: "nl", // Default to Netherlands
+      forceDialCode: true, // Prevent users from editing/removing country code
       value: value || "",
       onChange: (data) => {
         onChange?.(data.phone);

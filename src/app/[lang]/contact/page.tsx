@@ -58,6 +58,7 @@ export default async function Contact({ params }: ContactPageProps) {
   const phone = contactData.phone || "";
   const email = contactData.email || "";
   const linkedinUrl = contactData.linkedinUrl || "";
+  const services = contactData.services || [];
 
   return (
     <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
@@ -102,7 +103,7 @@ export default async function Contact({ params }: ContactPageProps) {
           <ContactFormProvider>
             <div className="md:grid md:grid-cols-2 flex-1 md:gap-12">
               {/* Contact Form Component */}
-              <ContactForm />
+              <ContactForm services={services} />
 
               <ContactInfoSection
                 contactImageUrl={contactImageUrl}

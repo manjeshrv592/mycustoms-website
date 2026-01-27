@@ -15,4 +15,5 @@ export interface ContactPageData {
   phone?: string;
   email?: string;
   linkedinUrl?: string;
+  services?: string[];
 }

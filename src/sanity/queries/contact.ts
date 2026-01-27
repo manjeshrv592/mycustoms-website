@@ -15,7 +15,8 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   mapLink,
   phone,
   email,
-  linkedinUrl
+  linkedinUrl,
+  services
 }`;
 
 /**

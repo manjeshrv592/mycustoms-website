@@ -96,6 +96,14 @@ export const contactPage = defineType({
       type: "url",
       description: "LinkedIn profile or company page URL",
     }),
+    defineField({
+      name: "services",
+      title: "Service Options",
+      description: "List of services shown in the contact form dropdown",
+      type: "array",
+      of: [{ type: "string" }],
+      validation: (Rule) => Rule.required().min(1),
+    }),
   ],
   preview: {
     prepare() {

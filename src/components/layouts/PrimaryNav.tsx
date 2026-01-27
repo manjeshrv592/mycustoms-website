@@ -89,9 +89,9 @@ export default function PrimaryNav({
             <li key={link.label}>
               <TransitionLink
                 href={localizedHref}
-                className={`p-1 flex items-center justify-center rounded-full hover:bg-white/30 duration-300 ${isActive
-                  ? "bg-[#3871C1]/20 shadow-[0_0_0_4px_rgba(169,8,28,.1)]"
-                  : "bg-white/0"
+                className={`p-1 flex items-center justify-center rounded-full duration-300 ${isActive
+                  ? "bg-[#3871C1]/50 shadow-[0_0_0_4px_rgba(56,113,193,.3)]"
+                  : "bg-transparent hover:bg-white/30"
                   }`}
               >
                 <span

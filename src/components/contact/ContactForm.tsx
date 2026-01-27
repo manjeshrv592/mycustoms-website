@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import ReCAPTCHA from "react-google-recaptcha";
 import PrimaryButton from "@/components/custom-ui/PrimaryButton";
 import PrimaryInput from "@/components/custom-ui/PrimaryInput";
 import PrimaryTextarea from "@/components/custom-ui/PrimaryTextarea";
@@ -14,15 +16,9 @@ import { Button } from "../ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useContactForm } from "@/context/ContactFormContext";
 
-// Service options for the select dropdown
-const SERVICE_OPTIONS = [
-  { value: "Import declaration", label: "Import declaration" },
-  { value: "Export declaration", label: "Export declaration" },
-  { value: "Fiscal representation", label: "Fiscal representation" },
-  { value: "Transit", label: "Transit" },
-  { value: "Consulting", label: "Consulting" },
-  { value: "General Enquiry", label: "General Enquiry" },
-];
+interface ContactFormProps {
+  services: string[];
+}
 
 // Zod validation schema
 const contactFormSchema = z.object({
@@ -39,7 +35,17 @@ const contactFormSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
-const ContactForm = () => {
+const ContactForm = ({ services }: ContactFormProps) => {
+  // Map services from Sanity to the format expected by PrimarySelect
+  const serviceOptions = services.map((service) => ({
+    value: service,
+    label: service,
+  }));
+
+  // reCAPTCHA
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   const { isInfoCollapsed, showClickButton, toggleInfoCollapsed } =
     useContactForm();
   const {
@@ -62,20 +68,49 @@ const ContactForm = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Log form data to console
-    console.log("Contact Form Submitted:", data);
+    // Validate reCAPTCHA
+    if (!captchaToken) {
+      toast.error("Please complete the reCAPTCHA", {
+        description: "Verify that you are not a robot.",
+      });
+      return;
+    }
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data, captchaToken }),
+      });
 
-    // Show success toast
-    toast.success("Thank you!", {
-      description:
-        "Your request has been received. We will get back to you soon.",
-    });
+      const result = await response.json();
 
-    // Reset form after successful submission
-    reset();
+      if (!response.ok || !result.success) {
+        toast.error("Something went wrong", {
+          description:
+            result.message || "Please try again or contact us directly.",
+        });
+        return;
+      }
+
+      // Show success toast
+      toast.success("Thank you!", {
+        description:
+          "Your request has been received. We will get back to you soon.",
+      });
+
+      // Reset form and reCAPTCHA after successful submission
+      reset();
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+      toast.error("Connection error", {
+        description: "Please check your internet connection and try again.",
+      });
+    }
   };
 
   return (
@@ -187,7 +222,7 @@ const ContactForm = () => {
         </Label>
         <PrimarySelect
           id="service"
-          options={SERVICE_OPTIONS}
+          options={serviceOptions}
           placeholder="Choose a service"
           value={watch("service")}
           onValueChange={(value) =>
@@ -218,11 +253,27 @@ const ContactForm = () => {
         )}
       </div>
 
+      {/* Google reCAPTCHA v2 */}
+      <div
+        className={`mt-4 flex justify-center transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+          }`}
+      >
+        <div className="transform scale-[0.75] origin-center -my-3">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+            theme="dark"
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
+        </div>
+      </div>
+
       <PrimaryButton
         type="submit"
         className={`w-full mt-4 transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
           }`}
-        disabled={isSubmitting}
+        disabled={isSubmitting || !captchaToken}
       >
         {isSubmitting ? "Submitting..." : "Submit"}
       </PrimaryButton>
