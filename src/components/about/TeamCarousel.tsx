@@ -42,7 +42,7 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
   }
 
   return (
-    <div className="h-full max-w-[350px] mx-auto lg:max-w-none w-full flex flex-col">
+    <div className="h-full max-h-[600px] max-w-[350px] mx-auto lg:max-w-none w-full flex flex-col">
       <Swiper
         className="flex-1 w-full"
         modules={[Navigation, Autoplay]}

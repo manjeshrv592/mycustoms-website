@@ -27,7 +27,21 @@ const contactFormSchema = z.object({
     .min(2, "Name must be at least 2 characters")
     .regex(/^[^\d]*$/, "Name cannot contain numbers"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(1, "Please enter your phone number"),
+  phone: z
+    .string()
+    .min(1, "Please enter your phone number")
+    .refine(
+      (value) => {
+        // Remove all non-digit characters except the leading +
+        const digitsOnly = value.replace(/[^\d]/g, "");
+        // A valid phone number should have at least 7 digits (country code + actual number)
+        // Most country codes are 1-3 digits, so requiring 7+ ensures there's an actual number
+        return digitsOnly.length >= 7;
+      },
+      {
+        message: "Please enter a valid phone number",
+      }
+    ),
   company: z.string().min(1, "Please enter your company name"),
   service: z.string().min(1, "Please select a service"),
   message: z.string().min(1, "Please enter your message"),
@@ -45,6 +59,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
   // reCAPTCHA
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
 
   const { isInfoCollapsed, showClickButton, toggleInfoCollapsed } =
     useContactForm();
@@ -54,9 +69,11 @@ const ContactForm = ({ services }: ContactFormProps) => {
     reset,
     watch,
     setValue,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
+    mode: "onSubmit",
     defaultValues: {
       name: "",
       email: "",
@@ -70,9 +87,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
   const onSubmit = async (data: ContactFormData) => {
     // Validate reCAPTCHA
     if (!captchaToken) {
-      toast.error("Please complete the reCAPTCHA", {
-        description: "Verify that you are not a robot.",
-      });
+      setCaptchaError("Please complete the reCAPTCHA verification");
       return;
     }
 
@@ -105,6 +120,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
       reset();
       recaptchaRef.current?.reset();
       setCaptchaToken(null);
+      setCaptchaError(null);
     } catch (error) {
       console.error("Contact form submission error:", error);
       toast.error("Connection error", {
@@ -187,8 +203,9 @@ const ContactForm = ({ services }: ContactFormProps) => {
           placeholder="Phone Number"
           value={watch("phone")}
           onChange={(phone) =>
-            setValue("phone", phone, { shouldValidate: true })
+            setValue("phone", phone, { shouldValidate: false, shouldDirty: true })
           }
+          onBlur={() => trigger("phone")}
         />
         {errors.phone && (
           <p className="text-red-400  mt-1">{errors.phone.message}</p>
@@ -255,7 +272,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
 
       {/* Google reCAPTCHA v2 */}
       <div
-        className={`mt-4 flex justify-center transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
+        className={`mt-4 flex flex-col items-center transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
           }`}
       >
         <div className="transform scale-[0.75] origin-center -my-3">
@@ -263,17 +280,23 @@ const ContactForm = ({ services }: ContactFormProps) => {
             ref={recaptchaRef}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
             theme="dark"
-            onChange={(token) => setCaptchaToken(token)}
+            onChange={(token) => {
+              setCaptchaToken(token);
+              if (token) setCaptchaError(null);
+            }}
             onExpired={() => setCaptchaToken(null)}
           />
         </div>
+        {captchaError && (
+          <p className="text-red-400 mt-1">{captchaError}</p>
+        )}
       </div>
 
       <PrimaryButton
         type="submit"
         className={`w-full mt-4 transition-opacity duration-500 ${isInfoCollapsed ? "opacity-100" : "opacity-0 md:opacity-100"
           }`}
-        disabled={isSubmitting || !captchaToken}
+        disabled={isSubmitting}
       >
         {isSubmitting ? "Submitting..." : "Submit"}
       </PrimaryButton>

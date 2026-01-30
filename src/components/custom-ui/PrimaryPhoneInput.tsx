@@ -8,6 +8,7 @@ import { forwardRef } from "react";
 interface PrimaryPhoneInputProps {
   value?: string;
   onChange?: (phone: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   className?: string;
   id?: string;
@@ -18,7 +19,7 @@ interface PrimaryPhoneInputProps {
  * Uses react-international-phone library
  */
 const PrimaryPhoneInput = forwardRef<HTMLInputElement, PrimaryPhoneInputProps>(
-  ({ value, onChange, placeholder = "Phone Number", className, id }, ref) => {
+  ({ value, onChange, onBlur, placeholder = "Phone Number", className, id }, ref) => {
     const phoneInput = usePhoneInput({
       defaultCountry: "nl", // Default to Netherlands
       forceDialCode: true, // Prevent users from editing/removing country code
@@ -65,6 +66,7 @@ const PrimaryPhoneInput = forwardRef<HTMLInputElement, PrimaryPhoneInputProps>(
           placeholder={placeholder}
           value={phoneInput.inputValue}
           onChange={phoneInput.handlePhoneValueChange}
+          onBlur={onBlur}
           className="flex-1 bg-transparent text-white placeholder:text-muted-foreground text-sm py-2 focus:outline-none focus:ring-0"
         />
       </div>
