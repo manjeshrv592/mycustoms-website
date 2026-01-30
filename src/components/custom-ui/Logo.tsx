@@ -11,7 +11,7 @@ export default function Logo() {
   return (
     <TransitionLink href={`/${currentLocale}`}>
       <Image
-        className="w-[80px] h-auto"
+        className="w-[80px] 4xl:w-[5vw] h-auto"
         src={
           isHomePage
             ? "/images/mycustoms-logo-new.svg"

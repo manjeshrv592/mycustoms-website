@@ -56,7 +56,7 @@ export default async function Home({ params }: HomePageProps) {
     : backgroundImageUrl;
 
   return (
-    <section className="min-h-screen bg-neutral-200 flex justify-center relative xl:pt-[20vh] pt-[15vh]">
+    <section className="min-h-screen bg-neutral-200 flex justify-center relative xl:pt-[20vh] 4xl:pt-[30vh] pt-[15vh]">
       {/* Desktop Background Image */}
       <Image
         src={backgroundImageUrl}

@@ -61,9 +61,9 @@ export default function PrimaryNav({
 
   return (
     <nav
-      className="fixed z-50 right-5 top-1/2 transform -translate-y-1/2 hidden md:block"
+      className="fixed z-50 right-5 4xl:right-[1.5vw] top-1/2 transform -translate-y-1/2 hidden md:block"
     >
-      <ul className="flex gap-5 flex-col justify-center items-center">
+      <ul className="flex gap-5 4xl:gap-[1.25vw] flex-col justify-center items-center">
         {navLinks.map((link) => {
           // Prepend locale to href
           const localizedHref =
@@ -89,13 +89,13 @@ export default function PrimaryNav({
             <li key={link.label}>
               <TransitionLink
                 href={localizedHref}
-                className={`p-1 flex items-center justify-center rounded-full duration-300 ${isActive
-                  ? "bg-[#3871C1]/50 shadow-[0_0_0_4px_rgba(56,113,193,.3)]"
+                className={`p-1 4xl:p-[0.25vw] flex items-center justify-center rounded-full duration-300 ${isActive
+                  ? "bg-[#3871C1]/50 shadow-[0_0_0_4px_rgba(56,113,193,.3)] 4xl:shadow-[0_0_0_0.2vw_rgba(56,113,193,.3)]"
                   : "bg-transparent hover:bg-white/30"
                   }`}
               >
                 <span
-                  className={`inline-block size-1.5 rounded-full ${isActive ? "bg-[#3871C1]" : "bg-white"
+                  className={`inline-block size-1.5 4xl:size-[0.4vw] rounded-full ${isActive ? "bg-[#3871C1]" : "bg-white"
                     }`}
                 >
                   &nbsp;

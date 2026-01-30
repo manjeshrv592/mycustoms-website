@@ -206,7 +206,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 src={blogImageUrl}
                 width={800}
                 height={400}
-                className="w-full h-auto mb-4 xl:h-[250px] object-cover"
+                className="w-full h-auto mb-4 xl:h-[250px] object-cover 4xl:h-[20vw]"
                 alt={blogTitle}
               />
             )}
@@ -235,50 +235,52 @@ export default async function BlogPage({ params }: BlogPageProps) {
                     <BlogViewToggleButton />
                   </div>
                   <div className="flex items-center justify-between gap-2 xl:gap-4">
-                    <div className="flex gap-2 xl:gap-4 items-center">
-                      {/* Previous blog */}
-                      {prevBlog ? (
-                        <Link
-                          href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}
-                        >
+                    <HideInListView>
+                      <div className="flex gap-2 xl:gap-4 items-center">
+                        {/* Previous blog */}
+                        {prevBlog ? (
+                          <Link
+                            href={`/${lang}/resources/blogs/${prevBlog.slug.current}`}
+                          >
+                            <Button
+                              size="icon"
+                              className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
+                            >
+                              <ArrowLeft />
+                            </Button>
+                          </Link>
+                        ) : (
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
+                            className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
+                            disabled
                           >
                             <ArrowLeft />
                           </Button>
-                        </Link>
-                      ) : (
-                        <Button
-                          size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
-                          disabled
-                        >
-                          <ArrowLeft />
-                        </Button>
-                      )}
-                      {/* Next blog */}
-                      {nextBlog ? (
-                        <Link
-                          href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
-                        >
+                        )}
+                        {/* Next blog */}
+                        {nextBlog ? (
+                          <Link
+                            href={`/${lang}/resources/blogs/${nextBlog.slug.current}`}
+                          >
+                            <Button
+                              size="icon"
+                              className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
+                            >
+                              <ArrowRight />
+                            </Button>
+                          </Link>
+                        ) : (
                           <Button
                             size="icon"
-                            className="rounded-full bg-[#E5E5E5] text-black hover:bg-[#3871C1] hover:text-white cursor-pointer size-8 [&>svg]:size-4"
+                            className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
+                            disabled
                           >
                             <ArrowRight />
                           </Button>
-                        </Link>
-                      ) : (
-                        <Button
-                          size="icon"
-                          className="rounded-full bg-[#E5E5E5] text-black opacity-50 cursor-not-allowed size-7 [&>svg]:size-4"
-                          disabled
-                        >
-                          <ArrowRight />
-                        </Button>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    </HideInListView>
                     <ResourcesSearch lang={lang} />
                   </div>
 

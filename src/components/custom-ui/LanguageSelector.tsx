@@ -56,28 +56,28 @@ export default function LanguageSelector() {
 
   return (
     <Select value={currentLocale} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="md:bg-black/25 rounded-full p-1 data-[size=default]:h-auto [&_svg]:text-white! [&_svg]:opacity-100! cursor-pointer border border-white/20 w-[84px]">
+      <SelectTrigger className="md:bg-black/25 rounded-full p-1 4xl:p-[0.3vw] data-[size=default]:h-auto [&_svg]:text-white! [&_svg]:opacity-100! cursor-pointer border border-white/20 w-[84px] 4xl:w-[5.5vw]">
         <SelectValue>
-          <div className="flex items-center gap-2 text-white">
-            <span className="inline-block size-5 rounded-full overflow-hidden">
+          <div className="flex items-center gap-2 4xl:gap-[0.5vw] text-white">
+            <span className="inline-block size-5 4xl:size-[1.25vw] rounded-full overflow-hidden">
               <Image
                 src={currentLangInfo.flag}
                 alt={currentLangInfo.alt}
                 width={20}
                 height={20}
-                className="w-5 h-5 object-cover"
+                className="w-5 h-5 4xl:w-full 4xl:h-full object-cover"
               />
             </span>
-            <span>{currentLangInfo.label}</span>
+            <span className="4xl:text-[0.9vw]">{currentLangInfo.label}</span>
           </div>
         </SelectValue>
       </SelectTrigger>
       <SelectContent
         align="end"
-        className="bg-black/80 md:bg-black/25 text-white min-w-32 border-white/20 border"
+        className="bg-black/80 md:bg-black/25 text-white min-w-32 4xl:min-w-[8vw] border-white/20 border"
       >
         <SelectGroup>
-          <SelectLabel className="text-white uppercase tracking-[1px]">
+          <SelectLabel className="text-white uppercase tracking-[1px] 4xl:text-[0.8vw]">
             Language
           </SelectLabel>
           {locales.map((locale) => {
@@ -86,19 +86,19 @@ export default function LanguageSelector() {
               <SelectItem
                 key={locale}
                 value={locale}
-                className="[&_svg]:text-white! [&_svg]:opacity-100! [&_svg]:duration-300 duration-300 transition-all cursor-pointer rounded-full p-1 mb-2 last:mb-0 hover:[&_svg]:text-black! data-highlighted:[&_svg]:text-black!"
+                className="[&_svg]:text-white! [&_svg]:opacity-100! [&_svg]:duration-300 duration-300 transition-all cursor-pointer rounded-full p-1 mb-2 last:mb-0 hover:[&_svg]:text-black! data-highlighted:[&_svg]:text-black! 4xl:p-[0.3vw] 4xl:mb-[0.5vw]"
               >
-                <div className="flex items-center gap-2">
-                  <span className="inline-block size-5 rounded-full overflow-hidden">
+                <div className="flex items-center gap-2 4xl:gap-[0.5vw]">
+                  <span className="inline-block size-5 4xl:size-[1.25vw] rounded-full overflow-hidden">
                     <Image
                       src={info.flag}
                       alt={info.alt}
                       width={20}
                       height={20}
-                      className="w-5 h-5 object-cover"
+                      className="w-5 h-5 4xl:w-full 4xl:h-full object-cover"
                     />
                   </span>
-                  <span>{info.fullLabel}</span>
+                  <span className="4xl:text-[0.9vw]">{info.fullLabel}</span>
                 </div>
               </SelectItem>
             );
