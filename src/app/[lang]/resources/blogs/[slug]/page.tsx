@@ -192,7 +192,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
       <div className="flex-1 min-h-0">
         <div className="grid lg:grid-cols-[3fr_2fr] xl:grid-cols-[4fr_2fr] xl gap-4 h-full min-h-0">
           {/* Blog Content */}
-          <div className=" h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose  text-xs">
+          <div className=" h-full overflow-y-scroll min-h-0 custom-scrollbar text-white pr-4 leading-loose">
             {/* Blog title */}
             <h1 className="h1 text-white font-grift mb-2">
               {blogRegularPart && (

@@ -171,7 +171,7 @@
 }
 
 body {
-  font-size: clamp(0.75rem, 0.8vw, 100vw);
+  font-size: clamp(0.75rem, 0.9vw, 100vw);
 }
 
 /* Fluid Typography Classes */

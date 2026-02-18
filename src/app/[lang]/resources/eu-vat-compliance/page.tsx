@@ -95,7 +95,7 @@ export default async function EuVatCompliancePage({
           </div>
           {/* Main content - scrollable */}
           <div className="flex-1 min-h-0 mt-2 md:mt-4 ">
-            <div className="text-[#E5E5E5] text-xs leading-loose text-justify">
+            <div className="text-[#E5E5E5] leading-loose text-justify">
               <PortableTextContent value={content} />
             </div>
           </div>
