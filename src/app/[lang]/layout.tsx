@@ -2,7 +2,7 @@ import PrimaryNav from "@/components/layouts/PrimaryNav";
 import Header from "@/components/layouts/Header";
 import { locales, isValidLocale } from "@/i18n";
 import { notFound } from "next/navigation";
-import { getFirstServiceSlug, getFirstBlogSlug } from "@/sanity/queries";
+import { getFirstServiceSlug, getFirstBlogSlug, getPortalPageIsActive } from "@/sanity/queries";
 import { Toaster } from "@/components/ui/sonner";
 import { ViewTransitions } from "next-view-transitions";
 import { NavigationProvider } from "@/context/NavigationContext";
@@ -36,10 +36,11 @@ export default async function LangLayout({
     notFound();
   }
 
-  // Fetch first slugs for direct navigation (SSG-compatible)
-  const [firstServiceSlug, firstBlogSlug] = await Promise.all([
+  // Fetch first slugs and portal status for direct navigation (SSG-compatible)
+  const [firstServiceSlug, firstBlogSlug, isPortalActive] = await Promise.all([
     getFirstServiceSlug(),
     getFirstBlogSlug(),
+    getPortalPageIsActive(),
   ]);
 
   return (
@@ -47,12 +48,14 @@ export default async function LangLayout({
       <NavigationProvider
         firstServiceSlug={firstServiceSlug}
         firstBlogSlug={firstBlogSlug}
+        isPortalActive={isPortalActive}
       >
         <SwipeNavigator>
           <Header />
           <PrimaryNav
             firstServiceSlug={firstServiceSlug}
             firstBlogSlug={firstBlogSlug}
+            isPortalActive={isPortalActive}
           />
           {children}
           <Toaster position="bottom-right" richColors />

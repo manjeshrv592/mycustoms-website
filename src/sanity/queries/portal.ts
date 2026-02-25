@@ -8,6 +8,7 @@ export const PORTAL_PAGE_QUERY = `
   *[_type == "portalPage"][0] {
     _id,
     _type,
+    isActive,
     backgroundImage,
     label,
     title,
@@ -38,4 +39,27 @@ export async function getPortalPage(): Promise<PortalPageData | null> {
         : { revalidate: 60, tags: ["portalPage"] },
     }
   );
+}
+
+/**
+ * Lightweight query to fetch only the portal page active status
+ */
+const PORTAL_IS_ACTIVE_QUERY = `*[_type == "portalPage"][0].isActive`;
+
+export async function getPortalPageIsActive(): Promise<boolean> {
+  const isDev = process.env.NODE_ENV === "development";
+
+  const isActive = await client.fetch<boolean | null>(
+    PORTAL_IS_ACTIVE_QUERY,
+    {},
+    {
+      next: isDev
+        ? { revalidate: 0 }
+        : { revalidate: 60, tags: ["portalPage"] },
+      cache: isDev ? "no-store" : undefined,
+    }
+  );
+
+  console.log("[server] portal isActive raw value:", isActive);
+  return isActive ?? true;
 }

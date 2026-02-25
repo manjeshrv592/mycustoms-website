@@ -9,6 +9,13 @@ export const portalPage = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "isActive",
+      title: "Page Active",
+      type: "boolean",
+      description: "Toggle to show/hide the portal page and its navigation link",
+      initialValue: true,
+    }),
+    defineField({
       name: "backgroundImage",
       title: "Background Image",
       type: "image",

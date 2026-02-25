@@ -41,6 +41,11 @@ export default async function Portal({ params }: PortalPageProps) {
     notFound();
   }
 
+  // Redirect to 404 if portal page is toggled off
+  if (portalData.isActive === false) {
+    notFound();
+  }
+
   // Get localized values
   const label =
     getLocalizedValue(portalData.label, currentLang) || "Our Portal";

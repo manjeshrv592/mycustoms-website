@@ -11,6 +11,7 @@ import type {
 export interface PortalPageData {
   _id: string;
   _type: "portalPage";
+  isActive?: boolean;
   backgroundImage: SanityImageField;
   label?: LocalizedString[];
   title: LocalizedString[];

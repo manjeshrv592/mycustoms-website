@@ -38,6 +38,7 @@ interface NavigationProviderProps {
     children: React.ReactNode;
     firstServiceSlug?: string | null;
     firstBlogSlug?: string | null;
+    isPortalActive?: boolean;
 }
 
 const NavigationContext = createContext<NavigationContextType | null>(null);
@@ -48,17 +49,17 @@ const NAVIGATION_COOLDOWN = 350;
 /**
  * Get page index from path (handles dynamic routes and locale prefixes)
  */
-function getPageIndex(path: string): number {
+function getPageIndex(path: string, pageOrder: string[] = PAGE_ORDER): number {
     // Remove locale prefix (e.g., /en, /nl, /de, /cn)
     const pathWithoutLocale = path.replace(/^\/(en|nl|de|cn)/, "") || "/";
 
     // Check for exact match first
-    const exactIndex = PAGE_ORDER.indexOf(pathWithoutLocale);
+    const exactIndex = pageOrder.indexOf(pathWithoutLocale);
     if (exactIndex !== -1) return exactIndex;
 
     // Check for prefix matches (for dynamic routes like /services/slug)
-    for (let i = PAGE_ORDER.length - 1; i >= 0; i--) {
-        if (pathWithoutLocale.startsWith(PAGE_ORDER[i]) && PAGE_ORDER[i] !== "/") {
+    for (let i = pageOrder.length - 1; i >= 0; i--) {
+        if (pathWithoutLocale.startsWith(pageOrder[i]) && pageOrder[i] !== "/") {
             return i;
         }
     }
@@ -83,13 +84,23 @@ export function NavigationProvider({
     children,
     firstServiceSlug,
     firstBlogSlug,
+    isPortalActive,
 }: NavigationProviderProps) {
     const pathname = usePathname();
     const router = useTransitionRouter();
     const [direction, setDirection] = useState<NavigationDirection>("none");
     const [isNavigating, setIsNavigating] = useState(false);
+
+    // Filter out /portal from navigation when inactive
+    const effectivePageOrder = React.useMemo(
+        () => isPortalActive === false
+            ? PAGE_ORDER.filter((p) => p !== "/portal")
+            : PAGE_ORDER,
+        [isPortalActive]
+    );
+
     const [currentPageIndex, setCurrentPageIndex] = useState(() =>
-        getPageIndex(pathname)
+        getPageIndex(pathname, effectivePageOrder)
     );
     const cooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -115,7 +126,7 @@ export function NavigationProvider({
 
     // Update current page index when pathname changes
     useEffect(() => {
-        const newIndex = getPageIndex(pathname);
+        const newIndex = getPageIndex(pathname, effectivePageOrder);
         setCurrentPageIndex(newIndex);
 
         // Reset direction after transition completes
@@ -124,12 +135,12 @@ export function NavigationProvider({
         }, 400);
 
         return () => clearTimeout(timer);
-    }, [pathname]);
+    }, [pathname, effectivePageOrder]);
 
     // Set navigation direction based on target path
     const setNavigationDirection = useCallback(
         (targetPath: string) => {
-            const targetIndex = getPageIndex(targetPath);
+            const targetIndex = getPageIndex(targetPath, effectivePageOrder);
 
             if (targetIndex > currentPageIndex) {
                 setDirection("forward");
@@ -139,7 +150,7 @@ export function NavigationProvider({
                 setDirection("none");
             }
         },
-        [currentPageIndex]
+        [currentPageIndex, effectivePageOrder]
     );
 
     // Programmatic navigation to next/prev page
@@ -153,14 +164,14 @@ export function NavigationProvider({
 
             if (navDirection === "next") {
                 targetIndex = currentPageIndex + 1;
-                if (targetIndex >= PAGE_ORDER.length) return; // Already at last page
+                if (targetIndex >= effectivePageOrder.length) return; // Already at last page
             } else {
                 targetIndex = currentPageIndex - 1;
                 if (targetIndex < 0) return; // Already at first page
             }
 
             // Get the target page path using dynamic paths
-            const targetPageKey = PAGE_ORDER[targetIndex];
+            const targetPageKey = effectivePageOrder[targetIndex];
             const targetPath = getDefaultPath(targetPageKey);
             const fullPath = `/${locale}${targetPath}`;
 
@@ -181,7 +192,7 @@ export function NavigationProvider({
                 setIsNavigating(false);
             }, NAVIGATION_COOLDOWN);
         },
-        [currentPageIndex, isNavigating, pathname, router, getDefaultPath]
+        [currentPageIndex, isNavigating, pathname, router, getDefaultPath, effectivePageOrder]
     );
 
     // Cleanup cooldown timer on unmount

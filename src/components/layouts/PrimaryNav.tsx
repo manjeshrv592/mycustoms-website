@@ -13,6 +13,7 @@ interface NavLink {
 interface PrimaryNavProps {
   firstServiceSlug?: string | null;
   firstBlogSlug?: string | null;
+  isPortalActive?: boolean;
 }
 
 const getNavLinks = (
@@ -36,9 +37,12 @@ const getNavLinks = (
 export default function PrimaryNav({
   firstServiceSlug,
   firstBlogSlug,
+  isPortalActive,
 }: PrimaryNavProps): React.ReactElement {
   const pathname = usePathname();
   const navLinks = getNavLinks(firstServiceSlug, firstBlogSlug);
+
+  console.log("isPortalActive:", isPortalActive);
 
   // Extract current locale from URL path
   const getCurrentLocale = (): Locale => {
@@ -65,6 +69,9 @@ export default function PrimaryNav({
     >
       <ul className="flex gap-5 4xl:gap-[1.25vw] flex-col justify-center items-center">
         {navLinks.map((link) => {
+          // Skip portal link if portal is not active
+          if (link.href === "/portal" && !isPortalActive) return null;
+
           // Prepend locale to href
           const localizedHref =
             link.href === "/"

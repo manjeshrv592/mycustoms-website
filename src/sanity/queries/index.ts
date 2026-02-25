@@ -11,7 +11,7 @@ export {
 } from "./services";
 
 // Portal queries
-export { getPortalPage } from "./portal";
+export { getPortalPage, getPortalPageIsActive } from "./portal";
 
 // Contact queries
 export { getContactPage } from "./contact";
