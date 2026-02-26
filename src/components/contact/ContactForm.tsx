@@ -16,8 +16,25 @@ import { Button } from "../ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useContactForm } from "@/context/ContactFormContext";
 
+export interface ContactFormLabels {
+  labelName: string;
+  placeholderName: string;
+  labelEmail: string;
+  placeholderEmail: string;
+  labelPhone: string;
+  labelCompany: string;
+  placeholderCompany: string;
+  labelService: string;
+  placeholderService: string;
+  labelMessage: string;
+  placeholderMessage: string;
+  submitButton: string;
+  submittingButton: string;
+}
+
 interface ContactFormProps {
   services: string[];
+  labels: ContactFormLabels;
 }
 
 // Zod validation schema
@@ -49,7 +66,7 @@ const contactFormSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
 
-const ContactForm = ({ services }: ContactFormProps) => {
+const ContactForm = ({ services, labels }: ContactFormProps) => {
   // Map services from Sanity to the format expected by PrimarySelect
   const serviceOptions = services.map((service) => ({
     value: service,
@@ -135,11 +152,11 @@ const ContactForm = ({ services }: ContactFormProps) => {
       className="flex flex-col max-w-[400px] gap-4 md:gap-8 lg:gap-0 lg:justify-between max-h-[70dvh] 2xl:max-h-none md:max-h-none overflow-y-auto md:overflow-visible 2xl:mt-[1vw]"
     >
       <div className="2xl:mb-[1vw]">
-        <Label htmlFor="name">Name <span className="text-red-500">*</span></Label>
+        <Label htmlFor="name">{labels.labelName} <span className="text-red-500">*</span></Label>
         <PrimaryInput
           type="text"
           id="name"
-          placeholder="Enter your full name"
+          placeholder={labels.placeholderName}
           {...register("name")}
           onKeyDown={(e) => {
             // Prevent typing numbers in name field
@@ -178,12 +195,12 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
       >
         <Label className="" htmlFor="email">
-          Email <span className="text-red-500">*</span>
+          {labels.labelEmail} <span className="text-red-500">*</span>
         </Label>
         <PrimaryInput
           type="email"
           id="email"
-          placeholder="Enter your email address"
+          placeholder={labels.placeholderEmail}
           {...register("email")}
         />
         {errors.email && (
@@ -196,7 +213,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
       >
         <Label className="" htmlFor="phone">
-          Phone Number <span className="text-red-500">*</span>
+          {labels.labelPhone} <span className="text-red-500">*</span>
         </Label>
         <PrimaryPhoneInput
           id="phone"
@@ -217,12 +234,12 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
       >
         <Label className="" htmlFor="company">
-          Company Name <span className="text-red-500">*</span>
+          {labels.labelCompany} <span className="text-red-500">*</span>
         </Label>
         <PrimaryInput
           type="text"
           id="company"
-          placeholder="Enter your company name"
+          placeholder={labels.placeholderCompany}
           {...register("company")}
         />
         {errors.company && (
@@ -235,12 +252,12 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
       >
         <Label className="" htmlFor="service">
-          Select Service <span className="text-red-500">*</span>
+          {labels.labelService} <span className="text-red-500">*</span>
         </Label>
         <PrimarySelect
           id="service"
           options={serviceOptions}
-          placeholder="Choose a service"
+          placeholder={labels.placeholderService}
           value={watch("service")}
           onValueChange={(value) =>
             setValue("service", value, { shouldValidate: true })
@@ -256,13 +273,13 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
       >
         <Label className="" htmlFor="message">
-          Message <span className="text-red-500">*</span>
+          {labels.labelMessage} <span className="text-red-500">*</span>
         </Label>
         <PrimaryTextarea
           className="md:h-32 lg:h-auto"
           id="message"
           rows={1}
-          placeholder="Tell us more about your requirements..."
+          placeholder={labels.placeholderMessage}
           {...register("message")}
         />
         {errors.message && (
@@ -298,7 +315,7 @@ const ContactForm = ({ services }: ContactFormProps) => {
           }`}
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Submitting..." : "Submit"}
+        {isSubmitting ? labels.submittingButton : labels.submitButton}
       </PrimaryButton>
 
       {/* Hide form button - visible on mobile when form is expanded */}
@@ -320,3 +337,4 @@ const ContactForm = ({ services }: ContactFormProps) => {
 };
 
 export default ContactForm;
+

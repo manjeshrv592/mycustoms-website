@@ -60,6 +60,29 @@ export default async function Contact({ params }: ContactPageProps) {
   const linkedinUrl = contactData.linkedinUrl || "";
   const services = contactData.services || [];
 
+  // Get localized form labels (with English fallbacks)
+  const formLabels = {
+    labelName: getLocalizedValue(contactData.formLabelName, currentLang) || "Name",
+    placeholderName: getLocalizedValue(contactData.formPlaceholderName, currentLang) || "Enter your full name",
+    labelEmail: getLocalizedValue(contactData.formLabelEmail, currentLang) || "Email",
+    placeholderEmail: getLocalizedValue(contactData.formPlaceholderEmail, currentLang) || "Enter your email address",
+    labelPhone: getLocalizedValue(contactData.formLabelPhone, currentLang) || "Phone Number",
+    labelCompany: getLocalizedValue(contactData.formLabelCompany, currentLang) || "Company Name",
+    placeholderCompany: getLocalizedValue(contactData.formPlaceholderCompany, currentLang) || "Enter your company name",
+    labelService: getLocalizedValue(contactData.formLabelService, currentLang) || "Select Service",
+    placeholderService: getLocalizedValue(contactData.formPlaceholderService, currentLang) || "Choose a service",
+    labelMessage: getLocalizedValue(contactData.formLabelMessage, currentLang) || "Message",
+    placeholderMessage: getLocalizedValue(contactData.formPlaceholderMessage, currentLang) || "Tell us more about your requirements...",
+    submitButton: getLocalizedValue(contactData.formSubmitButton, currentLang) || "Submit",
+    submittingButton: getLocalizedValue(contactData.formSubmittingButton, currentLang) || "Submitting...",
+  };
+
+  // Get localized contact info labels (with English fallbacks)
+  const basedAtTitle = getLocalizedValue(contactData.basedAtTitle, currentLang) || "Based at";
+  const viewOnMapText = getLocalizedValue(contactData.viewOnMapText, currentLang) || "View on map";
+  const phoneSectionLabel = getLocalizedValue(contactData.phoneSectionLabel, currentLang) || "Phone";
+  const emailSectionLabel = getLocalizedValue(contactData.emailSectionLabel, currentLang) || "Email";
+
   return (
     <section className="h-screen pt-[10vh] pb-2 lg:pb-8 md:pt-[12vh] 2xl:py-[calc(0.16rem+6vw)] relative">
       {linkedinUrl && (
@@ -103,7 +126,7 @@ export default async function Contact({ params }: ContactPageProps) {
           <ContactFormProvider>
             <div className="md:grid md:grid-cols-2 flex-1 md:gap-12">
               {/* Contact Form Component */}
-              <ContactForm services={services} />
+              <ContactForm services={services} labels={formLabels} />
 
               <ContactInfoSection
                 contactImageUrl={contactImageUrl}
@@ -111,6 +134,10 @@ export default async function Contact({ params }: ContactPageProps) {
                 mapLink={mapLink}
                 phone={phone}
                 email={email}
+                basedAtTitle={basedAtTitle}
+                viewOnMapText={viewOnMapText}
+                phoneSectionLabel={phoneSectionLabel}
+                emailSectionLabel={emailSectionLabel}
               />
             </div>
           </ContactFormProvider>
@@ -119,3 +146,4 @@ export default async function Contact({ params }: ContactPageProps) {
     </section>
   );
 }
+

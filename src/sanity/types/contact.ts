@@ -16,4 +16,23 @@ export interface ContactPageData {
   email?: string;
   linkedinUrl?: string;
   services?: string[];
+  // Form labels & placeholders
+  formLabelName?: LocalizedString[];
+  formPlaceholderName?: LocalizedString[];
+  formLabelEmail?: LocalizedString[];
+  formPlaceholderEmail?: LocalizedString[];
+  formLabelPhone?: LocalizedString[];
+  formLabelCompany?: LocalizedString[];
+  formPlaceholderCompany?: LocalizedString[];
+  formLabelService?: LocalizedString[];
+  formPlaceholderService?: LocalizedString[];
+  formLabelMessage?: LocalizedString[];
+  formPlaceholderMessage?: LocalizedString[];
+  formSubmitButton?: LocalizedString[];
+  formSubmittingButton?: LocalizedString[];
+  // Contact info labels
+  basedAtTitle?: LocalizedString[];
+  viewOnMapText?: LocalizedString[];
+  phoneSectionLabel?: LocalizedString[];
+  emailSectionLabel?: LocalizedString[];
 }

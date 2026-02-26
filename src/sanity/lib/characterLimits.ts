@@ -52,11 +52,11 @@ export const characterLimits = {
     // About Page
     aboutPage: {
         title: { en: 12, nl: 12, de: 12, cn: 12 },
-        description: { en: 250, nl: 250, de: 250, cn: 250 },
+        description: { en: 750, nl: 750, de: 750, cn: 750 },
         visionTitle: { en: 10, nl: 10, de: 10, cn: 10 },
-        visionDescription: { en: 180, nl: 180, de: 180, cn: 180 },
+        visionDescription: { en: 300, nl: 300, de: 300, cn: 300 },
         missionTitle: { en: 10, nl: 10, de: 10, cn: 10 },
-        missionDescription: { en: 180, nl: 180, de: 180, cn: 180 },
+        missionDescription: { en: 300, nl: 300, de: 300, cn: 300 },
     },
 
     // Contact Page
@@ -66,6 +66,25 @@ export const characterLimits = {
         address: 100,
         phone: null,
         email: null,
+        // Form labels
+        formLabelName: { en: 20, nl: 20, de: 20, cn: 20 },
+        formPlaceholderName: { en: 40, nl: 40, de: 40, cn: 40 },
+        formLabelEmail: { en: 20, nl: 20, de: 20, cn: 20 },
+        formPlaceholderEmail: { en: 40, nl: 40, de: 40, cn: 40 },
+        formLabelPhone: { en: 20, nl: 20, de: 20, cn: 20 },
+        formLabelCompany: { en: 25, nl: 25, de: 25, cn: 25 },
+        formPlaceholderCompany: { en: 40, nl: 40, de: 40, cn: 40 },
+        formLabelService: { en: 25, nl: 25, de: 25, cn: 25 },
+        formPlaceholderService: { en: 40, nl: 40, de: 40, cn: 40 },
+        formLabelMessage: { en: 20, nl: 20, de: 20, cn: 20 },
+        formPlaceholderMessage: { en: 60, nl: 60, de: 60, cn: 60 },
+        formSubmitButton: { en: 20, nl: 20, de: 20, cn: 20 },
+        formSubmittingButton: { en: 25, nl: 25, de: 25, cn: 25 },
+        // Contact info labels
+        basedAtTitle: { en: 20, nl: 20, de: 20, cn: 20 },
+        viewOnMapText: { en: 25, nl: 25, de: 25, cn: 25 },
+        phoneSectionLabel: { en: 15, nl: 15, de: 15, cn: 15 },
+        emailSectionLabel: { en: 15, nl: 15, de: 15, cn: 15 },
     },
 
     // EU VAT Compliance Page

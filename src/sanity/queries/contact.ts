@@ -16,7 +16,24 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   phone,
   email,
   linkedinUrl,
-  services
+  services,
+  formLabelName,
+  formPlaceholderName,
+  formLabelEmail,
+  formPlaceholderEmail,
+  formLabelPhone,
+  formLabelCompany,
+  formPlaceholderCompany,
+  formLabelService,
+  formPlaceholderService,
+  formLabelMessage,
+  formPlaceholderMessage,
+  formSubmitButton,
+  formSubmittingButton,
+  basedAtTitle,
+  viewOnMapText,
+  phoneSectionLabel,
+  emailSectionLabel
 }`;
 
 /**
