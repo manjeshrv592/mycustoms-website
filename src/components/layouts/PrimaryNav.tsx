@@ -42,7 +42,7 @@ export default function PrimaryNav({
   const pathname = usePathname();
   const navLinks = getNavLinks(firstServiceSlug, firstBlogSlug);
 
-  console.log("isPortalActive:", isPortalActive);
+
 
   // Extract current locale from URL path
   const getCurrentLocale = (): Locale => {

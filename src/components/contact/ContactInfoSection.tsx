@@ -78,12 +78,12 @@ const ContactInfoSection = ({
         </a>
         <a
           href={`mailto:${email}`}
-          className="flex gap-2 lg:self-end flex-row-reverse lg:flex-row"
+          className="flex gap-2 lg:self-end flex-row-reverse"
         >
           <span className="rounded-full bg-transparent size-8 border border-white flex items-center justify-center">
             <Mail className="size-3" />
           </span>
-          <div className="flex flex-col text-right lg:text-left">
+          <div className="flex flex-col text-right">
             <span>{emailSectionLabel}</span>
             {/* Email Address */}
             {email && <span>{email}</span>}

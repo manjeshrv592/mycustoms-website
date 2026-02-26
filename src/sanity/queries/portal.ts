@@ -60,6 +60,6 @@ export async function getPortalPageIsActive(): Promise<boolean> {
     }
   );
 
-  console.log("[server] portal isActive raw value:", isActive);
+
   return isActive ?? true;
 }
