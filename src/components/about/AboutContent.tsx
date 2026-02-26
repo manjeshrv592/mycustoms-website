@@ -108,7 +108,7 @@ const AboutContent = ({
 
             {/* Team members carousel — slides out on mobile when expanded */}
             <div
-                className={`flex flex-col pr-6 flex-1 overflow-hidden min-w-0 transition-all duration-500 ease-in-out lg:max-h-none lg:opacity-100 ${isExpanded
+                className={`flex flex-col pr-6 flex-1 overflow-hidden min-w-0 transition-all duration-500 ease-in-out lg:max-h-none lg:justify-end lg:opacity-100 ${isExpanded
                     ? "max-h-0 opacity-0 lg:max-h-none lg:opacity-100"
                     : "max-h-[600px] opacity-100"
                     }`}
