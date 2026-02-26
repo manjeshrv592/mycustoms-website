@@ -63,9 +63,9 @@ export const characterLimits = {
     contactPage: {
         title: { en: 12, nl: 12, de: 12, cn: 12 },
         description: { en: 150, nl: 150, de: 150, cn: 150 },
-        address: 100,
-        phone: null,
-        email: null,
+        address: 150,
+        phone: 20,
+        email: 35,
         // Form labels
         formLabelName: { en: 20, nl: 20, de: 20, cn: 20 },
         formPlaceholderName: { en: 40, nl: 40, de: 40, cn: 40 },

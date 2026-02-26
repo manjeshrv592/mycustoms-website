@@ -108,7 +108,7 @@ export default async function Contact({ params }: ContactPageProps) {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#3871C1_0%,#000000_20%)] opacity-50"></div>
       <div className="relative z-20 h-full">
         <Container className="h-full text-white flex flex-col gap-2">
-          <div className="w-full md:max-w-[60%]">
+          <div className="w-full md:max-w-[45%]">
             <div className="flex items-center gap-4 mb-2">
               <span className="inline-block h-px w-[50px] bg-[#7ED957]">
                 &nbsp;

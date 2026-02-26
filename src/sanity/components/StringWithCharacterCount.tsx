@@ -86,7 +86,6 @@ export function StringWithCharacterCount(props: StringWithLimitProps) {
                     padding={1}
                     paddingX={2}
                     style={{
-                        backgroundColor: "#2a2a2a",
                         borderRadius: "4px",
                     }}
                 >

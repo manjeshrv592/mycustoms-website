@@ -5,7 +5,7 @@ import {
   withSimpleCharacterLimit,
 } from "../../lib/validation";
 import { characterLimits } from "../../lib/characterLimits";
-import { LocalizedStringInput } from "../../components";
+import { LocalizedStringInput, StringWithCharacterCount, TextWithCharacterCount } from "../../components";
 
 export const contactPage = defineType({
   name: "contactPage",
@@ -98,6 +98,8 @@ export const contactPage = defineType({
       fieldset: "contactInfo",
       rows: 3,
       description: "Physical address (not localized)",
+      options: { characterLimit: characterLimits.contactPage.address } as any,
+      components: { input: TextWithCharacterCount },
       validation: (Rule) =>
         withSimpleCharacterLimit(characterLimits.contactPage.address)(Rule),
     }),
@@ -133,6 +135,8 @@ export const contactPage = defineType({
       title: "Phone Number",
       type: "string",
       fieldset: "contactInfo",
+      options: { characterLimit: characterLimits.contactPage.phone } as any,
+      components: { input: StringWithCharacterCount },
       validation: (Rule) =>
         withSimpleCharacterLimit(characterLimits.contactPage.phone)(Rule),
     }),
@@ -151,6 +155,8 @@ export const contactPage = defineType({
       title: "Email Address",
       type: "string",
       fieldset: "contactInfo",
+      options: { characterLimit: characterLimits.contactPage.email } as any,
+      components: { input: StringWithCharacterCount },
       validation: (Rule) =>
         withSimpleCharacterLimit(characterLimits.contactPage.email)(
           Rule.email()

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { StringInputProps } from "sanity";
 import { Stack, Text, Card, Flex } from "@sanity/ui";
 
 interface CharacterLimitConfig {
@@ -11,36 +10,26 @@ interface CharacterLimitConfig {
     cn: number;
 }
 
-interface TextWithLimitProps extends StringInputProps {
-    schemaType: StringInputProps["schemaType"] & {
-        options?: {
-            characterLimit?: number | CharacterLimitConfig;
-            language?: string;
-            rows?: number;
-        };
-    };
-}
-
 /**
  * Custom text input component wrapper that adds a real-time character counter.
  * Uses renderDefault to preserve the default Sanity input behavior.
  * Shows "05/50" format that updates as user types.
  * For multi-line text fields.
  */
-export function TextWithCharacterCount(props: TextWithLimitProps) {
+export function TextWithCharacterCount(props: any) {
     const { value = "", schemaType, renderDefault } = props;
     const [charCount, setCharCount] = useState(0);
 
-    // Get options from schema
-    const options = schemaType.options || {};
+    // Get options from schema - try multiple paths since text type may store options differently
+    const options = schemaType?.options || {};
     const limitConfig = options.characterLimit;
-    const language = options.language || "en";
 
     // Determine the limit - could be a number or per-language object
     let limit: number | undefined;
     if (typeof limitConfig === "number") {
         limit = limitConfig;
     } else if (limitConfig && typeof limitConfig === "object") {
+        const language = options.language || "en";
         limit = (limitConfig as CharacterLimitConfig)[
             language as keyof CharacterLimitConfig
         ];
@@ -67,7 +56,7 @@ export function TextWithCharacterCount(props: TextWithLimitProps) {
 
     return (
         <Stack space={2}>
-            {renderDefault(props)}
+            {/* Counter at the top, matching other input components */}
             <Flex justify="flex-end">
                 <Card
                     padding={1}
@@ -75,15 +64,15 @@ export function TextWithCharacterCount(props: TextWithLimitProps) {
                     radius={2}
                     tone={isOverLimit ? "critical" : "default"}
                     style={{
-                        backgroundColor: isOverLimit ? "#ffeae8" : "#f3f3f3",
+                        borderRadius: "4px",
                     }}
                 >
                     <Text
-                        size={1}
+                        size={0}
                         weight="medium"
                         style={{
                             fontFamily: "monospace",
-                            color: isOverLimit ? "#c4281c" : "#6b7280",
+                            color: isOverLimit ? "#c4281c" : "#9ca3af",
                             letterSpacing: "0.5px",
                         }}
                     >
@@ -91,6 +80,7 @@ export function TextWithCharacterCount(props: TextWithLimitProps) {
                     </Text>
                 </Card>
             </Flex>
+            {renderDefault(props)}
         </Stack>
     );
 }

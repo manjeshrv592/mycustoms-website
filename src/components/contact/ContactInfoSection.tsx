@@ -31,7 +31,7 @@ const ContactInfoSection = ({
 
   return (
     <div
-      className={`absolute md:relative md:flex flex-col gap-4 w-full min-w-0 2xl:max-w-[30vw] ml-auto bottom-0 left-0 md:left-auto p-4 md:p-0 transition-all duration-500 ease-in-out overflow-hidden 2xl:max-h-none ${isInfoCollapsed
+      className={`absolute md:relative md:flex flex-col gap-4 w-full min-w-0 2xl:max-w-[36vw] ml-auto bottom-0 left-0 md:left-auto p-4 md:p-0 transition-all duration-500 ease-in-out overflow-hidden 2xl:max-h-none ${isInfoCollapsed
         ? "max-h-0 opacity-0 md:max-h-none md:opacity-100"
         : "max-h-[500px] opacity-100 2xl:max-h-none"
         }`}
@@ -65,7 +65,7 @@ const ContactInfoSection = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-between pt-4 border-t border-white mt-4 lg:mt-0 flex-col">
+      <div className="flex justify-between pt-4 border-t border-white mt-4 lg:mt-0 flex-col lg:flex-row">
         <a href={`tel:${phone}`} className="flex gap-2">
           <span className="rounded-full bg-transparent size-8 border border-white flex items-center justify-center">
             <Phone className="size-3" />
@@ -78,12 +78,12 @@ const ContactInfoSection = ({
         </a>
         <a
           href={`mailto:${email}`}
-          className="flex gap-2 lg:self-end flex-row-reverse"
+          className="flex gap-2 lg:flex-row flex-row-reverse"
         >
           <span className="rounded-full bg-transparent size-8 border border-white flex items-center justify-center">
             <Mail className="size-3" />
           </span>
-          <div className="flex flex-col text-right">
+          <div className="flex flex-col">
             <span>{emailSectionLabel}</span>
             {/* Email Address */}
             {email && <span>{email}</span>}

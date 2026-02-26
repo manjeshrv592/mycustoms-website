@@ -114,7 +114,6 @@ export function LocalizedStringInput(props: ArrayOfObjectsInputProps) {
                         padding={3}
                         radius={2}
                         tone="default"
-                        style={{ backgroundColor: "#1a1a1a" }}
                     >
                         <Stack space={2}>
                             {/* Language label + counter row */}
@@ -127,7 +126,6 @@ export function LocalizedStringInput(props: ArrayOfObjectsInputProps) {
                                         padding={1}
                                         paddingX={2}
                                         style={{
-                                            backgroundColor: isOverLimit ? "#ffeae8" : "#2a2a2a",
                                             borderRadius: "4px",
                                         }}
                                     >
