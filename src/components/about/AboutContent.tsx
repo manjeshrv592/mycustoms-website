@@ -51,7 +51,7 @@ const AboutContent = ({
 
                 {/* All text content as one unit with a single max-height transition */}
                 <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out lg:max-h-none lg:overflow-visible ${isExpanded ? "max-h-[1000px]" : "max-h-[6em]"
+                    className={`overflow-hidden transition-all duration-500 ease-in-out lg:max-h-none lg:overflow-visible ${isExpanded ? "max-h-[1000px]" : "max-h-[6em] lg:h-full lg:flex lg:flex-col"
                         }`}
                 >
                     <div className="md:flex-1">
@@ -62,7 +62,7 @@ const AboutContent = ({
                             </p>
                         )}
                     </div>
-                    <div className="md:flex-1 flex flex-col md:flex-row gap-4 md:gap-10 relative after:hidden after:md:block after:absolute after:contente-[''] after:bg-white after:w-px after:h-1/2 after:left-1/2 after:-translate-x-1/2 after:top-1/2 after:-translate-y-1/2">
+                    <div className="md:flex-1 flex flex-col md:flex-row gap-4 md:gap-10 relative after:hidden after:md:block after:absolute after:contente-[''] after:bg-white after:w-px after:h-1/2 after:left-1/2 after:-translate-x-1/2 after:top-1/2 after:-translate-y-1/2 lg:flex-1">
                         <div className="md:flex-1 items-start">
                             {/* Vision Title */}
                             <h3 className="text-[#3871C1] text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-right font-grift">
@@ -108,7 +108,7 @@ const AboutContent = ({
 
             {/* Team members carousel — slides out on mobile when expanded */}
             <div
-                className={`flex flex-col flex-1 overflow-hidden min-w-0 transition-all duration-500 ease-in-out lg:max-h-none lg:opacity-100 ${isExpanded
+                className={`flex flex-col pr-6 flex-1 overflow-hidden min-w-0 transition-all duration-500 ease-in-out lg:max-h-none lg:opacity-100 ${isExpanded
                     ? "max-h-0 opacity-0 lg:max-h-none lg:opacity-100"
                     : "max-h-[600px] opacity-100"
                     }`}
