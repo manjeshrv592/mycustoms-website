@@ -31,12 +31,13 @@ const ContactInfoSection = ({
 
   return (
     <div
-      className={`absolute md:relative md:flex flex-col gap-4 w-full min-w-0 2xl:max-w-[36vw] ml-auto bottom-0 left-0 md:left-auto p-4 md:p-0 transition-all duration-500 ease-in-out overflow-hidden 2xl:max-h-none ${isInfoCollapsed
-        ? "max-h-0 opacity-0 md:max-h-none md:opacity-100"
-        : "max-h-[500px] opacity-100 2xl:max-h-none"
-        }`}
+      className={`lg:w-[75%] absolute md:relative md:flex flex-col gap-4 w-full min-w-0 2xl:max-w-[36vw] ml-auto bottom-0 left-0 md:left-auto p-4 md:p-0 transition-all duration-500 ease-in-out overflow-hidden 2xl:max-h-none ${
+        isInfoCollapsed
+          ? "max-h-0 opacity-0 md:max-h-none md:opacity-100"
+          : "max-h-[500px] opacity-100 2xl:max-h-none"
+      }`}
     >
-      <div className="lg:flex-1 md:flex lg:items-end w-full min-w-0">
+      <div className="lg:flex-1 md:flex lg:items-end w-full min-w-0 ">
         <div className="w-full rounded-xl overflow-hidden relative border border-[#dcdcdc] p-4 flex items-end h-[40vh] md:h-[30vh] xl:h-[40vh]">
           {/* Contact Section - Image */}
           <Image
@@ -95,4 +96,3 @@ const ContactInfoSection = ({
 };
 
 export default ContactInfoSection;
-
