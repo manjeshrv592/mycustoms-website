@@ -11,6 +11,11 @@ import { locales, isValidLocale, type Locale } from "@/i18n";
 import Container from "@/components/layouts/Container";
 import ServicesGrid from "@/components/services/ServicesGrid";
 import DesktopRedirect from "@/components/services/DesktopRedirect";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Services",
+};
 
 interface ServicesPageProps {
   params: Promise<{ lang: string }>;

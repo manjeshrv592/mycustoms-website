@@ -12,9 +12,33 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { formatTitle } from "@/lib/utils";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
+import type { Metadata } from "next";
 
 interface GuideToCustomsPageProps {
   params: Promise<{ lang: string }>;
+}
+
+/**
+ * Page title: "My Customs | Resources - {page label}"
+ */
+export async function generateMetadata({
+  params,
+}: GuideToCustomsPageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const currentLang = isValidLocale(lang) ? (lang as Locale) : "en";
+
+  const pageData = await getGuideToCustomsPage();
+  const label =
+    (
+      (pageData && getLocalizedValue(pageData.label, currentLang)) ||
+      "Guide to Customs"
+    )
+      .replace(/\*\*/g, "")
+      .trim();
+
+  return {
+    title: `Resources - ${label}`,
+  };
 }
 
 // Generate static params for all locales

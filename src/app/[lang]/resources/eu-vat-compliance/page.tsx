@@ -12,9 +12,33 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { formatTitle } from "@/lib/utils";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
+import type { Metadata } from "next";
 
 interface EuVatCompliancePageProps {
   params: Promise<{ lang: string }>;
+}
+
+/**
+ * Page title: "My Customs | Resources - {page label}"
+ */
+export async function generateMetadata({
+  params,
+}: EuVatCompliancePageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const currentLang = isValidLocale(lang) ? (lang as Locale) : "en";
+
+  const pageData = await getEuVatCompliancePage();
+  const label =
+    (
+      (pageData && getLocalizedValue(pageData.label, currentLang)) ||
+      "EU VAT Compliance"
+    )
+      .replace(/\*\*/g, "")
+      .trim();
+
+  return {
+    title: `Resources - ${label}`,
+  };
 }
 
 // Generate static params for all locales

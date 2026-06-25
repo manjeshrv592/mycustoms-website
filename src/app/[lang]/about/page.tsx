@@ -6,6 +6,11 @@ import { getLocalizedValue } from "@/sanity/lib/localization";
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import AboutContent from "@/components/about/AboutContent";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 interface AboutPageProps {
   params: Promise<{ lang: string }>;

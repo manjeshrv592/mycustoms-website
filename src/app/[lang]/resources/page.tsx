@@ -5,6 +5,11 @@ import { locales, isValidLocale, type Locale } from "@/i18n";
 import Container from "@/components/layouts/Container";
 import ResourcesGrid from "@/components/resources/ResourcesGrid";
 import DesktopRedirect from "@/components/services/DesktopRedirect";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Resources",
+};
 
 interface ResourcesPageProps {
   params: Promise<{ lang: string }>;

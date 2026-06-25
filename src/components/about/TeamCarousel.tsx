@@ -4,7 +4,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { splitTextDualColor } from "@/lib/utils";
 
@@ -31,6 +31,37 @@ const TeamCarousel = ({ members }: TeamCarouselProps) => {
   const handleNext = () => {
     swiperRef.current?.slideNext();
   };
+
+  // Left/Right arrow keys navigate between team slides
+  useEffect(() => {
+    if (members.length <= 1) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+
+      // Ignore while typing in form fields or editable content
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT")
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      if (e.key === "ArrowLeft") {
+        swiperRef.current?.slidePrev();
+      } else {
+        swiperRef.current?.slideNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [members.length]);
 
   // If no members, show placeholder
   if (!members || members.length === 0) {

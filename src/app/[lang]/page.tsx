@@ -6,6 +6,11 @@ import { getLocalizedValue } from "@/sanity/lib/localization";
 import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, defaultLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+};
 
 interface HomePageProps {
   params: Promise<{ lang: string }>;

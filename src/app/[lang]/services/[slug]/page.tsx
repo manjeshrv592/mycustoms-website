@@ -19,9 +19,32 @@ import { formatTitle } from "@/lib/utils";
 import ServicesGrid from "@/components/services/ServicesGrid";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import type { Metadata } from "next";
 
 interface ServicePageProps {
   params: Promise<{ lang: string; slug: string }>;
+}
+
+/**
+ * Page title: "My Customs | Services - {service title}"
+ */
+export async function generateMetadata({
+  params,
+}: ServicePageProps): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const currentLang: Locale = isValidLocale(lang) ? lang : "en";
+
+  const service = await getServiceBySlug(slug);
+  const serviceTitle = (
+    (service && getLocalizedValue(service.title, currentLang)) ||
+    ""
+  )
+    .replace(/\*\*/g, "")
+    .trim();
+
+  return {
+    title: serviceTitle ? `Services - ${serviceTitle}` : "Services",
+  };
 }
 
 /**

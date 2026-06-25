@@ -96,7 +96,7 @@ export default function PrimaryNav({
             <li key={link.label}>
               <TransitionLink
                 href={localizedHref}
-                className={`p-1 4xl:p-[0.25vw] flex items-center justify-center rounded-full duration-300 ${isActive
+                className={`p-1 4xl:p-[0.25vw] flex items-center justify-center rounded-full duration-300 outline-none focus:outline-none focus-visible:outline-none ${isActive
                   ? "bg-[#3871C1]/50 shadow-[0_0_0_4px_rgba(56,113,193,.3)] 4xl:shadow-[0_0_0_0.2vw_rgba(56,113,193,.3)]"
                   : "bg-transparent hover:bg-white/30"
                   }`}

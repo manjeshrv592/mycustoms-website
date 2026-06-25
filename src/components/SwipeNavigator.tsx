@@ -264,6 +264,47 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         [isNavigating, currentPageIndex, navigateToPage, lockNavigation]
     );
 
+    // Handle keyboard arrow up/down for page navigation (same as wheel scroll)
+    const handleKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            // Only ArrowUp / ArrowDown drive page navigation
+            if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+
+            // Ignore while typing in form fields or editable content
+            const target = e.target as HTMLElement | null;
+            if (
+                target &&
+                (target.isContentEditable ||
+                    target.tagName === "INPUT" ||
+                    target.tagName === "TEXTAREA" ||
+                    target.tagName === "SELECT")
+            ) {
+                return;
+            }
+
+            // Respect navigation lock and in-progress navigation
+            if (isLockedRef.current || isNavigating) {
+                e.preventDefault();
+                return;
+            }
+
+            const pageIndex = currentPageIndexRef.current;
+            const isAtFirstPage = pageIndex === 0;
+            const isAtLastPage = pageIndex === PAGE_ORDER.length - 1;
+
+            if (e.key === "ArrowDown" && !isAtLastPage) {
+                e.preventDefault();
+                lockNavigation();
+                navigateToPage("next");
+            } else if (e.key === "ArrowUp" && !isAtFirstPage) {
+                e.preventDefault();
+                lockNavigation();
+                navigateToPage("prev");
+            }
+        },
+        [isNavigating, navigateToPage, lockNavigation]
+    );
+
     // Cleanup
     useEffect(() => {
         return () => {
@@ -278,13 +319,15 @@ export default function SwipeNavigator({ children }: SwipeNavigatorProps) {
         window.addEventListener("wheel", handleWheel, { passive: false });
         window.addEventListener("touchstart", handleTouchStart, { passive: true });
         window.addEventListener("touchend", handleTouchEnd, { passive: true });
+        window.addEventListener("keydown", handleKeyDown);
 
         return () => {
             window.removeEventListener("wheel", handleWheel);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchend", handleTouchEnd);
+            window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [handleWheel, handleTouchStart, handleTouchEnd]);
+    }, [handleWheel, handleTouchStart, handleTouchEnd, handleKeyDown]);
 
     return <>{children}</>;
 }

@@ -19,11 +19,35 @@ import BlogSidebarProvider from "@/components/resources/BlogSidebarProvider";
 import HideInListView from "@/components/resources/HideInListView";
 import AllBlogsList from "@/components/resources/AllBlogsList";
 import SearchableBlogsList from "@/components/resources/SearchableBlogsList";
+import BlogKeyboardNavigation from "@/components/resources/BlogKeyboardNavigation";
 import { formatTitle } from "@/lib/utils";
 import type { BlogData } from "@/sanity/types";
+import type { Metadata } from "next";
 
 interface BlogPageProps {
   params: Promise<{ lang: string; slug: string }>;
+}
+
+/**
+ * Page title: "My Customs | Blogs - {blog title}"
+ */
+export async function generateMetadata({
+  params,
+}: BlogPageProps): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const currentLang: Locale = isValidLocale(lang) ? (lang as Locale) : "en";
+
+  const blog = await getBlogBySlug(slug);
+  const blogTitle = (
+    (blog && getLocalizedValue(blog.title, currentLang)) ||
+    ""
+  )
+    .replace(/\*\*/g, "")
+    .trim();
+
+  return {
+    title: blogTitle ? `Blogs - ${blogTitle}` : "Blogs",
+  };
 }
 
 // Generate static params for all locales and blog slugs
@@ -114,6 +138,16 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   return (
     <Container className="h-full flex flex-col">
+      {/* Left/Right arrow key navigation between blogs */}
+      <BlogKeyboardNavigation
+        prevHref={
+          prevBlog ? `/${lang}/resources/blogs/${prevBlog.slug.current}` : null
+        }
+        nextHref={
+          nextBlog ? `/${lang}/resources/blogs/${nextBlog.slug.current}` : null
+        }
+      />
+
       {/* Secondary Navigation - Desktop only */}
       <div className="hidden md:block mb-4">
         <ResourcesSecondaryNav currentPage="blogs" lang={currentLang} />

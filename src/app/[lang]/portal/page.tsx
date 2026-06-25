@@ -12,6 +12,11 @@ import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import { formatTitle } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Portal",
+};
 
 interface PortalPageProps {
   params: Promise<{ lang: string }>;

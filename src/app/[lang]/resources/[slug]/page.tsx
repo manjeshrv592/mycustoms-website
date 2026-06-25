@@ -15,9 +15,32 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { formatTitle } from "@/lib/utils";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
+import type { Metadata } from "next";
 
 interface DynamicResourcePageProps {
     params: Promise<{ lang: string; slug: string }>;
+}
+
+/**
+ * Page title: "My Customs | Resources - {page label}"
+ */
+export async function generateMetadata({
+    params,
+}: DynamicResourcePageProps): Promise<Metadata> {
+    const { lang, slug } = await params;
+    const currentLang = isValidLocale(lang) ? (lang as Locale) : "en";
+
+    const pageData = await getResourcePageBySlug(slug);
+    const label = (
+        (pageData && getLocalizedValue(pageData.label, currentLang)) ||
+        ""
+    )
+        .replace(/\*\*/g, "")
+        .trim();
+
+    return {
+        title: label ? `Resources - ${label}` : "Resources",
+    };
 }
 
 // Generate static params for all locale + slug combinations
