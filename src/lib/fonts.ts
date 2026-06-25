@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
 import { Orbitron, Poppins } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
-import "swiper/css";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -62,33 +59,8 @@ const grift = localFont({
   preload: false,
 });
 
-export const metadata: Metadata = {
-  // The template adds the "My Customs | " prefix to every child page's title.
-  // Pages set their own `title` (e.g. "Home" -> "My Customs | Home").
-  // `default` is used for any route that doesn't define its own title.
-  title: {
-    template: "My Customs | %s",
-    default: "My Customs",
-  },
-  description:
-    "My Customs — your trusted customs partner for fast, compliant, and seamlessly digital customs services.",
-  icons: {
-    icon: "/favicon.svg",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${aptos.variable} ${orbitron.variable} ${poppins.variable} ${grift.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
+/**
+ * Combined font CSS-variable classes applied to <body>.
+ * Shared across the site ([lang]) and Studio root layouts.
+ */
+export const fontVariables = `${aptos.variable} ${orbitron.variable} ${poppins.variable} ${grift.variable}`;
