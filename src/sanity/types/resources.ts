@@ -2,6 +2,7 @@ import type {
   LocalizedString,
   LocalizedBlockContent,
   SanityImageField,
+  SeoFields,
 } from "./common";
 
 /**
@@ -18,4 +19,5 @@ export interface BlogData {
   publishedAt?: string;
   order?: number;
   isActive?: boolean;
+  seo?: SeoFields;
 }

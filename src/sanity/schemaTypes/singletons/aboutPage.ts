@@ -108,6 +108,11 @@ export const aboutPage = defineType({
           requireEnglishValue(Rule.required())
         ),
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   preview: {
     prepare() {

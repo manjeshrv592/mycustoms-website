@@ -90,6 +90,11 @@ export const service = defineType({
       description: "Order in which this service appears (lower = first)",
       initialValue: 0,
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   orderings: [
     {

@@ -7,13 +7,21 @@ import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, defaultLocale, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Home",
-};
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface HomePageProps {
   params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: HomePageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const currentLang: Locale = isValidLocale(lang) ? lang : defaultLocale;
+
+  const homeData = await getHomePage();
+
+  return buildSeoMetadata(homeData?.seo, currentLang, "Home");
 }
 
 /**

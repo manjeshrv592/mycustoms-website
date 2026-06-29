@@ -1,4 +1,4 @@
-import type { LocalizedString, SanityImageField } from "./common";
+import type { LocalizedString, SanityImageField, SeoFields } from "./common";
 
 /**
  * Contact page singleton data structure from Sanity
@@ -35,4 +35,5 @@ export interface ContactPageData {
   viewOnMapText?: LocalizedString[];
   phoneSectionLabel?: LocalizedString[];
   emailSectionLabel?: LocalizedString[];
+  seo?: SeoFields;
 }

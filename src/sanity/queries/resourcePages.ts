@@ -16,7 +16,8 @@ export const EU_VAT_COMPLIANCE_PAGE_QUERY = `
     label,
     title,
     content,
-    sidePanelImage
+    sidePanelImage,
+    seo
   }
 `;
 
@@ -45,7 +46,8 @@ export const GUIDE_TO_CUSTOMS_PAGE_QUERY = `
     label,
     title,
     content,
-    sidePanelImage
+    sidePanelImage,
+    seo
   }
 `;
 
@@ -74,7 +76,8 @@ export const FISCAL_REPRESENTATION_PAGE_QUERY = `
     label,
     title,
     content,
-    sidePanelImage
+    sidePanelImage,
+    seo
   }
 `;
 

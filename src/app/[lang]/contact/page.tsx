@@ -10,13 +10,21 @@ import ContactInfoSection from "@/components/contact/ContactInfoSection";
 import { ContactFormProvider } from "@/context/ContactFormContext";
 import { FaLinkedinIn } from "react-icons/fa6";
 import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Contact",
-};
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface ContactPageProps {
   params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ContactPageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const currentLang: Locale = isValidLocale(lang) ? (lang as Locale) : "en";
+
+  const contactData = await getContactPage();
+
+  return buildSeoMetadata(contactData?.seo, currentLang, "Contact");
 }
 
 // Generate static params for all locales

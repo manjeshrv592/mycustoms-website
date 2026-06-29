@@ -23,6 +23,7 @@ import BlogKeyboardNavigation from "@/components/resources/BlogKeyboardNavigatio
 import { formatTitle } from "@/lib/utils";
 import type { BlogData } from "@/sanity/types";
 import type { Metadata } from "next";
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface BlogPageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -45,9 +46,9 @@ export async function generateMetadata({
     .replace(/\*\*/g, "")
     .trim();
 
-  return {
-    title: blogTitle ? `Blogs - ${blogTitle}` : "Blogs",
-  };
+  const defaultTitle = blogTitle ? `Blogs - ${blogTitle}` : "Blogs";
+
+  return buildSeoMetadata(blog?.seo, currentLang, defaultTitle);
 }
 
 // Generate static params for all locales and blog slugs

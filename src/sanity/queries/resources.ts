@@ -71,7 +71,8 @@ export async function getBlogBySlug(
       image,
       publishedAt,
       order,
-      isActive
+      isActive,
+      seo
     }`,
     { blogSlug },
     {

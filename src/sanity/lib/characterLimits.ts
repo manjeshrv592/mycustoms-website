@@ -139,6 +139,13 @@ export const characterLimits = {
     featuredLogo: {
         alt: 10,
     },
+
+    // SEO Settings Object (shared across all pages)
+    seo: {
+        metaTitle: { en: 60, nl: 60, de: 60, cn: 60 },
+        metaDescription: { en: 160, nl: 160, de: 160, cn: 160 },
+        metaKeywords: { en: 200, nl: 200, de: 200, cn: 200 },
+    },
 } as const;
 
 export type CharacterLimits = typeof characterLimits;

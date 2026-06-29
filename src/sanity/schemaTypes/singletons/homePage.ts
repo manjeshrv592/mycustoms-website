@@ -88,6 +88,11 @@ export const homePage = defineType({
       title: "Call to Action Button",
       type: "ctaButton",
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   preview: {
     prepare() {

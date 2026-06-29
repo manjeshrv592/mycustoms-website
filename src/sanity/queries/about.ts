@@ -13,7 +13,8 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   visionTitle,
   visionDescription,
   missionTitle,
-  missionDescription
+  missionDescription,
+  seo
 }`;
 
 /**

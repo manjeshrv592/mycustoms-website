@@ -304,6 +304,11 @@ export const contactPage = defineType({
       of: [{ type: "string" }],
       validation: (Rule) => Rule.required().min(1),
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   preview: {
     prepare() {

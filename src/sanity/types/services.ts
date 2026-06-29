@@ -2,6 +2,7 @@ import type {
   LocalizedString,
   LocalizedBlockContent,
   SanityImageField,
+  SeoFields,
 } from "./common";
 
 /**
@@ -21,6 +22,7 @@ export interface ServiceData {
   };
   isActive?: boolean;
   order?: number;
+  seo?: SeoFields;
 }
 
 /**

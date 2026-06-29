@@ -35,7 +35,8 @@ export const SERVICE_BY_SLUG_QUERY = `
       ...,
       alt
     },
-    order
+    order,
+    seo
   }
 `;
 

@@ -20,6 +20,7 @@ import ServicesGrid from "@/components/services/ServicesGrid";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface ServicePageProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -42,9 +43,9 @@ export async function generateMetadata({
     .replace(/\*\*/g, "")
     .trim();
 
-  return {
-    title: serviceTitle ? `Services - ${serviceTitle}` : "Services",
-  };
+  const defaultTitle = serviceTitle ? `Services - ${serviceTitle}` : "Services";
+
+  return buildSeoMetadata(service?.seo, currentLang, defaultTitle);
 }
 
 /**

@@ -4,6 +4,7 @@ import { type SchemaTypeDefinition } from "sanity";
 import { blockContent } from "./objects/blockContent";
 import { ctaButton } from "./objects/ctaButton";
 import { featuredLogo } from "./objects/featuredLogo";
+import { seo } from "./objects/seo";
 
 // Singleton Pages
 import { homePage } from "./singletons/homePage";
@@ -27,6 +28,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     blockContent,
     ctaButton,
     featuredLogo,
+    seo,
 
     // Singleton Pages
     homePage,

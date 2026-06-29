@@ -2,6 +2,7 @@ import type {
   LocalizedString,
   LocalizedBlockContent,
   SanityImageField,
+  SeoFields,
 } from "./common";
 
 /**
@@ -13,6 +14,7 @@ interface ResourcePageBase {
   title: LocalizedString[];
   content?: LocalizedBlockContent[];
   sidePanelImage?: SanityImageField;
+  seo?: SeoFields;
 }
 
 export interface EuVatCompliancePageData extends ResourcePageBase {

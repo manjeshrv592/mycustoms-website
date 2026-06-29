@@ -33,7 +33,8 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   basedAtTitle,
   viewOnMapText,
   phoneSectionLabel,
-  emailSectionLabel
+  emailSectionLabel,
+  seo
 }`;
 
 /**

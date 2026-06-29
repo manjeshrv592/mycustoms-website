@@ -1,4 +1,4 @@
-import type { LocalizedString, SanityImageField } from "./common";
+import type { LocalizedString, SanityImageField, SeoFields } from "./common";
 
 /**
  * About page singleton data structure from Sanity
@@ -13,4 +13,5 @@ export interface AboutPageData {
   visionDescription?: LocalizedString[];
   missionTitle?: LocalizedString[];
   missionDescription?: LocalizedString[];
+  seo?: SeoFields;
 }

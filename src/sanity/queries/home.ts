@@ -24,7 +24,8 @@ export const HOME_PAGE_QUERY = `
       text,
       link,
       isExternal
-    }
+    },
+    seo
   }
 `;
 

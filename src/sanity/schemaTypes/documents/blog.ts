@@ -96,6 +96,11 @@ export const blog = defineType({
       description: "Only active blogs will be displayed on the website",
       initialValue: true,
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   orderings: [
     {

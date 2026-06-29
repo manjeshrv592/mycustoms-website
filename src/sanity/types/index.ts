@@ -5,6 +5,7 @@ export type {
   SanityImageField,
   FeaturedLogo,
   CtaButton,
+  SeoFields,
 } from "./common";
 
 // Page types

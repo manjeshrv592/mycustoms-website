@@ -75,6 +75,11 @@ export const fiscalRepresentationPage = defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+    }),
   ],
   preview: {
     prepare() {

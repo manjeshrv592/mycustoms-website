@@ -7,13 +7,21 @@ import { urlFor } from "@/sanity/lib/image";
 import { locales, isValidLocale, type Locale } from "@/i18n";
 import AboutContent from "@/components/about/AboutContent";
 import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "About",
-};
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface AboutPageProps {
   params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: AboutPageProps): Promise<Metadata> {
+  const { lang } = await params;
+  const currentLang: Locale = isValidLocale(lang) ? (lang as Locale) : "en";
+
+  const aboutData = await getAboutPage();
+
+  return buildSeoMetadata(aboutData?.seo, currentLang, "About");
 }
 
 // Generate static params for all locales

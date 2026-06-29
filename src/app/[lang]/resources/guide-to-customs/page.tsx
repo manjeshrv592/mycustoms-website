@@ -13,6 +13,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { formatTitle } from "@/lib/utils";
 import PortableTextContent from "@/components/sanity/PortableTextContent";
 import type { Metadata } from "next";
+import { buildSeoMetadata } from "@/sanity/lib/seo";
 
 interface GuideToCustomsPageProps {
   params: Promise<{ lang: string }>;
@@ -36,9 +37,7 @@ export async function generateMetadata({
       .replace(/\*\*/g, "")
       .trim();
 
-  return {
-    title: `Resources - ${label}`,
-  };
+  return buildSeoMetadata(pageData?.seo, currentLang, `Resources - ${label}`);
 }
 
 // Generate static params for all locales

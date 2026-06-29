@@ -18,6 +18,18 @@ export interface LocalizedBlockContent {
 }
 
 /**
+ * Reusable SEO settings object (matches the `seo` schema type).
+ * All fields are optional per-language overrides; the frontend falls back to
+ * the default page title and omits empty tags.
+ */
+export interface SeoFields {
+  metaTitle?: LocalizedString[];
+  metaDescription?: LocalizedString[];
+  metaKeywords?: LocalizedString[];
+  allowIndexing?: boolean;
+}
+
+/**
  * Sanity image field with asset reference
  */
 export interface SanityImageField {

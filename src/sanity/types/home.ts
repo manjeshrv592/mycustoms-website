@@ -3,6 +3,7 @@ import type {
   SanityImageField,
   FeaturedLogo,
   CtaButton,
+  SeoFields,
 } from "./common";
 
 /**
@@ -18,4 +19,5 @@ export interface HomePageData {
   description: LocalizedString[];
   featuredLogos?: FeaturedLogo[];
   ctaButton?: CtaButton;
+  seo?: SeoFields;
 }
