@@ -75,7 +75,7 @@ secrets). A template is provided as `.env.example`.
 | `REACH_OUT_EMAIL`                 | Yes      | Sales/contact email shown in outgoing emails.                      |
 | `REACH_OUT_PHONE`                 | Yes      | Contact phone number shown in outgoing emails.                     |
 | `SMTP_HOST`                       | Yes      | SMTP server host for sending contact-form emails.                  |
-| `SMTP_PORT`                       | Yes      | SMTP server port (e.g. `587`).                                     |
+| `SMTP_PORT`                       | Yes      | SMTP server port. Uses SMTPS (implicit TLS), e.g. `465`.           |
 | `SMTP_USER`                       | Yes      | SMTP username.                                                     |
 | `SMTP_PASSWORD`                   | Yes      | SMTP password.                                                     |
 | `SMTP_FROM_EMAIL`                 | Yes      | "From" address for outgoing emails.                                |

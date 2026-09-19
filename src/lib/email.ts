@@ -1,12 +1,13 @@
 import nodemailer from "nodemailer";
 
 /**
- * Email configuration for Microsoft 365
+ * Email configuration — SMTPS (implicit TLS, port 465 by default)
  */
+const smtpPort = parseInt(process.env.SMTP_PORT || "465");
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.office365.com",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false, // TLS
+  port: smtpPort,
+  secure: smtpPort === 465, // true = SMTPS (implicit TLS); false = STARTTLS on other ports
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
